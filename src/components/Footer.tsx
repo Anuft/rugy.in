@@ -1,0 +1,150 @@
+import React from "react";
+import Link from "next/link";
+import { ArrowUp, Mail, ShieldCheck, Truck, RefreshCw } from "lucide-react";
+import { InstagramIcon, WhatsAppIcon } from "@/components/Icons";
+import RugbyWhiteLogo from "@/components/RugbyWhiteLogo";
+import { navLinks, legalLinks, siteConfig } from "@/data/siteConfig";
+
+export default function Footer() {
+  return (
+    <footer className="bg-[#1C1C1C] text-[#FCF8F3] border-t border-[#333333] pt-16 pb-12 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Top Footer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#333333]">
+          {/* Brand Identity Column */}
+          <div className="lg:col-span-5 space-y-5">
+            <RugbyWhiteLogo variant="light" size="md" />
+
+            <p className="font-serif italic text-base sm:text-lg text-[#E8DFC9] max-w-sm">
+              &ldquo;Deliver Luxury with Quality Products. Care in every detail. Confidence in every moment.&rdquo;
+            </p>
+
+            <p className="font-sans text-xs text-[#87967E] font-light max-w-md leading-relaxed">
+              Rugby White represents thoughtful skincare crafted with pure botanical extracts. Designed for our signature 10 Days Challenge, fading dark spots, clearing sun tanning, and celebrating your natural glow.
+            </p>
+
+            <div className="flex items-center gap-3 pt-1">
+              <a
+                href={siteConfig.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full border border-[#444444] flex items-center justify-center text-[#E8DFC9] hover:bg-[#B28A58] hover:border-[#B28A58] hover:text-[#FFFFFF] transition-all"
+                aria-label="Rugby White Instagram"
+              >
+                <InstagramIcon className="w-4 h-4" />
+              </a>
+
+              <a
+                href={`https://wa.me/91${siteConfig.whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full border border-[#444444] flex items-center justify-center text-[#E8DFC9] hover:bg-[#25D366] hover:border-[#25D366] hover:text-[#FFFFFF] transition-all"
+                aria-label="Rugby White WhatsApp"
+              >
+                <WhatsAppIcon className="w-4 h-4 fill-current" />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links Column */}
+          <div className="lg:col-span-3 space-y-3">
+            <h4 className="text-xs font-sans tracking-[0.25em] uppercase text-[#B28A58] font-bold">
+              QUICK NAVIGATION
+            </h4>
+            <ul className="space-y-2.5 font-sans text-xs tracking-wider">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-[#E8DFC9]/80 hover:text-[#B28A58] hover:translate-x-1 inline-block transition-transform duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Support & Concierge */}
+          <div className="lg:col-span-4 space-y-3">
+            <h4 className="text-xs font-sans tracking-[0.25em] uppercase text-[#B28A58] font-bold">
+              CUSTOMER CARE &amp; CONCIERGE
+            </h4>
+            <div className="space-y-2 text-xs font-sans text-[#87967E] leading-relaxed">
+              <p>
+                WhatsApp Order &amp; Tracking:{" "}
+                <a
+                  href={`https://wa.me/91${siteConfig.whatsappNumber}`}
+                  className="text-white font-semibold hover:underline block mt-0.5"
+                >
+                  {siteConfig.whatsappFormatted}
+                </a>
+              </p>
+              <p>
+                Email Support:{" "}
+                <a
+                  href={`mailto:${siteConfig.contactEmail}`}
+                  className="text-white font-medium hover:underline block mt-0.5"
+                >
+                  {siteConfig.contactEmail}
+                </a>
+              </p>
+              <p>Support Hours: {siteConfig.supportHours}</p>
+              <p className="pt-2 text-[11px] text-[#B28A58] font-semibold">
+                Complimentary Express Shipping across India on all orders.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Accepted Payment Badges (Like ALFA Beauty) */}
+        <div className="py-6 border-b border-[#333333] flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-xs font-sans text-[#87967E]">
+            <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
+            <span>100% Secure Checkout with Trusted Indian Gateways</span>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
+              UPI / QR
+            </span>
+            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
+              GPay
+            </span>
+            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
+              PhonePe
+            </span>
+            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
+              Paytm
+            </span>
+            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
+              Cards / NetBanking
+            </span>
+            <span className="px-2.5 py-1 rounded bg-[#103B27] text-[10px] font-sans font-bold text-[#E8DFC9] tracking-wider border border-[#164E34]">
+              Cash On Delivery (COD)
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom Legal & Copyright Bar */}
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-[#87967E] font-sans gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            {legalLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="hover:text-white transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center md:text-right">
+            <span>© 2026 RUGBY WHITE · THE ART OF EVERYDAY SKINCARE. ALL RIGHTS RESERVED.</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

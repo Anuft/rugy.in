@@ -1,0 +1,269 @@
+[
+  {
+    "id": "RW-836321",
+    "items": [
+      {
+        "id": "rugby-white-10-days-challenge",
+        "name": "RUGBY WHITE 10 DAYS CHALLENGE",
+        "price": 750,
+        "quantity": 1,
+        "image": "/images/instagram/DYWq6HcIte1.jpg",
+        "netWeight": "65 g / 2.29 oz."
+      }
+    ],
+    "customer": {
+      "fullName": "Ahamed Adnan",
+      "mobile": "9562172556",
+      "email": "",
+      "address": "Beach Road, Villa 4",
+      "city": "Kozhikode",
+      "state": "Kerala",
+      "pincode": "673001",
+      "orderNotes": "",
+      "whatsappOptIn": true
+    },
+    "subtotal": 750,
+    "shipping": 0,
+    "total": 750,
+    "payment": {
+      "method": "online",
+      "provider": "upi",
+      "status": "paid",
+      "transactionId": "TXN-1794985626393-4162",
+      "upiId": "customer@okaxis",
+      "paymentTime": "2026-11-18T07:07:14.518Z",
+      "currency": "INR"
+    },
+    "status": "Payment Received",
+    "courier": "BlueDart Air Express",
+    "awb": "BD165113585IN",
+    "timeline": [
+      {
+        "title": "Payment Verified & Order Confirmed",
+        "date": "Just now",
+        "desc": "₹750 received via UPI. TXN: TXN-1794985626393-4162.",
+        "done": true
+      },
+      {
+        "title": "Cleanroom Packaging & Quality Check",
+        "date": "Next Step",
+        "desc": "Inspecting tamper-proof seal and luxury gift packaging.",
+        "done": false
+      },
+      {
+        "title": "Dispatched with BlueDart Air",
+        "date": "Expected in 24 Hours",
+        "desc": "Assigned AWB tracking: BD165113585IN",
+        "done": false
+      },
+      {
+        "title": "Out for Delivery",
+        "date": "Expected in 2–4 Business Days",
+        "desc": "Delivery destination: Kozhikode, Kerala.",
+        "done": false
+      }
+    ],
+    "createdAt": "2026-11-18T07:07:14.520Z",
+    "updatedAt": "2026-11-18T07:07:14.520Z"
+  },
+  {
+    "id": "RW-468679",
+    "items": [
+      {
+        "id": "10-days-challenge",
+        "name": "Rugby White 10 Days Challenge (50g)",
+        "price": 999,
+        "quantity": 1,
+        "image": "/images/instagram/DYWq6HcIte1.jpg",
+        "netWeight": "50g"
+      }
+    ],
+    "customer": {
+      "fullName": "Rahul Sharma",
+      "mobile": "9876543210",
+      "email": "rahul@gmail.com",
+      "address": "12 MG Road",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560001",
+      "whatsappOptIn": true
+    },
+    "subtotal": 999,
+    "shipping": 0,
+    "total": 999,
+    "payment": {
+      "method": "cod",
+      "provider": "cod",
+      "status": "cod_verified",
+      "currency": "INR"
+    },
+    "status": "In Transit",
+    "courier": "BlueDart Air Express",
+    "awb": "BD667811035IN",
+    "timeline": [
+      {
+        "title": "Order Placed (Cash on Delivery)",
+        "date": "Just now",
+        "desc": "Payment of ₹999 to be collected on doorstep delivery.",
+        "done": true
+      },
+      {
+        "title": "Cleanroom Packaging & Quality Check",
+        "date": "Next Step",
+        "desc": "Inspecting tamper-proof seal and luxury gift packaging.",
+        "done": false
+      },
+      {
+        "title": "Dispatched with BlueDart Air",
+        "date": "Expected in 24 Hours",
+        "desc": "Assigned AWB tracking: BD667811035IN",
+        "done": false
+      },
+      {
+        "title": "Out for Delivery",
+        "date": "Expected in 2–4 Business Days",
+        "desc": "Delivery destination: Bangalore, Karnataka.",
+        "done": false
+      },
+      {
+        "title": "Status updated to In Transit",
+        "desc": "Handed over to BlueDart Flight 302",
+        "date": "12:35 PM",
+        "done": true
+      }
+    ],
+    "createdAt": "2026-11-18T07:05:29.937Z",
+    "updatedAt": "2026-11-18T07:05:38.967Z"
+  },
+  {
+    "id": "RW-782419",
+    "items": [
+      {
+        "id": "10-days-challenge",
+        "name": "Rugby White 10 Days Challenge (50g)",
+        "price": 999,
+        "quantity": 1,
+        "image": "/images/instagram/DYWq6HcIte1.jpg",
+        "netWeight": "50g"
+      }
+    ],
+    "customer": {
+      "fullName": "Ananya Nair",
+      "mobile": "9847123456",
+      "email": "ananya.nair@example.com",
+      "address": "Villa 14, Palm Grove, Hill Palace Road",
+      "city": "Kochi",
+      "state": "Kerala",
+      "pincode": "682301",
+      "orderNotes": "Leave at security desk if unavailable",
+      "whatsappOptIn": true
+    },
+    "subtotal": 999,
+    "shipping": 0,
+    "total": 999,
+    "payment": {
+      "method": "online",
+      "provider": "upi",
+      "status": "paid",
+      "transactionId": "UPI-TXN-9847123984",
+      "upiId": "ananya@oksbi",
+      "paymentTime": "2026-11-17T14:30:00.000Z",
+      "currency": "INR"
+    },
+    "status": "In Transit",
+    "courier": "BlueDart Air Express",
+    "awb": "BD982736412IN",
+    "timeline": [
+      {
+        "title": "Order Confirmed & Paid",
+        "date": "17 Nov, 02:30 PM",
+        "desc": "Payment verified via Instant UPI. Order assigned to cleanroom dispatch.",
+        "done": true
+      },
+      {
+        "title": "Packed & Tamper Sealed",
+        "date": "17 Nov, 06:15 PM",
+        "desc": "Sealed with holographic Rugby White authenticity seal.",
+        "done": true
+      },
+      {
+        "title": "Dispatched via Air Express",
+        "date": "18 Nov, 08:45 AM",
+        "desc": "Departed from Calicut Central Hub towards destination hub.",
+        "done": true
+      },
+      {
+        "title": "Out for Delivery",
+        "date": "Expected Tomorrow",
+        "desc": "Courier executive will contact before delivery.",
+        "done": false
+      }
+    ],
+    "createdAt": "2026-11-17T14:30:00.000Z",
+    "updatedAt": "2026-11-18T08:45:00.000Z"
+  },
+  {
+    "id": "RW-651290",
+    "items": [
+      {
+        "id": "buy-2-combo-pack",
+        "name": "Rugby White Duo Pack (2 × 50g)",
+        "price": 1899,
+        "quantity": 1,
+        "image": "/images/instagram/DXqFYBckZEu.jpg",
+        "netWeight": "2 × 50g"
+      }
+    ],
+    "customer": {
+      "fullName": "Mohammed Faizal",
+      "mobile": "9562172556",
+      "email": "faizal.rugby@gmail.com",
+      "address": "Beach Road, Near Gandhi Park, 2nd Floor",
+      "city": "Kozhikode",
+      "state": "Kerala",
+      "pincode": "673001",
+      "orderNotes": "Call on WhatsApp before arriving",
+      "whatsappOptIn": true
+    },
+    "subtotal": 1899,
+    "shipping": 0,
+    "total": 1899,
+    "payment": {
+      "method": "cod",
+      "provider": "cod",
+      "status": "cod_verified",
+      "currency": "INR"
+    },
+    "status": "Packed",
+    "courier": "Delhivery Surface Express",
+    "awb": "DL102938475IN",
+    "timeline": [
+      {
+        "title": "Order Confirmed (Cash on Delivery)",
+        "date": "18 Nov, 10:15 AM",
+        "desc": "Address and mobile contact verified via automated OTP/WhatsApp.",
+        "done": true
+      },
+      {
+        "title": "Packed & Tamper Sealed",
+        "date": "18 Nov, 11:40 AM",
+        "desc": "Fragile luxury glassware packaging completed.",
+        "done": true
+      },
+      {
+        "title": "Handed to Air Express Courier",
+        "date": "Scheduled for Today 04:00 PM",
+        "desc": "Pickup scheduled by Delhivery courier partner.",
+        "done": false
+      },
+      {
+        "title": "Out for Delivery",
+        "date": "Expected in 2 Days",
+        "desc": "Pay ₹1,899 via cash or doorstep UPI scanner upon delivery.",
+        "done": false
+      }
+    ],
+    "createdAt": "2026-11-18T10:15:00.000Z",
+    "updatedAt": "2026-11-18T11:40:00.000Z"
+  }
+]

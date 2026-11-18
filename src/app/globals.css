@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #103B27;
+  --color-forest-dark: #09291C;
+  --color-forest-light: #164E34;
+  --color-ivory: #F5F1E8;
+  --color-cream: #EAE3D6;
+  --color-beige: #D8CBB7;
+  --color-botanical: #87967E;
+  --color-botanical-dark: #4A5844;
+  --color-dark-text: #20251F;
+  --color-gold: #C5A880;
+  --color-gold-light: #E4D2B8;
+  --color-gold-dark: #9E825B;
+
+  --font-serif: "Cormorant Garamond", "Playfair Display", Didot, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Outfit", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+:root {
+  --background: #F5F1E8;
+  --foreground: #20251F;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #F5F1E8;
+  color: #20251F;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #103B27;
+  color: #F5F1E8;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F1E8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #87967E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #103B27;
+}
+
+/* Luxury Editorial Headings */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  letter-spacing: -0.015em;
+}
+
+/* Subtle Shimmer for luxury elements */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #C5A880 0%, #F5F1E8 50%, #C5A880 100%);
+  background-size: 200% 100%;
+  animation: shimmer 6s infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glassmorphism restrained luxury blur */
+.glass-luxury-dark {
+  background: rgba(9, 41, 28, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 168, 128, 0.15);
+}
+
+.glass-luxury-light {
+  background: rgba(245, 241, 232, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(135, 150, 126, 0.2);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
