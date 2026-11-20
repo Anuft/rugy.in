@@ -27,17 +27,9 @@ export default function BrandIntro() {
             {/* Animated decorative dividing line */}
             <div className="w-24 h-[1px] bg-gradient-to-r from-[#581527] via-[#AE3E64] to-transparent" />
 
-            <div className="space-y-4 text-sm sm:text-base text-[#2A1018]/80 font-sans font-light leading-relaxed max-w-xl">
-              <p className="font-medium text-[#581527]">
-                Your skin deserves more than a routine. It deserves attention, intention and care.
-              </p>
-              <p>
-                At RUGBY WHITE, we believe that beauty lives in the details — in the rituals we create and the confidence we carry. Glow is not a trend. It&apos;s a feeling.
-              </p>
-              <p>
-                Discover the beauty of thoughtful skincare. A refined daily ritual designed to bring care, confidence and simplicity into every moment.
-              </p>
-            </div>
+            <p className="text-base sm:text-lg text-[#2A1018]/80 font-sans font-light leading-relaxed max-w-xl">
+              Thoughtful botanical skincare formulated to protect your skin barrier and restore natural radiance — with zero harsh chemicals.
+            </p>
 
             <div className="pt-2">
               <Link

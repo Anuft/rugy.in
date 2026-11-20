@@ -6,22 +6,22 @@ export default function PurityPhilosophy() {
   const pillars = [
     {
       title: "PARABEN FREE",
-      detail: "Clean formulation crafted without synthetic parabens.",
+      detail: "Clean formula with zero synthetic parabens.",
       icon: <Leaf className="w-6 h-6 stroke-[1.25]" />,
     },
     {
       title: "SULPHATE FREE",
-      detail: "Non-stripping ingredients that protect natural lipid moisture.",
+      detail: "Protects your skin's natural moisture barrier.",
       icon: <Sparkles className="w-6 h-6 stroke-[1.25]" />,
     },
     {
       title: "CRUELTY FREE",
-      detail: "Never tested on animals. Ethically and mindfully developed.",
+      detail: "Ethically made. Never tested on animals.",
       icon: <Heart className="w-6 h-6 stroke-[1.25]" />,
     },
     {
-      title: "NO HARSH CHEMICALS",
-      detail: "Pure skin respect with no artificial heavy coloring dyes.",
+      title: "NO HARSH BLEACH",
+      detail: "Zero steroids, mercury, or harmful chemicals.",
       icon: <ShieldCheck className="w-6 h-6 stroke-[1.25]" />,
     },
   ];

@@ -57,9 +57,9 @@ export const products: Product[] = [
     badge: "LIMITED OFFER",
     badgeColor: "red",
     shortDescription:
-      "Our iconic 10 Days Challenge night cream. Specially formulated with pure botanical extracts to brighten dull skin, fade dark spots, and restore natural glass-skin radiance.",
+      "Iconic 10 Days Challenge night cream. Brightens dull tone, fades dark spots, and restores glass-skin radiance.",
     fullDescription:
-      "Glow is not a trend. It's a feeling. The Rugby White 10 Days Challenge Cream is our most sought-after skincare ritual. Crafted with refined botanicals, niacinamide, and deep moisture actives, it works overnight to accelerate cellular turnover, clear stubborn sun tanning, soothe blemish-prone complexions, and reveal visibly luminous, unified skin within 10 days of consistent application.",
+      "Crafted with pure botanicals, niacinamide, and deep moisture actives, Rugby White works overnight to clear sun tanning, calm blemishes, and reveal visibly luminous, unified skin in 10 days.",
     images: [
       "/images/rugby-skin-revival.jpg",
       "/images/instagram/DYWq6HcIte1.jpg",
@@ -73,46 +73,46 @@ export const products: Product[] = [
       {
         number: "01",
         title: "INSTANT RADIANCE",
-        description: "Brightens dull, fatigued skin for a natural morning luminous glow.",
+        description: "Restores natural morning glass-skin luminosity.",
       },
       {
         number: "02",
         title: "EVEN SKIN TONE",
-        description: "Visibly fades dark spots, hyperpigmentation, and sun tanning.",
+        description: "Fades dark spots, sun tanning & blemishes.",
       },
       {
         number: "03",
         title: "DEEP BARRIER HYDRATION",
-        description: "Infuses non-greasy moisture deep into cellular skin layers.",
+        description: "Deep moisture lock with zero greasy residue.",
       },
       {
         number: "04",
         title: "BLEMISH & ACNE CARE",
-        description: "Calms redness, purifies pores, and accelerates acne recovery.",
+        description: "Purifies pores and soothes active redness.",
       },
       {
         number: "05",
         title: "CONFIDENCE & COMFORT",
-        description: "Gentle daily ritual with 0% harmful bleach, steroids, or parabens.",
+        description: "100% clean formula: 0% bleach, steroids, or parabens.",
       },
     ],
     ritualSteps: [
       {
         step: "01. PREPARE",
         title: "CLEANSE",
-        instruction: "Wash your face thoroughly with a gentle cleanser and pat completely dry.",
+        instruction: "Wash face gently and pat dry.",
         image: "/images/instagram/DTzQd3pEfsT.jpg",
       },
       {
         step: "02. APPLY",
         title: "PEA-SIZED AMOUNT",
-        instruction: "Take a small pea-sized amount of Rugby White onto clean fingertips.",
+        instruction: "Warm a pea-sized amount on fingertips.",
         image: "/images/instagram/DXqFYBckZEu.jpg",
       },
       {
         step: "03. EMBRACE",
         title: "GENTLE MASSAGE",
-        instruction: "Massage gently in upward circular motions every night before sleep until absorbed.",
+        instruction: "Massage gently in upward circular motions until absorbed.",
         image: "/images/instagram/DYHfshgkR3Y.jpg",
       },
     ],

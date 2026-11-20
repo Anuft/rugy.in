@@ -12,41 +12,36 @@ export default function TenDaysChallenge() {
     {
       day: "DAY 01",
       title: "BEGIN YOUR RITUAL",
-      description:
-        "Take your first step. Cleanse mindfully, apply your cream in upward gentle strokes, and notice the immediate sensory comfort of deeply hydrated skin.",
-      focus: "Intention & Hydration Awakening",
+      description: "Cleanse, apply, and feel instant botanical hydration.",
+      focus: "Hydration Awakening",
       image: "/images/instagram/DTzQd3pEfsT.jpg",
     },
     {
       day: "DAY 03",
       title: "STAY CONSISTENT",
-      description:
-        "Consistency begins to take shape. Your skin adapts to the morning and evening rhythm, locking in essential barrier nutrients through daily repetition.",
-      focus: "Moisture Balance & Absorption",
+      description: "Skin texture softens as moisture locks into deeper layers.",
+      focus: "Moisture Balance",
       image: "/images/instagram/DYHfshgkR3Y.jpg",
     },
     {
       day: "DAY 05",
       title: "KEEP CARING",
-      description:
-        "Midway through the challenge. Mindful application becomes second nature. A peaceful restorative ritual to look forward to each morning and night.",
-      focus: "Texture Smoothing & Barrier Support",
+      description: "Noticeable reduction in dullness and active skin redness.",
+      focus: "Texture Smoothing",
       image: "/images/instagram/DXqFYBckZEu.jpg",
     },
     {
       day: "DAY 07",
       title: "YOUR DAILY MOMENT",
-      description:
-        "One full week of dedicated self-care. Your skin feels noticeably soft, supple, and refreshed as botanical extracts nourish deep beneath the surface.",
-      focus: "Radiance Continuity & Calm Balance",
+      description: "Dark marks and uneven tone begin to visibly fade.",
+      focus: "Radiance & Tone",
       image: "/images/instagram/DYWq6HcIte1.jpg",
     },
     {
       day: "DAY 10",
       title: "CELEBRATE YOUR ROUTINE",
-      description:
-        "10 days of honoring your skin. A completed ritual that celebrates your natural glow and the confidence that comes with daily mindful nourishment.",
-      focus: "Radiant Confidence & Lifelong Ritual",
+      description: "Luminous, unified skin with a lasting natural glow.",
+      focus: "Radiant Glass Skin",
       image: "/images/instagram/DZyyZ_Jx7_3.jpg",
     },
   ];

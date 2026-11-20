@@ -87,14 +87,11 @@ export default function AmbarShopSection() {
                 THE 10 DAYS CHALLENGE.
               </h2>
               <p className="font-serif italic text-base sm:text-lg text-[#8A304C]">
-                A new chapter in your skincare ritual.
+                Radiance Nourishing Night Ritual Cream
               </p>
               <p className="font-sans text-sm text-[#2A1018]/80 font-light leading-relaxed pt-1">
-                Make every day a moment of self-care. Embrace consistency, discover your routine and let your confidence take centre stage.
+                Visibly luminous, clear skin in 10 days of consistent evening care.
               </p>
-              <div className="inline-block mt-2 px-3.5 py-1.5 bg-[#581527] text-[#FEF7FB] text-[10px] font-sans tracking-[0.25em] uppercase font-semibold">
-                YOUR SKIN. YOUR RITUAL. YOUR MOMENT.
-              </div>
             </div>
 
             {/* Price & Weight */}

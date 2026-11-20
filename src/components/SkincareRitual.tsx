@@ -31,7 +31,7 @@ export default function SkincareRitual() {
           </h2>
 
           <p className="font-sans text-sm sm:text-base text-[#2A1018]/75 font-light max-w-lg mx-auto leading-relaxed">
-            Three simple, intentional steps designed to bring care, confidence and simplicity into every moment.
+            Three simple steps for overnight skin renewal.
           </p>
         </div>
 

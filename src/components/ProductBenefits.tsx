@@ -34,7 +34,7 @@ export default function ProductBenefits() {
           </h2>
 
           <p className="font-sans text-sm sm:text-base text-[#2A1018]/70 font-light max-w-xl mx-auto leading-relaxed pt-2">
-            A skincare experience centred around five mindful pillars of radiance, comfort and natural confidence.
+            Five core actions for radiance, barrier health, and confidence.
           </p>
         </div>
 

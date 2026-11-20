@@ -218,8 +218,8 @@ export default function AmbarScrollFilm() {
               </span>
             </h1>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg">
-              Discover the beauty of thoughtful skincare. A refined daily ritual designed to bring care, confidence and simplicity into every moment.
+            <p className="font-sans text-sm sm:text-base text-[#FDEAF3]/85 font-light leading-relaxed max-w-md">
+              Thoughtful botanical skincare for natural, daily confidence.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -264,8 +264,8 @@ export default function AmbarScrollFilm() {
               </span>
             </h2>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg">
-              Your skin deserves more than a routine. It deserves attention, intention and care. At RUGBY WHITE, we believe that beauty lives in the details — in the rituals we create and the confidence we carry.
+            <p className="font-sans text-sm sm:text-base text-[#FDEAF3]/85 font-light leading-relaxed max-w-md">
+              Pure botanicals. Intentional care. Crafted for your everyday ritual.
             </p>
 
             <div className="flex items-center gap-6 text-xs font-sans text-[#8A304C] tracking-widest uppercase pt-2">
@@ -303,8 +303,8 @@ export default function AmbarScrollFilm() {
               </span>
             </h2>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg sm:ml-auto">
-              A new chapter in your skincare ritual. Make every day a moment of self-care. Embrace consistency, discover your routine and let your confidence take centre stage.
+            <p className="font-sans text-sm sm:text-base text-[#FDEAF3]/85 font-light leading-relaxed max-w-md sm:ml-auto">
+              10 days to renewed, glowing skin with mindful consistency.
             </p>
 
             <div className="inline-block px-4 py-2 bg-[#581527]/80 border border-[#AE3E64]/50 text-xs font-sans text-[#EA90B5] tracking-[0.25em] uppercase font-medium">
@@ -338,8 +338,8 @@ export default function AmbarScrollFilm() {
               </span>
             </h2>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg">
-              Begin with clean, refreshed skin. Introduce Rugby White into your skincare routine, massage gently and make every application a moment of care.
+            <p className="font-sans text-sm sm:text-base text-[#FDEAF3]/85 font-light leading-relaxed max-w-md">
+              Cleanse, apply, and massage nightly for overnight cellular renewal.
             </p>
 
             <div className="p-4 bg-[#581527]/60 border border-[#AE3E64]/40 max-w-md">
@@ -375,8 +375,8 @@ export default function AmbarScrollFilm() {
               </span>
             </h2>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg sm:ml-auto">
-              There is no need to follow every trend. No need to be anything other than yourself. Just thoughtful care, everyday rituals and confidence that feels entirely your own.
+            <p className="font-sans text-sm sm:text-base text-[#FDEAF3]/85 font-light leading-relaxed max-w-md sm:ml-auto">
+              Care in every detail. Confidence that feels entirely your own.
             </p>
 
             <div className="pt-2 flex justify-start sm:justify-end">

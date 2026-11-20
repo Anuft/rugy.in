@@ -7,28 +7,28 @@ export default function ProductStorytelling() {
   const stories = [
     {
       title: "WHERE BOTANICAL CARE BEGINS",
-      subtitle: "Hydration, Brightening, and Smooth Skin · Pure Botanical Actives",
+      subtitle: "Hydration, Brightening & Smooth Complexion",
       image: "/images/instagram/DYHfshgkR3Y.jpg",
       span: "col-span-12 md:col-span-7",
       aspect: "aspect-[16/10]",
     },
     {
       title: "THE TEXTURE OF PURE HYDRATION",
-      subtitle: "Dermatologically tested formula that nourishes, brightens & protects",
+      subtitle: "Weightless velvety emulsion, fast-absorbing",
       image: "/images/instagram/DXqFYBckZEu.jpg",
       span: "col-span-12 md:col-span-5",
       aspect: "aspect-[4/5]",
     },
     {
       title: "NATURE'S CALM. SKIN'S CONFIDENCE",
-      subtitle: "Pure Kasaragod Kerala botanical inspiration captured for everyday care",
+      subtitle: "Pure Kasaragod botanical inspiration",
       image: "/images/instagram/DZSAtQIxL-y.jpg",
       span: "col-span-12 md:col-span-5",
       aspect: "aspect-[4/5]",
     },
     {
       title: "WHERE BEAUTY MEETS CONSISTENCY",
-      subtitle: "The signature 10 Days Challenge jar on natural river stone",
+      subtitle: "Iconic 10 Days Challenge night cream",
       image: "/images/instagram/DYWq6HcIte1.jpg",
       span: "col-span-12 md:col-span-7",
       aspect: "aspect-[16/10]",

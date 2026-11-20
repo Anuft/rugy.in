@@ -33,17 +33,9 @@ export default function BrandStory() {
             </span>
           </h2>
 
-          <div className="space-y-5 text-sm sm:text-base text-[#FDEAF3]/85 font-sans font-light leading-relaxed max-w-2xl">
-            <p className="font-serif italic text-lg sm:text-xl text-[#FEF7FB]">
-              &ldquo;No need to be anything other than yourself.&rdquo;
-            </p>
-            <p>
-              Just thoughtful care, everyday rituals and confidence that feels entirely your own.
-            </p>
-            <p>
-              At RUGBY WHITE, we believe that beauty lives in the details — in the rituals we create and the confidence we carry. Your skin deserves more than a routine. It deserves attention, intention and care.
-            </p>
-          </div>
+          <p className="text-base sm:text-lg text-[#FDEAF3]/90 font-sans font-light leading-relaxed max-w-xl">
+            Thoughtful care. Pure botanical consistency. Confidence that feels entirely your own.
+          </p>
 
           <div className="p-4 sm:p-6 bg-[#581527]/80 border border-[#AE3E64]/60 max-w-xl">
             <span className="text-[11px] font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-semibold block mb-1">

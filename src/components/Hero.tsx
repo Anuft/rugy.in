@@ -45,8 +45,8 @@ export default function Hero() {
             </h1>
 
             {/* Subtitle */}
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/80 font-light max-w-xl mx-auto lg:mx-0 leading-relaxed tracking-wide">
-              A skincare ritual designed to celebrate your natural confidence. Formulated with pure botanical extracts, barrier hydrators, and mindful daily consistency.
+            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/80 font-light max-w-lg mx-auto lg:mx-0 leading-relaxed tracking-wide">
+              Botanical hydration and barrier care for clear, glowing skin in 10 days.
             </p>
 
             {/* CTAs */}

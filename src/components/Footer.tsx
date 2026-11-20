@@ -16,11 +16,11 @@ export default function Footer() {
             <RugbyWhiteLogo variant="light" size="md" />
 
             <p className="font-serif italic text-base sm:text-lg text-[#F4CEDF] max-w-sm">
-              &ldquo;Deliver Luxury with Quality Products. Care in every detail. Confidence in every moment.&rdquo;
+              Care in every detail. Confidence in every moment.
             </p>
 
-            <p className="font-sans text-xs text-[#8A304C] font-light max-w-md leading-relaxed">
-              Rugby White represents thoughtful skincare crafted with pure botanical extracts. Designed for our signature 10 Days Challenge, fading dark spots, clearing sun tanning, and celebrating your natural glow.
+            <p className="font-sans text-xs text-[#8A304C] font-light max-w-sm leading-relaxed">
+              Pure botanical skincare for healthy, radiant glass skin. Crafted in India.
             </p>
 
             <div className="flex items-center gap-3 pt-1">

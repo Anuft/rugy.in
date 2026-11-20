@@ -47,7 +47,7 @@ export default function Newsletter() {
         </h2>
 
         <p className="font-sans text-sm sm:text-base text-[#2A1018]/75 font-light max-w-xl mx-auto leading-relaxed">
-          Glow is not a trend. It&apos;s a feeling. Join our inner sanctuary for thoughtful skincare guidance and mindful rituals.
+          Join our inner sanctuary for exclusive skincare rituals and seasonal drops.
         </p>
 
         {status === "success" ? (
