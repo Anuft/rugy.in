@@ -34,7 +34,7 @@ export default function ContactPage() {
             Customer Concierge &amp; Inquiries.
           </h1>
           <p className="font-sans text-xs sm:text-sm text-[#1C1C1C]/70 font-light leading-relaxed">
-            Have questions about the Rugby White 10 Days Challenge, ordering, or wholesale packs? Connect directly with our skincare team.
+            Have questions about the Rugby White 10 Days Challenge night cream or your order? Connect directly with our skincare team.
           </p>
         </div>
 
@@ -55,7 +55,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <p className="text-xs text-[#F4CEDF]/80 font-sans leading-relaxed">
-                Connect directly with a dedicated skincare concierge for instant order placement, shipping tracking, or wholesale enquiries.
+                Connect directly with our dedicated skincare concierge for instant ordering assistance or delivery tracking.
               </p>
               <a
                 href={`https://wa.me/91${siteConfig.whatsappNumber}`}

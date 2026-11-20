@@ -1,273 +1,253 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Star, ShoppingBag, ArrowRight, ArrowUpDown, Check, ShieldCheck } from "lucide-react";
-import { products, Product } from "@/data/products";
+import { useRouter } from "next/navigation";
+import {
+  Star,
+  ShoppingBag,
+  ArrowRight,
+  Check,
+  ShieldCheck,
+  Truck,
+  Sparkles,
+  Lock,
+  Leaf,
+  Clock,
+} from "lucide-react";
+import { flagshipProduct } from "@/data/products";
 import { useCart } from "@/context/CartContext";
-import { WhatsAppIcon } from "@/components/Icons";
 import { siteConfig } from "@/data/siteConfig";
 
 function ShopContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category");
-
-  const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
-  const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
-  const [addedId, setAddedId] = useState<string | null>(null);
-
+  const product = flagshipProduct;
   const { addToCart } = useCart();
 
-  useEffect(() => {
-    if (initialCategory) {
-      if (initialCategory.toLowerCase().includes("wholesale")) {
-        setSelectedCategory("Wholesale & Bundles");
-      }
-    }
-  }, [initialCategory]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
 
-  const categories = [
-    { label: "ALL PRODUCTS", value: "ALL" },
-    { label: "10 DAYS NIGHT CREAM", value: "Night Cream" },
-    { label: "VALUE COMBOS", value: "Value Combos" },
-    { label: "WHOLESALE PACKS", value: "Wholesale & Bundles" },
-    { label: "HAND & BODY CARE", value: "Hand & Body Care" },
-  ];
+  const savings = product.originalPrice - product.price;
 
-  const filteredProducts = useMemo(() => {
-    let list = [...products];
-
-    if (selectedCategory !== "ALL") {
-      list = list.filter((p) => p.category === selectedCategory);
-    }
-
-    if (sortBy === "price-asc") {
-      list.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "price-desc") {
-      list.sort((a, b) => b.price - a.price);
-    } else if (sortBy === "rating") {
-      list.sort((a, b) => b.rating - a.rating);
-    }
-
-    return list;
-  }, [selectedCategory, sortBy]);
-
-  const handleAddToCart = (product: Product, e: React.MouseEvent) => {
-    e.preventDefault();
-    addToCart(product, 1);
-    setAddedId(product.id);
-    setTimeout(() => setAddedId(null), 1800);
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
   };
 
-  const handleBuyNow = (product: Product, e: React.MouseEvent) => {
-    e.preventDefault();
-    addToCart(product, 1);
+  const handleBuyNow = () => {
+    addToCart(product, quantity);
     router.push("/checkout");
   };
 
   return (
     <div className="bg-[#FEF7FB] text-[#1C1C1C] min-h-screen pt-28 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
           <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block">
-            OFFICIAL RUGBY WHITE STORE
+            OFFICIAL RUGBY WHITE BOUTIQUE
           </span>
-          <h1 className="font-serif text-3xl sm:text-5xl text-[#1C1C1C] tracking-tight">
-            Shop Skincare Rituals &amp; Bundles.
+          <h1 className="font-serif text-3xl sm:text-5xl text-[#581527] tracking-tight">
+            The Signature Night Cream.
           </h1>
-          <p className="font-sans text-sm sm:text-base text-[#1C1C1C]/70 font-light">
-            Genuine 10 Days Challenge night creams, multi-jar savings bundles, and wholesale packs for salons with free pan-India express delivery.
+          <p className="font-sans text-xs sm:text-sm text-[#8A304C] font-light max-w-md mx-auto">
+            Our sole, uncompromising formula. Handcrafted botanical night ritual for glass-skin radiance.
           </p>
         </div>
 
-        {/* Filter and Sorting Toolbar */}
-        <div className="flex flex-col md:flex-row items-center justify-between pb-6 mb-10 border-b border-[#F4CEDF] gap-4">
-          {/* Categories */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => setSelectedCategory(cat.value)}
-                className={`px-4 py-2 rounded-full text-xs font-sans tracking-wider uppercase font-semibold transition-all border cursor-pointer ${
-                  selectedCategory === cat.value
-                    ? "bg-[#581527] text-white border-[#581527] shadow-xs"
-                    : "bg-[#FFFFFF] text-[#1C1C1C]/80 border-[#F4CEDF] hover:border-[#AE3E64] hover:text-[#AE3E64]"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
+        {/* Single Product Showcase Card */}
+        <div className="bg-white rounded-3xl border border-[#F4CEDF] p-6 sm:p-10 lg:p-12 shadow-sm max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            
+            {/* Left 6 Columns: Image Gallery */}
+            <div className="lg:col-span-6 space-y-4">
+              <div className="relative aspect-square w-full rounded-2xl bg-[#FEF7FB] border border-[#F4CEDF] overflow-hidden p-6 flex items-center justify-center">
+                <div className="absolute top-4 left-4 z-10 bg-[#581527] text-white px-3 py-1 rounded-full text-[10px] font-sans font-bold tracking-widest uppercase">
+                  {product.badge}
+                </div>
+                <Image
+                  src={product.images[selectedImageIndex] || product.images[0]}
+                  alt={product.name}
+                  fill
+                  priority
+                  className="object-contain p-6 transition-all duration-500 hover:scale-105"
+                />
+              </div>
 
-          {/* Sort Controller */}
-          <div className="flex items-center gap-2 text-xs font-sans">
-            <ArrowUpDown className="w-4 h-4 text-[#8A304C]" />
-            <span className="text-[#8A304C] uppercase tracking-wider">Sort by:</span>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-[#FFFFFF] border border-[#F4CEDF] rounded-lg px-3 py-2 text-xs text-[#1C1C1C] focus:outline-none focus:border-[#AE3E64] cursor-pointer"
-            >
-              <option value="featured">Featured First</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product) => {
-            const savings = product.originalPrice - product.price;
-            const isAdded = addedId === product.id;
-
-            return (
-              <div
-                key={product.id}
-                className="group bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#AE3E64]/60 relative"
-              >
-                <div>
-                  {/* Badge & Rating Row */}
-                  <div className="flex items-center justify-between mb-3">
-                    {product.badge ? (
-                      <span
-                        className={`text-[10px] font-sans font-bold tracking-wider px-2.5 py-1 rounded-full text-white uppercase ${
-                          product.badgeColor === "red"
-                            ? "bg-[#E53935]"
-                            : product.badgeColor === "green"
-                            ? "bg-[#2E7D32]"
-                            : "bg-[#AE3E64]"
-                        }`}
-                      >
-                        {product.badge}
-                      </span>
-                    ) : (
-                      <span />
-                    )}
-
-                    <div className="flex items-center gap-1.5 text-xs text-[#1C1C1C]/80 font-sans">
-                      <div className="flex items-center text-[#AE3E64]">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                        ))}
-                      </div>
-                      <span className="font-semibold">({product.reviewCount})</span>
-                    </div>
-                  </div>
-
-                  {/* Image Stage */}
-                  <Link
-                    href={`/products/${product.slug}`}
-                    className="block relative aspect-square w-full rounded-xl bg-[#FEF7FB] overflow-hidden mb-4 group-hover:bg-[#FEF7FB] transition-colors"
+              {/* Thumbnails row */}
+              <div className="flex items-center gap-3 overflow-x-auto pb-1">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImageIndex(idx)}
+                    className={`relative w-16 h-16 rounded-xl bg-[#FEF7FB] border-2 p-1 flex-shrink-0 cursor-pointer transition-all ${
+                      selectedImageIndex === idx
+                        ? "border-[#581527] ring-1 ring-[#581527]"
+                        : "border-[#F4CEDF] opacity-70 hover:opacity-100"
+                    }`}
                   >
                     <Image
-                      src={product.images[0]}
-                      alt={product.name}
+                      src={img}
+                      alt={`Thumbnail ${idx + 1}`}
                       fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain p-1"
                     />
-                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                      <span className="bg-[#FFFFFF]/90 backdrop-blur-sm text-[#1C1C1C] text-xs font-sans tracking-widest uppercase font-semibold px-4 py-2 rounded-full shadow-md">
-                        VIEW DETAILS
-                      </span>
-                    </div>
-                  </Link>
+                  </button>
+                ))}
+              </div>
+            </div>
 
-                  {/* Category & Weight */}
-                  <div className="flex items-center justify-between text-xs text-[#8A304C] font-sans uppercase tracking-wider mb-1">
-                    <span>{product.category}</span>
-                    <span>{product.netWeight}</span>
-                  </div>
-
-                  {/* Title */}
-                  <Link href={`/products/${product.slug}`}>
-                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] group-hover:text-[#AE3E64] transition-colors line-clamp-1">
-                      {product.name}
-                    </h3>
-                  </Link>
-
-                  {/* Short Description */}
-                  <p className="font-sans text-xs text-[#1C1C1C]/65 font-light mt-1.5 line-clamp-2 leading-relaxed">
-                    {product.shortDescription}
-                  </p>
+            {/* Right 6 Columns: Details & Purchasing */}
+            <div className="lg:col-span-6 space-y-6">
+              
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-[#AE3E64]">
+                    {product.category}
+                  </span>
+                  <span className="text-gray-300">•</span>
+                  <span className="text-[11px] font-sans text-[#8A304C]">
+                    {product.netWeight}
+                  </span>
                 </div>
 
-                {/* Pricing & Actions Box */}
-                <div className="pt-5 mt-4 border-t border-[#F4CEDF]/60 space-y-3">
-                  {/* Pricing Row */}
-                  <div className="flex items-baseline justify-between">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-serif font-bold text-[#581527]">
-                        ₹{product.price.toLocaleString("en-IN")}
-                      </span>
-                      {product.originalPrice > product.price && (
-                        <span className="text-xs font-sans text-[#7A7A7A] line-through">
-                          ₹{product.originalPrice.toLocaleString("en-IN")}
-                        </span>
-                      )}
-                    </div>
-                    {savings > 0 && (
-                      <span className="text-[11px] font-sans font-semibold text-[#2E7D32] bg-[#2E7D32]/10 px-2 py-0.5 rounded-sm">
-                        Save ₹{savings.toLocaleString("en-IN")}
-                      </span>
-                    )}
+                <h2 className="font-serif text-2xl sm:text-4xl text-[#581527] font-bold tracking-tight">
+                  {product.name}
+                </h2>
+                <p className="font-sans text-xs italic text-[#8A304C] mt-1">
+                  {product.subtitle}
+                </p>
+
+                {/* Rating */}
+                <div className="flex items-center gap-2.5 mt-3 text-xs font-sans">
+                  <div className="flex items-center text-[#AE3E64]">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                    ))}
                   </div>
-
-                  {/* Dual Action Buttons (Black + Gold like ALFA Beauty) */}
-                  <div className="grid grid-cols-2 gap-2.5">
-                    <button
-                      onClick={(e) => handleAddToCart(product, e)}
-                      className={`w-full py-3 px-3 rounded-full text-xs font-sans font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                        isAdded
-                          ? "bg-[#2E7D32] text-white"
-                          : "bg-[#1C1C1C] hover:bg-[#581527] text-[#FEF7FB]"
-                      }`}
-                    >
-                      {isAdded ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" />
-                          <span>ADDED</span>
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingBag className="w-3.5 h-3.5" />
-                          <span>ADD TO CART</span>
-                        </>
-                      )}
-                    </button>
-
-                    <button
-                      onClick={(e) => handleBuyNow(product, e)}
-                      className="w-full py-3 px-3 rounded-full text-xs font-sans font-bold tracking-wider uppercase bg-[#AE3E64] hover:bg-[#8A304C] text-[#FFFFFF] transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
-                    >
-                      <span>BUY NOW</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-
-                  {/* WhatsApp Quick Order Link */}
-                  <a
-                    href={`https://wa.me/91${siteConfig.whatsappNumber}?text=Hi%20Rugby%20White%2C%20I%20want%20to%20order%20${encodeURIComponent(
-                      product.name
-                    )}%20(Price%20%E2%82%B9${product.price})`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 text-[11px] font-sans font-medium text-[#581527] hover:text-[#25D366] transition-colors pt-1"
-                  >
-                    <WhatsAppIcon className="w-3.5 h-3.5 fill-[#25D366]" />
-                    <span>Order via WhatsApp (Instant Reply)</span>
-                  </a>
+                  <span className="font-bold text-[#581527]">{product.rating}</span>
+                  <span className="text-[#8A304C]">({product.reviewCount} Verified Reviews)</span>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Pricing Box */}
+              <div className="p-4 rounded-xl bg-[#FEF7FB] border border-[#F4CEDF] flex items-baseline justify-between">
+                <div>
+                  <span className="text-3xl font-serif font-bold text-[#581527]">
+                    ₹{product.price.toLocaleString("en-IN")}
+                  </span>
+                  <span className="text-xs font-sans text-gray-400 line-through ml-2.5">
+                    ₹{product.originalPrice.toLocaleString("en-IN")}
+                  </span>
+                </div>
+                <span className="text-xs font-sans font-bold text-[#059669] bg-[#059669]/10 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  Save ₹{savings.toLocaleString("en-IN")}
+                </span>
+              </div>
+
+              {/* Description */}
+              <p className="font-sans text-xs sm:text-sm text-[#555] leading-relaxed">
+                {product.fullDescription}
+              </p>
+
+              {/* Key Benefits Bullets */}
+              <div className="space-y-1.5 text-xs font-sans text-[#581527] pt-1">
+                <div className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>Visible morning radiance &amp; even skin tone in 10 days</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>Clears stubborn sun tan, dark spots &amp; active blemishes</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>Weightless botanical barrier hydration with 0% greasy residue</span>
+                </div>
+              </div>
+
+              {/* Quantity Stepper & CTAs */}
+              <div className="space-y-3 pt-2">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center border border-[#F4CEDF] rounded-full bg-[#FEF7FB] px-2 py-1">
+                    <button
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      disabled={quantity <= 1}
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-[#581527] hover:bg-[#F4CEDF] disabled:opacity-30 cursor-pointer font-bold text-sm"
+                    >
+                      -
+                    </button>
+                    <span className="w-8 text-center font-sans font-bold text-xs text-[#581527]">
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={() => setQuantity((q) => q + 1)}
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-[#581527] hover:bg-[#F4CEDF] cursor-pointer font-bold text-sm"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={handleAddToCart}
+                    className={`flex-1 py-3.5 px-6 rounded-full text-xs font-sans font-bold tracking-[0.15em] uppercase transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm ${
+                      added
+                        ? "bg-[#059669] text-white"
+                        : "bg-[#1C1C1C] hover:bg-[#581527] text-white"
+                    }`}
+                  >
+                    {added ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        <span>ADDED TO BAG</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag className="w-4 h-4 text-[#EA90B5]" />
+                        <span>ADD TO CART · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <button
+                  onClick={handleBuyNow}
+                  className="w-full py-4 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans font-bold tracking-[0.2em] uppercase flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
+                >
+                  <Lock className="w-4 h-4 text-[#EA90B5]" />
+                  <span>INSTANT CHECKOUT · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
+                  <ArrowRight className="w-4 h-4 text-[#EA90B5]" />
+                </button>
+              </div>
+
+              {/* Trust Badges */}
+              <div className="pt-3 border-t border-[#F4CEDF] grid grid-cols-2 gap-3 text-[11px] font-sans text-[#8A304C]">
+                <div className="flex items-center gap-2">
+                  <Truck className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>Free Pan-India Air Courier</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>Holographic Tamper Seal</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Leaf className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>0% Bleach, Steroids, Parabens</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>2–4 Days Express Delivery</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   );
@@ -275,7 +255,13 @@ function ShopContent() {
 
 export default function ShopPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#FEF7FB] py-20 text-center text-xs">Loading collection...</div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FEF7FB] py-28 text-center text-xs font-serif text-[#581527]">
+          Loading Rugby White Boutique...
+        </div>
+      }
+    >
       <ShopContent />
     </Suspense>
   );

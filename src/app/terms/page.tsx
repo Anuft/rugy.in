@@ -45,7 +45,7 @@ export default function TermsPage() {
             3. Customer Support
           </h2>
           <p>
-            For support inquiries or wholesale questions, connect directly with us at{" "}
+            For support inquiries or order questions, connect directly with us at{" "}
             <strong className="text-[#581527]">{siteConfig.contactEmail}</strong> or call/WhatsApp{" "}
             <strong className="text-[#581527]">{siteConfig.whatsappFormatted}</strong>.
           </p>
