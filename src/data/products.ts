@@ -61,6 +61,7 @@ export const products: Product[] = [
     fullDescription:
       "Glow is not a trend. It's a feeling. The Rugby White 10 Days Challenge Cream is our most sought-after skincare ritual. Crafted with refined botanicals, niacinamide, and deep moisture actives, it works overnight to accelerate cellular turnover, clear stubborn sun tanning, soothe blemish-prone complexions, and reveal visibly luminous, unified skin within 10 days of consistent application.",
     images: [
+      "/images/rugby-skin-revival.jpg",
       "/images/instagram/DYWq6HcIte1.jpg",
       "/images/instagram/DTzQd3pEfsT.jpg",
       "/images/instagram/DXqFYBckZEu.jpg",

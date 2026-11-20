@@ -69,11 +69,11 @@ function ShopContent() {
   };
 
   return (
-    <div className="bg-[#FCF8F3] text-[#1C1C1C] min-h-screen pt-28 pb-24">
+    <div className="bg-[#FEF7FB] text-[#1C1C1C] min-h-screen pt-28 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#B28A58] font-bold block">
+          <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block">
             OFFICIAL RUGBY WHITE STORE
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl text-[#1C1C1C] tracking-tight">
@@ -85,7 +85,7 @@ function ShopContent() {
         </div>
 
         {/* Filter and Sorting Toolbar */}
-        <div className="flex flex-col md:flex-row items-center justify-between pb-6 mb-10 border-b border-[#E8DFC9] gap-4">
+        <div className="flex flex-col md:flex-row items-center justify-between pb-6 mb-10 border-b border-[#F4CEDF] gap-4">
           {/* Categories */}
           <div className="flex flex-wrap items-center justify-center gap-2">
             {categories.map((cat) => (
@@ -94,8 +94,8 @@ function ShopContent() {
                 onClick={() => setSelectedCategory(cat.value)}
                 className={`px-4 py-2 rounded-full text-xs font-sans tracking-wider uppercase font-semibold transition-all border cursor-pointer ${
                   selectedCategory === cat.value
-                    ? "bg-[#103B27] text-white border-[#103B27] shadow-xs"
-                    : "bg-[#FFFFFF] text-[#1C1C1C]/80 border-[#E8DFC9] hover:border-[#B28A58] hover:text-[#B28A58]"
+                    ? "bg-[#581527] text-white border-[#581527] shadow-xs"
+                    : "bg-[#FFFFFF] text-[#1C1C1C]/80 border-[#F4CEDF] hover:border-[#AE3E64] hover:text-[#AE3E64]"
                 }`}
               >
                 {cat.label}
@@ -105,12 +105,12 @@ function ShopContent() {
 
           {/* Sort Controller */}
           <div className="flex items-center gap-2 text-xs font-sans">
-            <ArrowUpDown className="w-4 h-4 text-[#87967E]" />
-            <span className="text-[#87967E] uppercase tracking-wider">Sort by:</span>
+            <ArrowUpDown className="w-4 h-4 text-[#8A304C]" />
+            <span className="text-[#8A304C] uppercase tracking-wider">Sort by:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-[#FFFFFF] border border-[#E8DFC9] rounded-lg px-3 py-2 text-xs text-[#1C1C1C] focus:outline-none focus:border-[#B28A58] cursor-pointer"
+              className="bg-[#FFFFFF] border border-[#F4CEDF] rounded-lg px-3 py-2 text-xs text-[#1C1C1C] focus:outline-none focus:border-[#AE3E64] cursor-pointer"
             >
               <option value="featured">Featured First</option>
               <option value="price-asc">Price: Low to High</option>
@@ -129,7 +129,7 @@ function ShopContent() {
             return (
               <div
                 key={product.id}
-                className="group bg-[#FFFFFF] rounded-2xl border border-[#E8DFC9] p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#B28A58]/60 relative"
+                className="group bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#AE3E64]/60 relative"
               >
                 <div>
                   {/* Badge & Rating Row */}
@@ -141,7 +141,7 @@ function ShopContent() {
                             ? "bg-[#E53935]"
                             : product.badgeColor === "green"
                             ? "bg-[#2E7D32]"
-                            : "bg-[#B28A58]"
+                            : "bg-[#AE3E64]"
                         }`}
                       >
                         {product.badge}
@@ -151,7 +151,7 @@ function ShopContent() {
                     )}
 
                     <div className="flex items-center gap-1.5 text-xs text-[#1C1C1C]/80 font-sans">
-                      <div className="flex items-center text-[#B28A58]">
+                      <div className="flex items-center text-[#AE3E64]">
                         {[...Array(5)].map((_, i) => (
                           <Star key={i} className="w-3.5 h-3.5 fill-current" />
                         ))}
@@ -163,7 +163,7 @@ function ShopContent() {
                   {/* Image Stage */}
                   <Link
                     href={`/products/${product.slug}`}
-                    className="block relative aspect-square w-full rounded-xl bg-[#F7F2EC] overflow-hidden mb-4 group-hover:bg-[#FCF8F3] transition-colors"
+                    className="block relative aspect-square w-full rounded-xl bg-[#FEF7FB] overflow-hidden mb-4 group-hover:bg-[#FEF7FB] transition-colors"
                   >
                     <Image
                       src={product.images[0]}
@@ -180,14 +180,14 @@ function ShopContent() {
                   </Link>
 
                   {/* Category & Weight */}
-                  <div className="flex items-center justify-between text-xs text-[#87967E] font-sans uppercase tracking-wider mb-1">
+                  <div className="flex items-center justify-between text-xs text-[#8A304C] font-sans uppercase tracking-wider mb-1">
                     <span>{product.category}</span>
                     <span>{product.netWeight}</span>
                   </div>
 
                   {/* Title */}
                   <Link href={`/products/${product.slug}`}>
-                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] group-hover:text-[#B28A58] transition-colors line-clamp-1">
+                    <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] group-hover:text-[#AE3E64] transition-colors line-clamp-1">
                       {product.name}
                     </h3>
                   </Link>
@@ -199,11 +199,11 @@ function ShopContent() {
                 </div>
 
                 {/* Pricing & Actions Box */}
-                <div className="pt-5 mt-4 border-t border-[#E8DFC9]/60 space-y-3">
+                <div className="pt-5 mt-4 border-t border-[#F4CEDF]/60 space-y-3">
                   {/* Pricing Row */}
                   <div className="flex items-baseline justify-between">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-serif font-bold text-[#103B27]">
+                      <span className="text-2xl font-serif font-bold text-[#581527]">
                         ₹{product.price.toLocaleString("en-IN")}
                       </span>
                       {product.originalPrice > product.price && (
@@ -226,7 +226,7 @@ function ShopContent() {
                       className={`w-full py-3 px-3 rounded-full text-xs font-sans font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                         isAdded
                           ? "bg-[#2E7D32] text-white"
-                          : "bg-[#1C1C1C] hover:bg-[#103B27] text-[#FCF8F3]"
+                          : "bg-[#1C1C1C] hover:bg-[#581527] text-[#FEF7FB]"
                       }`}
                     >
                       {isAdded ? (
@@ -244,7 +244,7 @@ function ShopContent() {
 
                     <button
                       onClick={(e) => handleBuyNow(product, e)}
-                      className="w-full py-3 px-3 rounded-full text-xs font-sans font-bold tracking-wider uppercase bg-[#B28A58] hover:bg-[#9E7444] text-[#FFFFFF] transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                      className="w-full py-3 px-3 rounded-full text-xs font-sans font-bold tracking-wider uppercase bg-[#AE3E64] hover:bg-[#8A304C] text-[#FFFFFF] transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
                     >
                       <span>BUY NOW</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -258,7 +258,7 @@ function ShopContent() {
                     )}%20(Price%20%E2%82%B9${product.price})`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 text-[11px] font-sans font-medium text-[#103B27] hover:text-[#25D366] transition-colors pt-1"
+                    className="flex items-center justify-center gap-1.5 text-[11px] font-sans font-medium text-[#581527] hover:text-[#25D366] transition-colors pt-1"
                   >
                     <WhatsAppIcon className="w-3.5 h-3.5 fill-[#25D366]" />
                     <span>Order via WhatsApp (Instant Reply)</span>
@@ -275,7 +275,7 @@ function ShopContent() {
 
 export default function ShopPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#FCF8F3] py-20 text-center text-xs">Loading collection...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#FEF7FB] py-20 text-center text-xs">Loading collection...</div>}>
       <ShopContent />
     </Suspense>
   );

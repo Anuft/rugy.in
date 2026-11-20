@@ -60,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <meta name="theme-color" content="#103B27" />
+        <meta name="theme-color" content="#581527" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -111,7 +111,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#F5F1E8] text-[#20251F] antialiased selection:bg-[#103B27] selection:text-[#F5F1E8]">
+      <body className="min-h-screen flex flex-col bg-[#FEF7FB] text-[#2A1018] antialiased selection:bg-[#581527] selection:text-[#FEF7FB]">
         <CartProvider>
           <AmbarNavbar />
           <CartDrawer />

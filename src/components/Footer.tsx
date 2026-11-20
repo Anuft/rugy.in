@@ -7,7 +7,7 @@ import { navLinks, legalLinks, siteConfig } from "@/data/siteConfig";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1C1C1C] text-[#FCF8F3] border-t border-[#333333] pt-16 pb-12 overflow-hidden relative">
+    <footer className="bg-[#1C1C1C] text-[#FEF7FB] border-t border-[#333333] pt-16 pb-12 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#333333]">
@@ -15,11 +15,11 @@ export default function Footer() {
           <div className="lg:col-span-5 space-y-5">
             <RugbyWhiteLogo variant="light" size="md" />
 
-            <p className="font-serif italic text-base sm:text-lg text-[#E8DFC9] max-w-sm">
+            <p className="font-serif italic text-base sm:text-lg text-[#F4CEDF] max-w-sm">
               &ldquo;Deliver Luxury with Quality Products. Care in every detail. Confidence in every moment.&rdquo;
             </p>
 
-            <p className="font-sans text-xs text-[#87967E] font-light max-w-md leading-relaxed">
+            <p className="font-sans text-xs text-[#8A304C] font-light max-w-md leading-relaxed">
               Rugby White represents thoughtful skincare crafted with pure botanical extracts. Designed for our signature 10 Days Challenge, fading dark spots, clearing sun tanning, and celebrating your natural glow.
             </p>
 
@@ -28,7 +28,7 @@ export default function Footer() {
                 href={siteConfig.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-[#444444] flex items-center justify-center text-[#E8DFC9] hover:bg-[#B28A58] hover:border-[#B28A58] hover:text-[#FFFFFF] transition-all"
+                className="w-9 h-9 rounded-full border border-[#444444] flex items-center justify-center text-[#F4CEDF] hover:bg-[#AE3E64] hover:border-[#AE3E64] hover:text-[#FFFFFF] transition-all"
                 aria-label="Rugby White Instagram"
               >
                 <InstagramIcon className="w-4 h-4" />
@@ -38,7 +38,7 @@ export default function Footer() {
                 href={`https://wa.me/91${siteConfig.whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-[#444444] flex items-center justify-center text-[#E8DFC9] hover:bg-[#25D366] hover:border-[#25D366] hover:text-[#FFFFFF] transition-all"
+                className="w-9 h-9 rounded-full border border-[#444444] flex items-center justify-center text-[#F4CEDF] hover:bg-[#25D366] hover:border-[#25D366] hover:text-[#FFFFFF] transition-all"
                 aria-label="Rugby White WhatsApp"
               >
                 <WhatsAppIcon className="w-4 h-4 fill-current" />
@@ -48,7 +48,7 @@ export default function Footer() {
 
           {/* Quick Links Column */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-sans tracking-[0.25em] uppercase text-[#B28A58] font-bold">
+            <h4 className="text-xs font-sans tracking-[0.25em] uppercase text-[#AE3E64] font-bold">
               QUICK NAVIGATION
             </h4>
             <ul className="space-y-2.5 font-sans text-xs tracking-wider">
@@ -56,7 +56,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-[#E8DFC9]/80 hover:text-[#B28A58] hover:translate-x-1 inline-block transition-transform duration-200"
+                    className="text-[#F4CEDF]/80 hover:text-[#AE3E64] hover:translate-x-1 inline-block transition-transform duration-200"
                   >
                     {link.label}
                   </Link>
@@ -67,10 +67,10 @@ export default function Footer() {
 
           {/* Support & Concierge */}
           <div className="lg:col-span-4 space-y-3">
-            <h4 className="text-xs font-sans tracking-[0.25em] uppercase text-[#B28A58] font-bold">
+            <h4 className="text-xs font-sans tracking-[0.25em] uppercase text-[#AE3E64] font-bold">
               CUSTOMER CARE &amp; CONCIERGE
             </h4>
-            <div className="space-y-2 text-xs font-sans text-[#87967E] leading-relaxed">
+            <div className="space-y-2 text-xs font-sans text-[#8A304C] leading-relaxed">
               <p>
                 WhatsApp Order &amp; Tracking:{" "}
                 <a
@@ -90,7 +90,7 @@ export default function Footer() {
                 </a>
               </p>
               <p>Support Hours: {siteConfig.supportHours}</p>
-              <p className="pt-2 text-[11px] text-[#B28A58] font-semibold">
+              <p className="pt-2 text-[11px] text-[#AE3E64] font-semibold">
                 Complimentary Express Shipping across India on all orders.
               </p>
             </div>
@@ -99,7 +99,7 @@ export default function Footer() {
 
         {/* Accepted Payment Badges (Like ALFA Beauty) */}
         <div className="py-6 border-b border-[#333333] flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-xs font-sans text-[#87967E]">
+          <div className="flex items-center gap-2 text-xs font-sans text-[#8A304C]">
             <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
             <span>100% Secure Checkout with Trusted Indian Gateways</span>
           </div>
@@ -120,14 +120,14 @@ export default function Footer() {
             <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
               Cards / NetBanking
             </span>
-            <span className="px-2.5 py-1 rounded bg-[#103B27] text-[10px] font-sans font-bold text-[#E8DFC9] tracking-wider border border-[#164E34]">
+            <span className="px-2.5 py-1 rounded bg-[#581527] text-[10px] font-sans font-bold text-[#F4CEDF] tracking-wider border border-[#8A304C]">
               Cash On Delivery (COD)
             </span>
           </div>
         </div>
 
         {/* Bottom Legal & Copyright Bar */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-[#87967E] font-sans gap-4">
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-[#8A304C] font-sans gap-4">
           <div className="flex flex-wrap items-center justify-center gap-6">
             {legalLinks.map((link) => (
               <Link

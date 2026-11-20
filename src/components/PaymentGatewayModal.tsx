@@ -123,7 +123,7 @@ export default function PaymentGatewayModal({
             particleCount: 80,
             spread: 70,
             origin: { y: 0.6 },
-            colors: ["#103B27", "#C5A880", "#E4D2B8"],
+            colors: ["#581527", "#AE3E64", "#EA90B5"],
           });
         } catch {}
 
@@ -142,66 +142,66 @@ export default function PaymentGatewayModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-xl bg-[#FFFFFF] rounded-2xl shadow-2xl border border-[#D8CBB7] overflow-hidden flex flex-col max-h-[92vh]">
+      <div className="relative w-full max-w-xl bg-[#FFFFFF] rounded-2xl shadow-2xl border border-[#F4CEDF] overflow-hidden flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="bg-[#09291C] text-[#F5F1E8] px-6 py-4 flex items-center justify-between border-b border-[#C5A880]/30">
+        <div className="bg-[#3F0E1B] text-[#FEF7FB] px-6 py-4 flex items-center justify-between border-b border-[#AE3E64]/30">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#103B27] border border-[#C5A880]/40 flex items-center justify-center text-[#C5A880] text-xs font-serif font-bold">
+            <div className="w-8 h-8 rounded-full bg-[#581527] border border-[#AE3E64]/40 flex items-center justify-center text-[#AE3E64] text-xs font-serif font-bold">
               RB
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-serif tracking-widest text-sm font-semibold text-[#F5F1E8]">
+                <span className="font-serif tracking-widest text-sm font-semibold text-[#FEF7FB]">
                   RUGBY WHITE
                 </span>
-                <span className="text-[10px] uppercase font-sans tracking-widest px-2 py-0.5 rounded bg-[#C5A880]/20 text-[#C5A880] border border-[#C5A880]/30">
+                <span className="text-[10px] uppercase font-sans tracking-widest px-2 py-0.5 rounded bg-[#AE3E64]/20 text-[#AE3E64] border border-[#AE3E64]/30">
                   SECURE GATEWAY
                 </span>
               </div>
-              <p className="text-[11px] font-sans text-[#EAE3D6]/70">
+              <p className="text-[11px] font-sans text-[#FDEAF3]/70">
                 100% Encrypted UPI, Cards &amp; NetBanking
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-white/10 text-[#EAE3D6] transition-colors"
+            className="p-1.5 rounded-full hover:bg-white/10 text-[#FDEAF3] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Amount Bar */}
-        <div className="bg-[#F5F1E8] px-6 py-3 flex items-center justify-between border-b border-[#D8CBB7]">
+        <div className="bg-[#FEF7FB] px-6 py-3 flex items-center justify-between border-b border-[#F4CEDF]">
           <div>
-            <span className="text-[10px] font-sans uppercase tracking-wider text-[#87967E] block">
+            <span className="text-[10px] font-sans uppercase tracking-wider text-[#8A304C] block">
               TOTAL PAYABLE
             </span>
-            <span className="font-serif text-2xl font-bold text-[#103B27]">
+            <span className="font-serif text-2xl font-bold text-[#581527]">
               ₹{orderAmount.toLocaleString("en-IN")}
             </span>
           </div>
           <div className="text-right">
-            <span className="text-[10px] font-sans uppercase tracking-wider text-[#87967E] block">
+            <span className="text-[10px] font-sans uppercase tracking-wider text-[#8A304C] block">
               ORDER REF
             </span>
-            <span className="font-mono text-xs font-bold text-[#103B27]">
+            <span className="font-mono text-xs font-bold text-[#581527]">
               {intentData?.orderId || "GENERATING..."}
             </span>
           </div>
         </div>
 
         {/* Tab Switcher */}
-        <div className="grid grid-cols-3 border-b border-[#EAE3D6] bg-[#FCF8F3] text-xs font-sans">
+        <div className="grid grid-cols-3 border-b border-[#FDEAF3] bg-[#FEF7FB] text-xs font-sans">
           <button
             onClick={() => setActiveTab("upi")}
             className={`py-3 px-2 flex items-center justify-center gap-1.5 font-medium border-b-2 transition-colors cursor-pointer ${
               activeTab === "upi"
-                ? "border-[#103B27] text-[#103B27] bg-[#FFFFFF] font-bold"
-                : "border-transparent text-[#87967E] hover:text-[#103B27]"
+                ? "border-[#581527] text-[#581527] bg-[#FFFFFF] font-bold"
+                : "border-transparent text-[#8A304C] hover:text-[#581527]"
             }`}
           >
-            <QrCode className="w-4 h-4 text-[#103B27]" />
+            <QrCode className="w-4 h-4 text-[#581527]" />
             <span>UPI / QR</span>
           </button>
 
@@ -209,11 +209,11 @@ export default function PaymentGatewayModal({
             onClick={() => setActiveTab("card")}
             className={`py-3 px-2 flex items-center justify-center gap-1.5 font-medium border-b-2 transition-colors cursor-pointer ${
               activeTab === "card"
-                ? "border-[#103B27] text-[#103B27] bg-[#FFFFFF] font-bold"
-                : "border-transparent text-[#87967E] hover:text-[#103B27]"
+                ? "border-[#581527] text-[#581527] bg-[#FFFFFF] font-bold"
+                : "border-transparent text-[#8A304C] hover:text-[#581527]"
             }`}
           >
-            <CreditCard className="w-4 h-4 text-[#103B27]" />
+            <CreditCard className="w-4 h-4 text-[#581527]" />
             <span>Debit / Credit</span>
           </button>
 
@@ -221,11 +221,11 @@ export default function PaymentGatewayModal({
             onClick={() => setActiveTab("netbanking")}
             className={`py-3 px-2 flex items-center justify-center gap-1.5 font-medium border-b-2 transition-colors cursor-pointer ${
               activeTab === "netbanking"
-                ? "border-[#103B27] text-[#103B27] bg-[#FFFFFF] font-bold"
-                : "border-transparent text-[#87967E] hover:text-[#103B27]"
+                ? "border-[#581527] text-[#581527] bg-[#FFFFFF] font-bold"
+                : "border-transparent text-[#8A304C] hover:text-[#581527]"
             }`}
           >
-            <Building2 className="w-4 h-4 text-[#103B27]" />
+            <Building2 className="w-4 h-4 text-[#581527]" />
             <span>Net Banking</span>
           </button>
         </div>
@@ -234,17 +234,17 @@ export default function PaymentGatewayModal({
         <div className="p-6 overflow-y-auto space-y-6 flex-1">
           {isLoadingIntent ? (
             <div className="py-12 flex flex-col items-center justify-center text-center space-y-3">
-              <Loader2 className="w-8 h-8 text-[#103B27] animate-spin" />
-              <p className="text-xs font-sans text-[#87967E]">
+              <Loader2 className="w-8 h-8 text-[#581527] animate-spin" />
+              <p className="text-xs font-sans text-[#8A304C]">
                 Generating instant NPCI UPI QR code and payment session...
               </p>
             </div>
           ) : activeTab === "upi" ? (
             /* UPI Tab */
             <div className="space-y-5 text-center">
-              <div className="p-4 bg-[#F5F1E8] rounded-xl border border-[#D8CBB7] inline-block mx-auto shadow-sm">
+              <div className="p-4 bg-[#FEF7FB] rounded-xl border border-[#F4CEDF] inline-block mx-auto shadow-sm">
                 {intentData?.qrCodeDataUrl ? (
-                  <div className="relative w-48 h-48 mx-auto bg-white p-2 rounded-lg border border-[#D8CBB7]/60">
+                  <div className="relative w-48 h-48 mx-auto bg-white p-2 rounded-lg border border-[#F4CEDF]/60">
                     <Image
                       src={intentData.qrCodeDataUrl}
                       alt="UPI Payment QR Code"
@@ -256,26 +256,26 @@ export default function PaymentGatewayModal({
                   </div>
                 ) : (
                   <div className="w-48 h-48 flex items-center justify-center bg-white rounded-lg">
-                    <Loader2 className="w-6 h-6 animate-spin text-[#103B27]" />
+                    <Loader2 className="w-6 h-6 animate-spin text-[#581527]" />
                   </div>
                 )}
-                <p className="text-[11px] font-sans text-[#103B27] font-semibold mt-2">
+                <p className="text-[11px] font-sans text-[#581527] font-semibold mt-2">
                   Scan with GPay, PhonePe, Paytm or any UPI App
                 </p>
               </div>
 
               {/* UPI ID Copy */}
               <div className="max-w-xs mx-auto">
-                <span className="text-[10px] font-sans text-[#87967E] uppercase tracking-wider block mb-1">
+                <span className="text-[10px] font-sans text-[#8A304C] uppercase tracking-wider block mb-1">
                   OFFICIAL UPI ID / VPA
                 </span>
-                <div className="flex items-center justify-between px-3 py-2 bg-[#FCF8F3] border border-[#D8CBB7] rounded-lg">
-                  <span className="font-mono text-xs font-bold text-[#103B27]">
+                <div className="flex items-center justify-between px-3 py-2 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg">
+                  <span className="font-mono text-xs font-bold text-[#581527]">
                     {intentData?.upiVpa || "rugbywhite@icici"}
                   </span>
                   <button
                     onClick={handleCopyVpa}
-                    className="flex items-center gap-1 text-[11px] font-sans font-semibold text-[#103B27] hover:underline cursor-pointer"
+                    className="flex items-center gap-1 text-[11px] font-sans font-semibold text-[#581527] hover:underline cursor-pointer"
                   >
                     {copiedVpa ? (
                       <>
@@ -294,27 +294,27 @@ export default function PaymentGatewayModal({
 
               {/* Instant App Deep Links for Mobile */}
               <div className="pt-2">
-                <span className="text-[10px] font-sans text-[#87967E] uppercase tracking-wider block mb-2">
+                <span className="text-[10px] font-sans text-[#8A304C] uppercase tracking-wider block mb-2">
                   OR PAY DIRECTLY VIA APP
                 </span>
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   <a
                     href={intentData?.deepLinks?.gpay || "#"}
-                    className="px-3.5 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#D8CBB7] hover:border-[#103B27] text-xs font-sans font-medium text-[#1C1C1C] flex items-center gap-1.5 shadow-xs transition-colors"
+                    className="px-3.5 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#F4CEDF] hover:border-[#581527] text-xs font-sans font-medium text-[#1C1C1C] flex items-center gap-1.5 shadow-xs transition-colors"
                   >
                     <Smartphone className="w-3.5 h-3.5 text-[#4285F4]" />
                     <span>Google Pay</span>
                   </a>
                   <a
                     href={intentData?.deepLinks?.phonepe || "#"}
-                    className="px-3.5 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#D8CBB7] hover:border-[#103B27] text-xs font-sans font-medium text-[#1C1C1C] flex items-center gap-1.5 shadow-xs transition-colors"
+                    className="px-3.5 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#F4CEDF] hover:border-[#581527] text-xs font-sans font-medium text-[#1C1C1C] flex items-center gap-1.5 shadow-xs transition-colors"
                   >
                     <Smartphone className="w-3.5 h-3.5 text-[#5f259f]" />
                     <span>PhonePe</span>
                   </a>
                   <a
                     href={intentData?.deepLinks?.paytm || "#"}
-                    className="px-3.5 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#D8CBB7] hover:border-[#103B27] text-xs font-sans font-medium text-[#1C1C1C] flex items-center gap-1.5 shadow-xs transition-colors"
+                    className="px-3.5 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#F4CEDF] hover:border-[#581527] text-xs font-sans font-medium text-[#1C1C1C] flex items-center gap-1.5 shadow-xs transition-colors"
                   >
                     <Smartphone className="w-3.5 h-3.5 text-[#00b9f5]" />
                     <span>Paytm</span>
@@ -327,17 +327,17 @@ export default function PaymentGatewayModal({
                 <button
                   onClick={() => handleConfirmPayment("upi")}
                   disabled={isVerifying}
-                  className="w-full py-3.5 px-6 rounded-full bg-[#103B27] hover:bg-[#09291C] text-[#F5F1E8] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-75"
+                  className="w-full py-3.5 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-75"
                 >
                   {isVerifying ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-[#C5A880]" />
+                      <Loader2 className="w-4 h-4 animate-spin text-[#AE3E64]" />
                       <span>VERIFYING PAYMENT WITH NPCI...</span>
                     </>
                   ) : (
                     <>
                       <span>I HAVE COMPLETED PAYMENT</span>
-                      <ArrowRight className="w-4 h-4 text-[#C5A880]" />
+                      <ArrowRight className="w-4 h-4 text-[#AE3E64]" />
                     </>
                   )}
                 </button>
@@ -347,9 +347,9 @@ export default function PaymentGatewayModal({
             /* Card Tab */
             <div className="space-y-4">
               {/* Virtual Card Graphic */}
-              <div className="bg-gradient-to-tr from-[#09291C] via-[#103B27] to-[#1c5539] text-[#F5F1E8] p-5 rounded-xl shadow-lg relative overflow-hidden border border-[#C5A880]/30 space-y-4">
+              <div className="bg-gradient-to-tr from-[#3F0E1B] via-[#581527] to-[#1c5539] text-[#FEF7FB] p-5 rounded-xl shadow-lg relative overflow-hidden border border-[#AE3E64]/30 space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="font-serif tracking-widest text-xs font-bold text-[#C5A880]">
+                  <span className="font-serif tracking-widest text-xs font-bold text-[#AE3E64]">
                     RUGBY WHITE LUXURY PAY
                   </span>
                   <span className="text-xs font-mono font-bold">VISA / MASTERCARD</span>
@@ -357,15 +357,15 @@ export default function PaymentGatewayModal({
                 <div className="font-mono text-lg tracking-widest pt-2">
                   {cardForm.number}
                 </div>
-                <div className="flex justify-between items-end text-xs font-sans text-[#EAE3D6]">
+                <div className="flex justify-between items-end text-xs font-sans text-[#FDEAF3]">
                   <div>
-                    <span className="text-[9px] uppercase tracking-wider block text-[#87967E]">
+                    <span className="text-[9px] uppercase tracking-wider block text-[#8A304C]">
                       CARD HOLDER
                     </span>
                     <span className="font-medium uppercase">{cardForm.name}</span>
                   </div>
                   <div>
-                    <span className="text-[9px] uppercase tracking-wider block text-[#87967E]">
+                    <span className="text-[9px] uppercase tracking-wider block text-[#8A304C]">
                       EXPIRES
                     </span>
                     <span className="font-mono">{cardForm.expiry}</span>
@@ -383,7 +383,7 @@ export default function PaymentGatewayModal({
                     type="text"
                     value={cardForm.number}
                     onChange={(e) => setCardForm({ ...cardForm, number: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-[#FCF8F3] border border-[#D8CBB7] rounded-lg focus:outline-none focus:border-[#103B27] font-mono text-xs"
+                    className="w-full px-3.5 py-2.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg focus:outline-none focus:border-[#581527] font-mono text-xs"
                   />
                 </div>
 
@@ -397,7 +397,7 @@ export default function PaymentGatewayModal({
                       value={cardForm.expiry}
                       onChange={(e) => setCardForm({ ...cardForm, expiry: e.target.value })}
                       placeholder="MM/YY"
-                      className="w-full px-3.5 py-2.5 bg-[#FCF8F3] border border-[#D8CBB7] rounded-lg focus:outline-none focus:border-[#103B27] font-mono text-xs"
+                      className="w-full px-3.5 py-2.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg focus:outline-none focus:border-[#581527] font-mono text-xs"
                     />
                   </div>
                   <div>
@@ -409,7 +409,7 @@ export default function PaymentGatewayModal({
                       maxLength={4}
                       value={cardForm.cvv}
                       onChange={(e) => setCardForm({ ...cardForm, cvv: e.target.value })}
-                      className="w-full px-3.5 py-2.5 bg-[#FCF8F3] border border-[#D8CBB7] rounded-lg focus:outline-none focus:border-[#103B27] font-mono text-xs"
+                      className="w-full px-3.5 py-2.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg focus:outline-none focus:border-[#581527] font-mono text-xs"
                     />
                   </div>
                 </div>
@@ -419,16 +419,16 @@ export default function PaymentGatewayModal({
               <button
                 onClick={() => handleConfirmPayment("card")}
                 disabled={isVerifying}
-                className="w-full mt-2 py-3.5 px-6 rounded-full bg-[#103B27] hover:bg-[#09291C] text-[#F5F1E8] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-75"
+                className="w-full mt-2 py-3.5 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-75"
               >
                 {isVerifying ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin text-[#C5A880]" />
+                    <Loader2 className="w-4 h-4 animate-spin text-[#AE3E64]" />
                     <span>AUTHORIZING ₹{orderAmount.toLocaleString("en-IN")} WITH BANK...</span>
                   </>
                 ) : (
                   <>
-                    <Lock className="w-3.5 h-3.5 text-[#C5A880]" />
+                    <Lock className="w-3.5 h-3.5 text-[#AE3E64]" />
                     <span>PAY ₹{orderAmount.toLocaleString("en-IN")} SECURELY</span>
                   </>
                 )}
@@ -437,7 +437,7 @@ export default function PaymentGatewayModal({
           ) : (
             /* Netbanking Tab */
             <div className="space-y-4">
-              <span className="text-xs font-sans text-[#87967E] block">
+              <span className="text-xs font-sans text-[#8A304C] block">
                 Select your bank to redirect to secure NetBanking portal:
               </span>
               <div className="grid grid-cols-2 gap-2 text-xs font-sans">
@@ -448,8 +448,8 @@ export default function PaymentGatewayModal({
                       onClick={() => setSelectedBank(bank)}
                       className={`p-3 rounded-lg border text-left transition-all cursor-pointer ${
                         selectedBank === bank
-                          ? "border-[#103B27] bg-[#FCF8F3] font-bold text-[#103B27] ring-1 ring-[#103B27]"
-                          : "border-[#D8CBB7] hover:border-[#103B27] text-[#1C1C1C]"
+                          ? "border-[#581527] bg-[#FEF7FB] font-bold text-[#581527] ring-1 ring-[#581527]"
+                          : "border-[#F4CEDF] hover:border-[#581527] text-[#1C1C1C]"
                       }`}
                     >
                       {bank}
@@ -461,17 +461,17 @@ export default function PaymentGatewayModal({
               <button
                 onClick={() => handleConfirmPayment("netbanking")}
                 disabled={isVerifying}
-                className="w-full mt-4 py-3.5 px-6 rounded-full bg-[#103B27] hover:bg-[#09291C] text-[#F5F1E8] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-75"
+                className="w-full mt-4 py-3.5 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-75"
               >
                 {isVerifying ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin text-[#C5A880]" />
+                    <Loader2 className="w-4 h-4 animate-spin text-[#AE3E64]" />
                     <span>CONNECTING TO {selectedBank.toUpperCase()}...</span>
                   </>
                 ) : (
                   <>
                     <span>PROCEED WITH {selectedBank.toUpperCase()}</span>
-                    <ArrowRight className="w-4 h-4 text-[#C5A880]" />
+                    <ArrowRight className="w-4 h-4 text-[#AE3E64]" />
                   </>
                 )}
               </button>
@@ -480,7 +480,7 @@ export default function PaymentGatewayModal({
         </div>
 
         {/* Footer Security Badges */}
-        <div className="bg-[#FCF8F3] px-6 py-3 border-t border-[#D8CBB7] flex flex-wrap items-center justify-between text-[11px] font-sans text-[#87967E]">
+        <div className="bg-[#FEF7FB] px-6 py-3 border-t border-[#F4CEDF] flex flex-wrap items-center justify-between text-[11px] font-sans text-[#8A304C]">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-[#2E7D32]" />
             <span>256-Bit Bank-Grade SSL</span>

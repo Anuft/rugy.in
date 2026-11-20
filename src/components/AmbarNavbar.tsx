@@ -41,18 +41,18 @@ export default function AmbarNavbar() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         {/* Top Minimal Announcement Bar */}
-        <div className="bg-[#103B27] text-[#F5F1E8] text-[10px] sm:text-[11px] font-sans tracking-[0.25em] uppercase py-1.5 px-4 text-center border-b border-[#C5A880]/20 flex items-center justify-center gap-2">
+        <div className="bg-[#581527] text-[#FEF7FB] text-[10px] sm:text-[11px] font-sans tracking-[0.25em] uppercase py-1.5 px-4 text-center border-b border-[#AE3E64]/20 flex items-center justify-center gap-2">
           <span>COMPLIMENTARY PAN-INDIA AIR COURIER ON ALL ORDERS</span>
-          <span className="hidden sm:inline text-[#C5A880]">•</span>
-          <span className="hidden sm:inline text-[#C5A880]">10 DAYS CHALLENGE</span>
+          <span className="hidden sm:inline text-[#AE3E64]">•</span>
+          <span className="hidden sm:inline text-[#AE3E64]">10 DAYS CHALLENGE</span>
         </div>
 
         {/* Main Navigation Bar — Perfectly Centered 3-Column Luxury Architecture */}
         <div
           className={`w-full transition-all duration-300 ${
             scrolled
-              ? "bg-[#FFF9F2]/95 backdrop-blur-md shadow-sm border-b border-[#E8DFC9] py-3.5"
-              : "bg-[#FFF9F2]/90 backdrop-blur-md border-b border-[#E8DFC9]/80 py-4"
+              ? "bg-[#FEF7FB]/95 backdrop-blur-md shadow-sm border-b border-[#F4CEDF] py-3.5"
+              : "bg-[#FEF7FB]/90 backdrop-blur-md border-b border-[#F4CEDF]/80 py-4"
           }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -62,7 +62,7 @@ export default function AmbarNavbar() {
                 {/* Mobile Hamburger Toggle */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="lg:hidden p-2 text-[#20251F] hover:text-[#103B27] transition-colors -ml-2"
+                  className="lg:hidden p-2 text-[#2A1018] hover:text-[#581527] transition-colors -ml-2"
                   aria-label="Toggle Navigation Menu"
                 >
                   {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -83,13 +83,13 @@ export default function AmbarNavbar() {
                           isReviews ? "hidden xl:inline-block" : ""
                         } ${
                           isActive
-                            ? "text-[#B28A58] font-bold"
-                            : "text-[#20251F]/80 hover:text-[#B28A58]"
+                            ? "text-[#AE3E64] font-bold"
+                            : "text-[#2A1018]/80 hover:text-[#AE3E64]"
                         }`}
                       >
                         {link.label}
                         {isActive && (
-                          <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#B28A58] rounded-full" />
+                          <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#AE3E64] rounded-full" />
                         )}
                       </Link>
                     );
@@ -106,15 +106,15 @@ export default function AmbarNavbar() {
                 >
                   <div className="flex items-center gap-2">
                     {/* Stylized Monogram Circle (from Image 1 & 2) */}
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-[#103B27] flex items-center justify-center text-[#103B27] font-serif font-bold text-xs group-hover:border-[#B28A58] group-hover:text-[#B28A58] transition-colors">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-[#581527] flex items-center justify-center text-[#581527] font-serif font-bold text-xs group-hover:border-[#AE3E64] group-hover:text-[#AE3E64] transition-colors">
                       B
                     </div>
                     {/* Wordmark */}
-                    <span className="font-serif tracking-[0.24em] text-base sm:text-xl font-bold text-[#103B27] leading-none whitespace-nowrap group-hover:text-[#09291C] transition-colors">
+                    <span className="font-serif tracking-[0.24em] text-base sm:text-xl font-bold text-[#581527] leading-none whitespace-nowrap group-hover:text-[#3F0E1B] transition-colors">
                       RUGBY WHITE
                     </span>
                   </div>
-                  <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.38em] uppercase text-[#87967E] mt-1 font-medium">
+                  <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.38em] uppercase text-[#8A304C] mt-1 font-medium">
                     SKINCARE RITUALS
                   </span>
                 </Link>
@@ -125,7 +125,7 @@ export default function AmbarNavbar() {
                 {/* 'Track your order' Text Link (ALFA Beauty style in gold/amber) */}
                 <Link
                   href="/track-order"
-                  className="hidden md:inline-block text-xs font-sans font-semibold tracking-wider text-[#B28A58] hover:text-[#9E7444] hover:underline whitespace-nowrap transition-colors"
+                  className="hidden md:inline-block text-xs font-sans font-semibold tracking-wider text-[#AE3E64] hover:text-[#8A304C] hover:underline whitespace-nowrap transition-colors"
                 >
                   Track your order
                 </Link>
@@ -135,7 +135,7 @@ export default function AmbarNavbar() {
                   href="https://www.instagram.com/rugbywhite.in/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hidden sm:inline-flex p-1.5 text-[#20251F]/80 hover:text-[#B28A58] transition-colors"
+                  className="hidden sm:inline-flex p-1.5 text-[#2A1018]/80 hover:text-[#AE3E64] transition-colors"
                   aria-label="Instagram @rugbywhite.in"
                   title="Follow @rugbywhite.in on Instagram"
                 >
@@ -145,7 +145,7 @@ export default function AmbarNavbar() {
                 {/* Profile / Account / WhatsApp Concierge Icon */}
                 <Link
                   href="/admin/orders"
-                  className="p-1.5 text-[#20251F] hover:text-[#B28A58] transition-colors"
+                  className="p-1.5 text-[#2A1018] hover:text-[#AE3E64] transition-colors"
                   title="Fulfillment & Order Account"
                   aria-label="User Account"
                 >
@@ -155,12 +155,12 @@ export default function AmbarNavbar() {
                 {/* Cart Shopping Bag with Red Counter Badge */}
                 <button
                   onClick={openCart}
-                  className="relative p-1.5 text-[#20251F] hover:text-[#B28A58] transition-colors cursor-pointer group"
+                  className="relative p-1.5 text-[#2A1018] hover:text-[#AE3E64] transition-colors cursor-pointer group"
                   aria-label={`Shopping Bag with ${totalItems} items`}
                 >
                   <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
-                  {/* Badge Counter (like ALFA Beauty red badge) */}
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#E53935] text-white text-[9px] font-bold font-sans flex items-center justify-center shadow-xs group-hover:scale-110 transition-transform">
+                  {/* Badge Counter (Rose-Burgundy luxury badge) */}
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#AE3E64] text-white text-[9px] font-bold font-sans flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                     {totalItems}
                   </span>
                 </button>
@@ -171,58 +171,58 @@ export default function AmbarNavbar() {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#FFF9F2] border-b border-[#E8DFC9] shadow-lg animate-fade-in px-6 py-6 space-y-4">
+          <div className="md:hidden bg-[#FEF7FB] border-b border-[#F4CEDF] shadow-lg animate-fade-in px-6 py-6 space-y-4">
             <nav className="flex flex-col space-y-3.5 text-xs font-sans tracking-[0.2em] uppercase font-semibold">
               <Link
                 href="/"
-                className={`py-1.5 border-b border-[#E8DFC9]/60 ${
-                  pathname === "/" ? "text-[#B28A58] font-bold" : "text-[#20251F]"
+                className={`py-1.5 border-b border-[#F4CEDF]/60 ${
+                  pathname === "/" ? "text-[#AE3E64] font-bold" : "text-[#2A1018]"
                 }`}
               >
                 HOME
               </Link>
               <Link
                 href="/shop"
-                className={`py-1.5 border-b border-[#E8DFC9]/60 ${
-                  pathname === "/shop" ? "text-[#B28A58] font-bold" : "text-[#20251F]"
+                className={`py-1.5 border-b border-[#F4CEDF]/60 ${
+                  pathname === "/shop" ? "text-[#AE3E64] font-bold" : "text-[#2A1018]"
                 }`}
               >
                 SHOP ALL PRODUCTS
               </Link>
               <Link
                 href="/products/10-days-challenge"
-                className="py-1.5 border-b border-[#E8DFC9]/60 text-[#20251F]"
+                className="py-1.5 border-b border-[#F4CEDF]/60 text-[#2A1018]"
               >
                 THE 10 DAYS CHALLENGE
               </Link>
               <Link
                 href="/#face-reviews"
-                className="py-1.5 border-b border-[#E8DFC9]/60 text-[#20251F]"
+                className="py-1.5 border-b border-[#F4CEDF]/60 text-[#2A1018]"
               >
                 FACE REVIEWS
               </Link>
               <Link
                 href="/track-order"
-                className="py-1.5 border-b border-[#E8DFC9]/60 text-[#B28A58] font-bold flex items-center justify-between"
+                className="py-1.5 border-b border-[#F4CEDF]/60 text-[#AE3E64] font-bold flex items-center justify-between"
               >
                 <span>TRACK YOUR ORDER</span>
-                <Truck className="w-4 h-4 text-[#B28A58]" />
+                <Truck className="w-4 h-4 text-[#AE3E64]" />
               </Link>
               <Link
                 href="/about"
-                className="py-1.5 border-b border-[#E8DFC9]/60 text-[#20251F]"
+                className="py-1.5 border-b border-[#F4CEDF]/60 text-[#2A1018]"
               >
                 OUR STORY
               </Link>
               <Link
                 href="/admin/orders"
-                className="py-1.5 border-b border-[#E8DFC9]/60 text-[#103B27]"
+                className="py-1.5 border-b border-[#F4CEDF]/60 text-[#581527]"
               >
                 FULFILLMENT BACKEND
               </Link>
             </nav>
 
-            <div className="pt-2 flex items-center justify-between text-xs font-sans text-[#87967E]">
+            <div className="pt-2 flex items-center justify-between text-xs font-sans text-[#8A304C]">
               <span>Concierge Help Desk:</span>
               <a
                 href={`https://wa.me/91${siteConfig.whatsappNumber}`}

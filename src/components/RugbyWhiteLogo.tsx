@@ -18,22 +18,22 @@ export default function RugbyWhiteLogo({
   const isGold = variant === "gold";
 
   const ringColor = isLight
-    ? "stroke-[#F5F1E8]"
+    ? "stroke-[#FEF7FB]"
     : isGold
-    ? "stroke-[#C5A880]"
-    : "stroke-[#103B27]";
+    ? "stroke-[#AE3E64]"
+    : "stroke-[#581527]";
 
   const textColor = isLight
-    ? "fill-[#F5F1E8] text-[#F5F1E8]"
+    ? "fill-[#FEF7FB] text-[#FEF7FB]"
     : isGold
-    ? "fill-[#C5A880] text-[#C5A880]"
-    : "fill-[#103B27] text-[#103B27]";
+    ? "fill-[#AE3E64] text-[#AE3E64]"
+    : "fill-[#581527] text-[#581527]";
 
   const subColor = isLight
-    ? "text-[#87967E]"
+    ? "text-[#8A304C]"
     : isGold
-    ? "text-[#E4D2B8]"
-    : "text-[#87967E]";
+    ? "text-[#EA90B5]"
+    : "text-[#8A304C]";
 
   const dimensions = {
     sm: { monogram: 32, text: "text-lg", sub: "text-[9px]" },
@@ -83,8 +83,8 @@ export default function RugbyWhiteLogo({
             strokeLinecap="square"
             strokeLinejoin="miter"
           />
-          <circle cx="50" cy="18" r="1.5" className={isLight ? "fill-[#C5A880]" : "fill-[#103B27]"} />
-          <circle cx="50" cy="82" r="1.5" className={isLight ? "fill-[#C5A880]" : "fill-[#103B27]"} />
+          <circle cx="50" cy="18" r="1.5" className={isLight ? "fill-[#AE3E64]" : "fill-[#581527]"} />
+          <circle cx="50" cy="82" r="1.5" className={isLight ? "fill-[#AE3E64]" : "fill-[#581527]"} />
         </svg>
       </div>
 

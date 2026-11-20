@@ -1,32 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  --color-forest: #103B27;
-  --color-forest-dark: #09291C;
-  --color-forest-light: #164E34;
-  --color-ivory: #F5F1E8;
-  --color-cream: #EAE3D6;
-  --color-beige: #D8CBB7;
-  --color-botanical: #87967E;
-  --color-botanical-dark: #4A5844;
-  --color-dark-text: #20251F;
-  --color-gold: #C5A880;
-  --color-gold-light: #E4D2B8;
-  --color-gold-dark: #9E825B;
+  /* Requested Color Palette */
+  --color-burgundy: #581527;
+  --color-wine-red: #8A304C;
+  --color-rose-burgundy: #AE3E64;
+  --color-rose-pink: #EA90B5;
+  --color-blush-pink: #F4CEDF;
+  --color-pale-blush: #FDEAF3;
+  --color-premium-white: #FEF7FB;
+
+  /* Semantic Theme Mappings */
+  --color-forest: #581527;
+  --color-forest-dark: #3F0E1B;
+  --color-forest-light: #8A304C;
+  --color-ivory: #FEF7FB;
+  --color-cream: #FDEAF3;
+  --color-beige: #F4CEDF;
+  --color-botanical: #AE3E64;
+  --color-botanical-dark: #8A304C;
+  --color-dark-text: #2A1018;
+  --color-gold: #AE3E64;
+  --color-gold-light: #EA90B5;
+  --color-gold-dark: #8A304C;
 
   --font-serif: "Cormorant Garamond", "Playfair Display", Didot, Georgia, serif;
   --font-sans: "Plus Jakarta Sans", "Outfit", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 :root {
-  --background: #F5F1E8;
-  --foreground: #20251F;
+  --burgundy: #581527;
+  --wine-red: #8A304C;
+  --rose-burgundy: #AE3E64;
+  --rose-pink: #EA90B5;
+  --blush-pink: #F4CEDF;
+  --pale-blush: #FDEAF3;
+  --premium-white: #FEF7FB;
+
+  --background: var(--premium-white);
+  --foreground: #2A1018;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #F5F1E8;
-  color: #20251F;
+  background-color: #FEF7FB;
+  color: #2A1018;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,8 +58,8 @@ body {
 }
 
 ::selection {
-  background-color: #103B27;
-  color: #F5F1E8;
+  background-color: #581527;
+  color: #FEF7FB;
 }
 
 /* Custom Luxury Scrollbar */
@@ -50,16 +68,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F1E8;
+  background: #FEF7FB;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #87967E;
+  background: #AE3E64;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #103B27;
+  background: #581527;
 }
 
 /* Luxury Editorial Headings */
@@ -79,7 +97,7 @@ h1, h2, h3, h4, .font-serif {
 }
 
 .gold-shimmer {
-  background: linear-gradient(90deg, #C5A880 0%, #F5F1E8 50%, #C5A880 100%);
+  background: linear-gradient(90deg, #AE3E64 0%, #FEF7FB 50%, #EA90B5 100%);
   background-size: 200% 100%;
   animation: shimmer 6s infinite;
   -webkit-background-clip: text;
@@ -88,17 +106,17 @@ h1, h2, h3, h4, .font-serif {
 
 /* Glassmorphism restrained luxury blur */
 .glass-luxury-dark {
-  background: rgba(9, 41, 28, 0.85);
+  background: rgba(88, 21, 39, 0.90);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(197, 168, 128, 0.15);
+  border: 1px solid rgba(234, 144, 181, 0.25);
 }
 
 .glass-luxury-light {
-  background: rgba(245, 241, 232, 0.92);
+  background: rgba(254, 247, 251, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(135, 150, 126, 0.2);
+  border: 1px solid rgba(244, 206, 223, 0.8);
 }
 
 @keyframes fadeIn {

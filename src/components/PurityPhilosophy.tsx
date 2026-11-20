@@ -27,29 +27,29 @@ export default function PurityPhilosophy() {
   ];
 
   return (
-    <section className="py-24 sm:py-32 bg-[#103B27] text-[#F5F1E8] border-b border-[#164E34] overflow-hidden relative">
+    <section className="py-24 sm:py-32 bg-[#581527] text-[#FEF7FB] border-b border-[#8A304C] overflow-hidden relative">
       {/* Subtle background ambient halo */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#09291C] rounded-full blur-[140px] pointer-events-none -z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#3F0E1B] rounded-full blur-[140px] pointer-events-none -z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto mb-16 sm:mb-20 space-y-4">
           <div className="inline-flex items-center justify-center gap-3">
-            <span className="w-8 h-[1px] bg-[#C5A880]" />
-            <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#E4D2B8] font-medium">
+            <span className="w-8 h-[1px] bg-[#AE3E64]" />
+            <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#EA90B5] font-medium">
               PURITY PHILOSOPHY
             </span>
-            <span className="w-8 h-[1px] bg-[#C5A880]" />
+            <span className="w-8 h-[1px] bg-[#AE3E64]" />
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl tracking-tight leading-[1.1] text-[#F5F1E8]">
+          <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl tracking-tight leading-[1.1] text-[#FEF7FB]">
             LESS NOISE.
-            <span className="block italic text-[#E4D2B8] font-light mt-1">
+            <span className="block italic text-[#EA90B5] font-light mt-1">
               MORE CARE.
             </span>
           </h2>
 
-          <p className="font-sans text-sm sm:text-base text-[#EAE3D6]/80 font-light max-w-lg mx-auto leading-relaxed pt-2">
+          <p className="font-sans text-sm sm:text-base text-[#FDEAF3]/80 font-light max-w-lg mx-auto leading-relaxed pt-2">
             Thoughtful choices. A considered skincare experience.
           </p>
         </div>
@@ -59,24 +59,24 @@ export default function PurityPhilosophy() {
           {pillars.map((pillar, idx) => (
             <div
               key={pillar.title}
-              className="flex flex-col items-center text-center p-8 bg-[#09291C]/70 border border-[#C5A880]/30 hover:border-[#C5A880] transition-all duration-500 group shadow-lg"
+              className="flex flex-col items-center text-center p-8 bg-[#3F0E1B]/70 border border-[#AE3E64]/30 hover:border-[#AE3E64] transition-all duration-500 group shadow-lg"
             >
               {/* Circular Emblem */}
-              <div className="relative w-24 h-24 mb-6 rounded-full flex items-center justify-center border border-[#C5A880]/40 group-hover:border-[#E4D2B8] transition-colors duration-500">
+              <div className="relative w-24 h-24 mb-6 rounded-full flex items-center justify-center border border-[#AE3E64]/40 group-hover:border-[#EA90B5] transition-colors duration-500">
                 {/* Outer spinning ring on hover */}
-                <div className="absolute inset-1 rounded-full border border-dashed border-[#87967E]/40 group-hover:border-[#C5A880] transition-all duration-700" />
-                <div className="text-[#C5A880] group-hover:scale-110 transition-transform duration-300">
+                <div className="absolute inset-1 rounded-full border border-dashed border-[#8A304C]/40 group-hover:border-[#AE3E64] transition-all duration-700" />
+                <div className="text-[#AE3E64] group-hover:scale-110 transition-transform duration-300">
                   {pillar.icon}
                 </div>
               </div>
 
               {/* Title */}
-              <h3 className="font-serif text-xl text-[#F5F1E8] tracking-wider mb-2">
+              <h3 className="font-serif text-xl text-[#FEF7FB] tracking-wider mb-2">
                 {pillar.title}
               </h3>
 
               {/* Detail */}
-              <p className="text-xs text-[#EAE3D6]/75 font-sans font-light leading-relaxed max-w-[220px]">
+              <p className="text-xs text-[#FDEAF3]/75 font-sans font-light leading-relaxed max-w-[220px]">
                 {pillar.detail}
               </p>
             </div>
@@ -84,8 +84,8 @@ export default function PurityPhilosophy() {
         </div>
 
         {/* Ingredient Transparency Note */}
-        <div className="mt-16 pt-8 border-t border-[#164E34] text-center">
-          <p className="font-serif italic text-sm text-[#E4D2B8] max-w-xl mx-auto">
+        <div className="mt-16 pt-8 border-t border-[#8A304C] text-center">
+          <p className="font-serif italic text-sm text-[#EA90B5] max-w-xl mx-auto">
             &ldquo;We formulate with honesty: clear declarations, no artificial claims, and genuine respect for all skin textures.&rdquo;
           </p>
         </div>

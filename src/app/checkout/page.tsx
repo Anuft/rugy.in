@@ -151,7 +151,7 @@ export default function CheckoutPage() {
             particleCount: 70,
             spread: 60,
             origin: { y: 0.6 },
-            colors: ["#103B27", "#C5A880", "#87967E"],
+            colors: ["#581527", "#AE3E64", "#8A304C"],
           });
         } catch {}
 
@@ -179,29 +179,29 @@ export default function CheckoutPage() {
   // If order is completed, show order confirmation screen with real backend data
   if (orderConfirmed && confirmedOrder) {
     return (
-      <div className="bg-[#FCF8F3] text-[#1C1C1C] min-h-screen pt-16 pb-24">
+      <div className="bg-[#FEF7FB] text-[#1C1C1C] min-h-screen pt-16 pb-24">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center space-y-6">
-          <div className="w-18 h-18 rounded-full bg-[#103B27] text-white flex items-center justify-center mx-auto shadow-md">
+          <div className="w-18 h-18 rounded-full bg-[#581527] text-white flex items-center justify-center mx-auto shadow-md">
             <CheckCircle2 className="w-10 h-10 stroke-[1.5]" />
           </div>
 
           <div className="space-y-2">
-            <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#B28A58] font-bold block">
+            <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block">
               ORDER CONFIRMED &amp; REGISTERED
             </span>
-            <h1 className="font-serif text-3xl sm:text-5xl text-[#103B27]">
+            <h1 className="font-serif text-3xl sm:text-5xl text-[#581527]">
               Thank you, {confirmedOrder.customer?.fullName || formData.fullName}!
             </h1>
-            <p className="font-sans text-xs text-[#87967E]">
+            <p className="font-sans text-xs text-[#8A304C]">
               Order Reference ID:{" "}
-              <span className="font-mono text-[#103B27] font-bold text-sm bg-[#EAE3D6] px-2.5 py-1 rounded">
+              <span className="font-mono text-[#581527] font-bold text-sm bg-[#FDEAF3] px-2.5 py-1 rounded">
                 {confirmedOrder.id}
               </span>
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#FFFFFF] border border-[#E8DFC9] shadow-xs text-left space-y-4 text-xs font-sans">
-            <div className="flex items-center justify-between border-b border-[#E8DFC9] pb-3">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs text-left space-y-4 text-xs font-sans">
+            <div className="flex items-center justify-between border-b border-[#F4CEDF] pb-3">
               <h3 className="font-serif text-lg font-bold text-[#1C1C1C]">
                 DISPATCH &amp; DELIVERY SUMMARY
               </h3>
@@ -212,15 +212,15 @@ export default function CheckoutPage() {
 
             <p className="text-[#1C1C1C]/80 leading-relaxed">
               We have received your order and registered it in our fulfillment system. Tracking updates will be sent to{" "}
-              <strong className="text-[#103B27]">{confirmedOrder.customer?.mobile || formData.mobile}</strong>.
+              <strong className="text-[#581527]">{confirmedOrder.customer?.mobile || formData.mobile}</strong>.
             </p>
 
-            <div className="pt-2 border-t border-[#E8DFC9] space-y-2 text-[#87967E]">
+            <div className="pt-2 border-t border-[#F4CEDF] space-y-2 text-[#8A304C]">
               <p>• <strong>Courier Partner:</strong> {confirmedOrder.courier} (Air Express)</p>
-              <p>• <strong>Airway Bill (AWB):</strong> <span className="font-mono text-[#103B27] font-bold">{confirmedOrder.awb}</span></p>
+              <p>• <strong>Airway Bill (AWB):</strong> <span className="font-mono text-[#581527] font-bold">{confirmedOrder.awb}</span></p>
               <p>• <strong>Destination:</strong> {confirmedOrder.customer?.address}, {confirmedOrder.customer?.city}, {confirmedOrder.customer?.state} - {confirmedOrder.customer?.pincode}</p>
               <p>• <strong>Payment Mode:</strong>{" "}
-                <span className="text-[#103B27] font-semibold">
+                <span className="text-[#581527] font-semibold">
                   {confirmedOrder.payment?.method === "cod"
                     ? "Cash on Delivery (Pay at Doorstep)"
                     : confirmedOrder.payment?.method === "whatsapp"
@@ -238,14 +238,14 @@ export default function CheckoutPage() {
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href={`/track-order?id=${confirmedOrder.id}`}
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#103B27] hover:bg-[#09291C] text-[#F5F1E8] text-xs font-sans tracking-[0.2em] uppercase font-bold rounded-full transition-all shadow-sm flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-3.5 bg-[#581527] hover:bg-[#3F0E1B] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold rounded-full transition-all shadow-sm flex items-center justify-center gap-2"
             >
-              <Truck className="w-4 h-4 text-[#C5A880]" />
+              <Truck className="w-4 h-4 text-[#AE3E64]" />
               <span>LIVE TRACK THIS PARCEL</span>
             </Link>
             <Link
               href="/"
-              className="w-full sm:w-auto px-8 py-3.5 border border-[#103B27] text-[#103B27] hover:bg-[#103B27] hover:text-[#F5F1E8] text-xs font-sans tracking-[0.2em] uppercase font-bold rounded-full transition-all"
+              className="w-full sm:w-auto px-8 py-3.5 border border-[#581527] text-[#581527] hover:bg-[#581527] hover:text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold rounded-full transition-all"
             >
               RETURN TO HOMEPAGE
             </Link>
@@ -258,15 +258,15 @@ export default function CheckoutPage() {
   // If bag is empty
   if (items.length === 0) {
     return (
-      <div className="bg-[#FCF8F3] min-h-screen pt-20 pb-24">
-        <div className="max-w-md mx-auto text-center p-8 bg-[#FFFFFF] rounded-2xl border border-[#E8DFC9] space-y-4">
+      <div className="bg-[#FEF7FB] min-h-screen pt-20 pb-24">
+        <div className="max-w-md mx-auto text-center p-8 bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] space-y-4">
           <h2 className="font-serif text-2xl font-bold text-[#1C1C1C]">Your cart is empty</h2>
-          <p className="text-xs text-[#87967E] font-sans">
+          <p className="text-xs text-[#8A304C] font-sans">
             Please add items to your shopping cart before checking out.
           </p>
           <Link
             href="/shop"
-            className="px-6 py-3 rounded-full bg-[#103B27] text-white text-xs font-sans tracking-widest uppercase font-bold inline-block"
+            className="px-6 py-3 rounded-full bg-[#581527] text-white text-xs font-sans tracking-widest uppercase font-bold inline-block"
           >
             DISCOVER THE COLLECTION
           </Link>
@@ -276,11 +276,11 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="bg-[#FCF8F3] text-[#1C1C1C] min-h-screen pt-28 pb-24">
+    <div className="bg-[#FEF7FB] text-[#1C1C1C] min-h-screen pt-28 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-          <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#B28A58] font-bold block">
+          <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block">
             CHECKOUT
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl text-[#1C1C1C] tracking-tight">
@@ -296,8 +296,8 @@ export default function CheckoutPage() {
             {/* Left 7 Columns: Form */}
             <div className="lg:col-span-7 space-y-6">
               {/* Recipient Information */}
-              <div className="bg-[#FFFFFF] rounded-2xl border border-[#E8DFC9] p-6 sm:p-8 shadow-xs space-y-4">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#E8DFC9]">
+              <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-6 sm:p-8 shadow-xs space-y-4">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#F4CEDF]">
                   1. Contact Information
                 </h3>
 
@@ -311,7 +311,7 @@ export default function CheckoutPage() {
                       placeholder="e.g. Ahamed Adnan"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FCF8F3] border border-[#E8DFC9] rounded-lg text-xs font-sans focus:outline-none focus:border-[#B28A58]"
+                      className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.fullName && (
                       <p className="text-[11px] text-[#E53935] font-sans">{errors.fullName}</p>
@@ -327,7 +327,7 @@ export default function CheckoutPage() {
                       placeholder="e.g. 9562172556"
                       value={formData.mobile}
                       onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FCF8F3] border border-[#E8DFC9] rounded-lg text-xs font-sans focus:outline-none focus:border-[#B28A58]"
+                      className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.mobile && (
                       <p className="text-[11px] text-[#E53935] font-sans">{errors.mobile}</p>
@@ -343,7 +343,7 @@ export default function CheckoutPage() {
                       placeholder="e.g. yourname@gmail.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FCF8F3] border border-[#E8DFC9] rounded-lg text-xs font-sans focus:outline-none focus:border-[#B28A58]"
+                      className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                   </div>
 
@@ -362,8 +362,8 @@ export default function CheckoutPage() {
               </div>
 
               {/* Delivery Address */}
-              <div className="bg-[#FFFFFF] rounded-2xl border border-[#E8DFC9] p-6 sm:p-8 shadow-xs space-y-4">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#E8DFC9]">
+              <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-6 sm:p-8 shadow-xs space-y-4">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#F4CEDF]">
                   2. Shipping Destination
                 </h3>
 
@@ -377,7 +377,7 @@ export default function CheckoutPage() {
                       placeholder="e.g. Flat 302, Emerald Heights, Beach Road"
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FCF8F3] border border-[#E8DFC9] rounded-lg text-xs font-sans focus:outline-none focus:border-[#B28A58]"
+                      className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.address && (
                       <p className="text-[11px] text-[#E53935] font-sans">{errors.address}</p>
@@ -393,7 +393,7 @@ export default function CheckoutPage() {
                       placeholder="e.g. Kozhikode"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FCF8F3] border border-[#E8DFC9] rounded-lg text-xs font-sans focus:outline-none focus:border-[#B28A58]"
+                      className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.city && (
                       <p className="text-[11px] text-[#E53935] font-sans">{errors.city}</p>
@@ -407,7 +407,7 @@ export default function CheckoutPage() {
                     <select
                       value={formData.state}
                       onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FCF8F3] border border-[#E8DFC9] rounded-lg text-xs font-sans focus:outline-none focus:border-[#B28A58] cursor-pointer"
+                      className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64] cursor-pointer"
                     >
                       {indianStates.map((st) => (
                         <option key={st} value={st}>
@@ -427,7 +427,7 @@ export default function CheckoutPage() {
                       placeholder="e.g. 673001"
                       value={formData.pincode}
                       onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FCF8F3] border border-[#E8DFC9] rounded-lg text-xs font-sans focus:outline-none focus:border-[#B28A58]"
+                      className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.pincode && (
                       <p className="text-[11px] text-[#E53935] font-sans">{errors.pincode}</p>
@@ -443,15 +443,15 @@ export default function CheckoutPage() {
                       placeholder="e.g. Deliver before 5 PM / Ring door bell"
                       value={formData.orderNotes}
                       onChange={(e) => setFormData({ ...formData, orderNotes: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FCF8F3] border border-[#E8DFC9] rounded-lg text-xs font-sans focus:outline-none focus:border-[#B28A58]"
+                      className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Payment Method Selector */}
-              <div className="bg-[#FFFFFF] rounded-2xl border border-[#E8DFC9] p-6 sm:p-8 shadow-xs space-y-4">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#E8DFC9]">
+              <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-6 sm:p-8 shadow-xs space-y-4">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#F4CEDF]">
                   3. Payment Method
                 </h3>
 
@@ -461,31 +461,31 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod("online")}
                     className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
                       paymentMethod === "online"
-                        ? "border-[#103B27] bg-[#FCF8F3] ring-1 ring-[#103B27]"
-                        : "border-[#E8DFC9] bg-[#FFFFFF] hover:border-[#B28A58]"
+                        ? "border-[#581527] bg-[#FEF7FB] ring-1 ring-[#581527]"
+                        : "border-[#F4CEDF] bg-[#FFFFFF] hover:border-[#AE3E64]"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-[#103B27]/10 flex items-center justify-center text-[#103B27]">
+                      <div className="w-10 h-10 rounded-lg bg-[#581527]/10 flex items-center justify-center text-[#581527]">
                         <QrCode className="w-5 h-5" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-serif text-base text-[#103B27] font-bold block">
+                          <span className="font-serif text-base text-[#581527] font-bold block">
                             Instant UPI QR, GPay, PhonePe, Cards &amp; NetBanking
                           </span>
-                          <span className="text-[9px] uppercase tracking-widest font-sans font-bold bg-[#103B27] text-white px-2 py-0.5 rounded">
+                          <span className="text-[9px] uppercase tracking-widest font-sans font-bold bg-[#581527] text-white px-2 py-0.5 rounded">
                             RECOMMENDED
                           </span>
                         </div>
-                        <span className="text-xs text-[#87967E] font-sans">
+                        <span className="text-xs text-[#8A304C] font-sans">
                           Instant NPCI QR code, auto-verified gateway payment with priority air shipping.
                         </span>
                       </div>
                     </div>
-                    <div className="w-5 h-5 rounded-full border border-[#103B27] flex items-center justify-center">
+                    <div className="w-5 h-5 rounded-full border border-[#581527] flex items-center justify-center">
                       {paymentMethod === "online" && (
-                        <div className="w-3 h-3 rounded-full bg-[#103B27]" />
+                        <div className="w-3 h-3 rounded-full bg-[#581527]" />
                       )}
                     </div>
                   </label>
@@ -495,26 +495,26 @@ export default function CheckoutPage() {
                     onClick={() => setPaymentMethod("cod")}
                     className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
                       paymentMethod === "cod"
-                        ? "border-[#103B27] bg-[#FCF8F3] ring-1 ring-[#103B27]"
-                        : "border-[#E8DFC9] bg-[#FFFFFF] hover:border-[#B28A58]"
+                        ? "border-[#581527] bg-[#FEF7FB] ring-1 ring-[#581527]"
+                        : "border-[#F4CEDF] bg-[#FFFFFF] hover:border-[#AE3E64]"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-[#B28A58]/10 flex items-center justify-center text-[#B28A58]">
+                      <div className="w-10 h-10 rounded-lg bg-[#AE3E64]/10 flex items-center justify-center text-[#AE3E64]">
                         <Banknote className="w-5 h-5" />
                       </div>
                       <div>
-                        <span className="font-serif text-base text-[#103B27] font-bold block">
+                        <span className="font-serif text-base text-[#581527] font-bold block">
                           Cash on Delivery (COD)
                         </span>
-                        <span className="text-xs text-[#87967E] font-sans">
+                        <span className="text-xs text-[#8A304C] font-sans">
                           Pay cash or UPI upon courier arrival at your doorstep.
                         </span>
                       </div>
                     </div>
-                    <div className="w-5 h-5 rounded-full border border-[#103B27] flex items-center justify-center">
+                    <div className="w-5 h-5 rounded-full border border-[#581527] flex items-center justify-center">
                       {paymentMethod === "cod" && (
-                        <div className="w-3 h-3 rounded-full bg-[#103B27]" />
+                        <div className="w-3 h-3 rounded-full bg-[#581527]" />
                       )}
                     </div>
                   </label>
@@ -525,7 +525,7 @@ export default function CheckoutPage() {
                     className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
                       paymentMethod === "whatsapp"
                         ? "border-[#25D366] bg-[#25D366]/5 ring-1 ring-[#25D366]"
-                        : "border-[#E8DFC9] bg-[#FFFFFF] hover:border-[#25D366]"
+                        : "border-[#F4CEDF] bg-[#FFFFFF] hover:border-[#25D366]"
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -533,10 +533,10 @@ export default function CheckoutPage() {
                         <WhatsAppIcon className="w-5 h-5 fill-[#25D366]" />
                       </div>
                       <div>
-                        <span className="font-serif text-base text-[#103B27] font-bold block">
+                        <span className="font-serif text-base text-[#581527] font-bold block">
                           Direct WhatsApp Concierge Order
                         </span>
-                        <span className="text-xs text-[#87967E] font-sans">
+                        <span className="text-xs text-[#8A304C] font-sans">
                           Auto-registers backend order reference and connects with WhatsApp desk (+91 95621 72556).
                         </span>
                       </div>
@@ -553,16 +553,16 @@ export default function CheckoutPage() {
 
             {/* Right 5 Columns: Order Summary */}
             <div className="lg:col-span-5 space-y-4">
-              <div className="bg-[#FFFFFF] rounded-2xl border border-[#E8DFC9] p-6 sm:p-8 shadow-xs space-y-5 sticky top-28">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#E8DFC9]">
+              <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-6 sm:p-8 shadow-xs space-y-5 sticky top-28">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#F4CEDF]">
                   Your Order ({items.reduce((s, i) => s + i.quantity, 0)} items)
                 </h3>
 
                 {/* Items List */}
-                <div className="space-y-3 max-h-60 overflow-y-auto pr-1 divide-y divide-[#E8DFC9]">
+                <div className="space-y-3 max-h-60 overflow-y-auto pr-1 divide-y divide-[#F4CEDF]">
                   {items.map((item) => (
                     <div key={item.product.id} className="pt-3 first:pt-0 flex items-center gap-3">
-                      <div className="relative w-12 h-12 bg-[#F7F2EC] rounded-lg flex-shrink-0 p-1 border border-[#E8DFC9]">
+                      <div className="relative w-12 h-12 bg-[#FEF7FB] rounded-lg flex-shrink-0 p-1 border border-[#F4CEDF]">
                         <Image
                           src={item.product.images[0]}
                           alt={item.product.name}
@@ -574,11 +574,11 @@ export default function CheckoutPage() {
                         <p className="font-serif text-sm font-bold text-[#1C1C1C] truncate">
                           {item.product.name}
                         </p>
-                        <p className="text-[11px] text-[#87967E] font-sans">
+                        <p className="text-[11px] text-[#8A304C] font-sans">
                           Qty: {item.quantity} • {item.product.netWeight}
                         </p>
                       </div>
-                      <span className="font-sans font-bold text-xs text-[#103B27]">
+                      <span className="font-sans font-bold text-xs text-[#581527]">
                         ₹{(item.product.price * item.quantity).toLocaleString("en-IN")}
                       </span>
                     </div>
@@ -586,7 +586,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Totals */}
-                <div className="pt-4 border-t border-[#E8DFC9] space-y-2 text-xs font-sans text-[#1C1C1C]/80">
+                <div className="pt-4 border-t border-[#F4CEDF] space-y-2 text-xs font-sans text-[#1C1C1C]/80">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
                     <span className="font-semibold">₹{subtotal.toLocaleString("en-IN")}</span>
@@ -595,7 +595,7 @@ export default function CheckoutPage() {
                     <span>Pan-India Air Courier</span>
                     <span className="text-[#2E7D32] font-semibold">FREE</span>
                   </div>
-                  <div className="flex justify-between text-xl font-serif font-bold text-[#103B27] pt-3 border-t border-[#E8DFC9]">
+                  <div className="flex justify-between text-xl font-serif font-bold text-[#581527] pt-3 border-t border-[#F4CEDF]">
                     <span>Total Amount</span>
                     <span>₹{total.toLocaleString("en-IN")}</span>
                   </div>
@@ -605,17 +605,17 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 px-6 rounded-full bg-[#103B27] hover:bg-[#09291C] text-[#F5F1E8] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-70"
+                  className="w-full py-4 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-70"
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-[#C5A880]" />
+                      <Loader2 className="w-4 h-4 animate-spin text-[#AE3E64]" />
                       <span>PROCESSING ORDER...</span>
                     </>
                   ) : paymentMethod === "online" ? (
                     <>
                       <span>PROCEED TO PAYMENT (₹{total.toLocaleString("en-IN")})</span>
-                      <ArrowRight className="w-4 h-4 text-[#C5A880]" />
+                      <ArrowRight className="w-4 h-4 text-[#AE3E64]" />
                     </>
                   ) : paymentMethod === "whatsapp" ? (
                     <>
@@ -625,14 +625,14 @@ export default function CheckoutPage() {
                   ) : (
                     <>
                       <span>CONFIRM COD ORDER (₹{total.toLocaleString("en-IN")})</span>
-                      <ArrowRight className="w-4 h-4 text-[#C5A880]" />
+                      <ArrowRight className="w-4 h-4 text-[#AE3E64]" />
                     </>
                   )}
                 </button>
 
-                <div className="space-y-1.5 text-[11px] text-[#87967E] font-sans pt-2 border-t border-[#E8DFC9]">
+                <div className="space-y-1.5 text-[11px] text-[#8A304C] font-sans pt-2 border-t border-[#F4CEDF]">
                   <div className="flex items-center gap-2">
-                    <Truck className="w-3.5 h-3.5 text-[#B28A58]" />
+                    <Truck className="w-3.5 h-3.5 text-[#AE3E64]" />
                     <span>Free Express Delivery across India (2–4 Days)</span>
                   </div>
                   <div className="flex items-center gap-2">

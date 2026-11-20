@@ -121,7 +121,7 @@ export default function AmbarScrollFilm() {
     <div ref={containerRef} className="relative z-10 w-full">
       {/* Top progress bar (Ambar .prog) */}
       <div
-        className="fixed top-0 left-0 h-[2px] bg-[#C5A880] z-50 transition-transform duration-75 origin-left pointer-events-none"
+        className="fixed top-0 left-0 h-[2px] bg-[#AE3E64] z-50 transition-transform duration-75 origin-left pointer-events-none"
         style={{ transform: `scaleX(${progress})`, width: "100%" }}
       />
 
@@ -132,14 +132,14 @@ export default function AmbarScrollFilm() {
         }`}
         style={{ zIndex: 1 }}
       >
-        {/* Background Film Tone: Deep Forest Green (#09291C) with Emerald Water Light */}
-        <div className="absolute inset-0 bg-[#09291C]">
-          {/* Subtle water caustics and atmospheric light */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_40%,rgba(16,59,39,0.7)_0%,rgba(9,41,28,0.95)_70%,rgba(5,20,13,1)_100%)]" />
+        {/* Background Film Tone: Deep Burgundy (#581527) with Rose Ambient Light */}
+        <div className="absolute inset-0 bg-[#3F0E1B]">
+          {/* Subtle rose water light and atmospheric wine glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_40%,rgba(138,48,76,0.5)_0%,rgba(88,21,39,0.92)_70%,rgba(42,10,18,1)_100%)]" />
 
-          {/* Golden Specular Ambient Glow */}
+          {/* Rose Ambient Glow */}
           <div
-            className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#C5A880]/10 blur-[140px] transition-transform duration-1000"
+            className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#EA90B5]/15 blur-[140px] transition-transform duration-1000"
             style={{
               transform: `translate(-50%, -50%) scale(${1 + progress * 0.4})`,
             }}
@@ -149,7 +149,7 @@ export default function AmbarScrollFilm() {
         {/* GIANT EDITORIAL BRAND WORDMARK BEHIND THE JAR */}
         <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
           <div
-            className="font-serif text-[18vw] sm:text-[20vw] lg:text-[22vw] font-normal tracking-[0.08em] text-[#F5F1E8]/[0.04] whitespace-nowrap leading-none transition-transform duration-500 will-change-transform"
+            className="font-serif text-[18vw] sm:text-[20vw] lg:text-[22vw] font-normal tracking-[0.08em] text-[#FEF7FB]/[0.05] whitespace-nowrap leading-none transition-transform duration-500 will-change-transform"
             style={{
               transform: `scale(${1 + progress * 0.15}) translateY(${progress * -30}px)`,
             }}
@@ -166,29 +166,29 @@ export default function AmbarScrollFilm() {
             opacity: jarOpacity,
           }}
         >
-          {/* Water reflection ring below jar */}
-          <div className="absolute bottom-[20%] w-[280px] sm:w-[420px] h-[30px] rounded-full bg-[#030d08]/90 blur-lg -z-10" />
+          {/* Soft shadow below jar */}
+          <div className="absolute bottom-[20%] w-[280px] sm:w-[420px] h-[30px] rounded-full bg-[#1C060D]/80 blur-lg -z-10" />
 
           {/* Real Cutout Jar Presentation */}
           <div className="relative w-[260px] h-[340px] sm:w-[380px] sm:h-[480px] md:w-[460px] md:h-[560px] flex items-center justify-center">
             <Image
-              src="/images/rugby-white-jar-hero.png"
-              alt="Rugby White 10 Days Challenge Skincare Jar"
+              src="/images/rugby-skin-revival-jar.png"
+              alt="Rugby White Skin Revival Skincare Jar"
               fill
               priority
-              className="object-contain drop-shadow-[0_30px_45px_rgba(0,0,0,0.85)]"
+              className="object-contain drop-shadow-[0_25px_40px_rgba(42,10,18,0.7)]"
             />
           </div>
         </div>
 
         {/* Animated Scroll Hint */}
         <div
-          className={`absolute left-8 sm:left-14 bottom-10 z-30 flex items-center gap-3 text-[11px] font-sans font-bold tracking-[0.3em] uppercase text-[#F5F1E8]/80 transition-opacity duration-500 ${
+          className={`absolute left-8 sm:left-14 bottom-10 z-30 flex items-center gap-3 text-[11px] font-sans font-bold tracking-[0.3em] uppercase text-[#FEF7FB]/80 transition-opacity duration-500 ${
             progress > 0.08 ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
         >
           <span>SCROLL</span>
-          <div className="w-[1.5px] h-7 bg-gradient-to-b from-[#C5A880] to-transparent animate-bounce" />
+          <div className="w-[1.5px] h-7 bg-gradient-to-b from-[#AE3E64] to-transparent animate-bounce" />
         </div>
       </div>
 
@@ -205,33 +205,33 @@ export default function AmbarScrollFilm() {
         >
           <div className="max-w-xl text-left space-y-6">
             <div className="flex items-center gap-3">
-              <span className="w-8 h-[2px] bg-[#C5A880]" />
-              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#E4D2B8] font-semibold">
+              <span className="w-8 h-[2px] bg-[#AE3E64]" />
+              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#EA90B5] font-semibold">
                 RUGBY WHITE · THE ART OF SKINCARE
               </span>
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-7xl tracking-tight text-[#F5F1E8] leading-[1.05]">
+            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-7xl tracking-tight text-[#FEF7FB] leading-[1.05]">
               GLOW IS NOT A TREND.
-              <span className="block italic text-[#E4D2B8] font-light mt-1">
+              <span className="block italic text-[#EA90B5] font-light mt-1">
                 IT&apos;S A FEELING.
               </span>
             </h1>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#EAE3D6]/85 font-light leading-relaxed max-w-lg">
+            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg">
               Discover the beauty of thoughtful skincare. A refined daily ritual designed to bring care, confidence and simplicity into every moment.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <button
                 onClick={() => addToCart(flagshipProduct, 1)}
-                className="px-8 py-4 bg-[#F5F1E8] text-[#103B27] text-xs font-sans tracking-[0.25em] uppercase font-semibold hover:bg-[#C5A880] hover:text-[#09291C] transition-all shadow-xl cursor-pointer"
+                className="px-8 py-4 bg-[#FEF7FB] text-[#581527] text-xs font-sans tracking-[0.25em] uppercase font-semibold hover:bg-[#AE3E64] hover:text-[#3F0E1B] transition-all shadow-xl cursor-pointer"
               >
                 ADD TO BAG · ₹{flagshipProduct.price}
               </button>
               <a
                 href="#formula"
-                className="text-xs font-sans tracking-[0.25em] uppercase text-[#E4D2B8] hover:text-[#FFFFFF] border-b border-[#C5A880]/60 pb-1 transition-colors"
+                className="text-xs font-sans tracking-[0.25em] uppercase text-[#EA90B5] hover:text-[#FFFFFF] border-b border-[#AE3E64]/60 pb-1 transition-colors"
               >
                 DISCOVER THE RITUAL ↓
               </a>
@@ -251,24 +251,24 @@ export default function AmbarScrollFilm() {
         >
           <div className="max-w-xl text-left space-y-6">
             <div className="flex items-center gap-3">
-              <span className="w-8 h-[2px] bg-[#C5A880]" />
-              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#E4D2B8] font-semibold">
+              <span className="w-8 h-[2px] bg-[#AE3E64]" />
+              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#EA90B5] font-semibold">
                 OUR PHILOSOPHY
               </span>
             </div>
 
-            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#F5F1E8] leading-[1.05]">
+            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#FEF7FB] leading-[1.05]">
               Beyond the
-              <span className="block italic text-[#E4D2B8] font-light mt-1">
+              <span className="block italic text-[#EA90B5] font-light mt-1">
                 ordinary.
               </span>
             </h2>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#EAE3D6]/85 font-light leading-relaxed max-w-lg">
+            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg">
               Your skin deserves more than a routine. It deserves attention, intention and care. At RUGBY WHITE, we believe that beauty lives in the details — in the rituals we create and the confidence we carry.
             </p>
 
-            <div className="flex items-center gap-6 text-xs font-sans text-[#87967E] tracking-widest uppercase pt-2">
+            <div className="flex items-center gap-6 text-xs font-sans text-[#8A304C] tracking-widest uppercase pt-2">
               <span>LESS NOISE</span>
               <span>•</span>
               <span>MORE CARE</span>
@@ -290,24 +290,24 @@ export default function AmbarScrollFilm() {
         >
           <div className="max-w-xl text-left sm:text-right space-y-6">
             <div className="flex items-center justify-start sm:justify-end gap-3">
-              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#E4D2B8] font-semibold">
+              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#EA90B5] font-semibold">
                 INTRODUCING
               </span>
-              <span className="w-8 h-[2px] bg-[#C5A880]" />
+              <span className="w-8 h-[2px] bg-[#AE3E64]" />
             </div>
 
-            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#F5F1E8] leading-[1.05]">
+            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#FEF7FB] leading-[1.05]">
               The 10 Days
-              <span className="block italic text-[#E4D2B8] font-light mt-1">
+              <span className="block italic text-[#EA90B5] font-light mt-1">
                 Challenge.
               </span>
             </h2>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#EAE3D6]/85 font-light leading-relaxed max-w-lg sm:ml-auto">
+            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg sm:ml-auto">
               A new chapter in your skincare ritual. Make every day a moment of self-care. Embrace consistency, discover your routine and let your confidence take centre stage.
             </p>
 
-            <div className="inline-block px-4 py-2 bg-[#103B27]/80 border border-[#C5A880]/50 text-xs font-sans text-[#E4D2B8] tracking-[0.25em] uppercase font-medium">
+            <div className="inline-block px-4 py-2 bg-[#581527]/80 border border-[#AE3E64]/50 text-xs font-sans text-[#EA90B5] tracking-[0.25em] uppercase font-medium">
               YOUR SKIN. YOUR RITUAL. YOUR MOMENT.
             </div>
           </div>
@@ -325,25 +325,25 @@ export default function AmbarScrollFilm() {
         >
           <div className="max-w-xl text-left space-y-6">
             <div className="flex items-center gap-3">
-              <span className="w-8 h-[2px] bg-[#C5A880]" />
-              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#E4D2B8] font-semibold">
+              <span className="w-8 h-[2px] bg-[#AE3E64]" />
+              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#EA90B5] font-semibold">
                 A RITUAL, REDEFINED
               </span>
             </div>
 
-            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#F5F1E8] leading-[1.05]">
+            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#FEF7FB] leading-[1.05]">
               Prepare. Apply.
-              <span className="block italic text-[#E4D2B8] font-light mt-1">
+              <span className="block italic text-[#EA90B5] font-light mt-1">
                 Embrace.
               </span>
             </h2>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#EAE3D6]/85 font-light leading-relaxed max-w-lg">
+            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg">
               Begin with clean, refreshed skin. Introduce Rugby White into your skincare routine, massage gently and make every application a moment of care.
             </p>
 
-            <div className="p-4 bg-[#103B27]/60 border border-[#C5A880]/40 max-w-md">
-              <span className="font-serif italic text-sm text-[#E4D2B8] block">
+            <div className="p-4 bg-[#581527]/60 border border-[#AE3E64]/40 max-w-md">
+              <span className="font-serif italic text-sm text-[#EA90B5] block">
                 &ldquo;Thoughtful choices. A considered skincare experience.&rdquo;
               </span>
             </div>
@@ -362,27 +362,27 @@ export default function AmbarScrollFilm() {
         >
           <div className="max-w-xl text-left sm:text-right space-y-6">
             <div className="flex items-center justify-start sm:justify-end gap-3">
-              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#E4D2B8] font-semibold">
+              <span className="text-xs font-sans tracking-[0.35em] uppercase text-[#EA90B5] font-semibold">
                 BEAUTY IS PERSONAL
               </span>
-              <span className="w-8 h-[2px] bg-[#C5A880]" />
+              <span className="w-8 h-[2px] bg-[#AE3E64]" />
             </div>
 
-            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#F5F1E8] leading-[1.05]">
+            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#FEF7FB] leading-[1.05]">
               Care in every detail.
-              <span className="block italic text-[#E4D2B8] font-light mt-1">
+              <span className="block italic text-[#EA90B5] font-light mt-1">
                 Confidence in every moment.
               </span>
             </h2>
 
-            <p className="font-sans text-sm sm:text-base md:text-lg text-[#EAE3D6]/85 font-light leading-relaxed max-w-lg sm:ml-auto">
+            <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light leading-relaxed max-w-lg sm:ml-auto">
               There is no need to follow every trend. No need to be anything other than yourself. Just thoughtful care, everyday rituals and confidence that feels entirely your own.
             </p>
 
             <div className="pt-2 flex justify-start sm:justify-end">
               <a
                 href="#shop"
-                className="px-8 py-4 bg-[#C5A880] text-[#09291C] text-xs font-sans tracking-[0.25em] uppercase font-bold hover:bg-[#E4D2B8] transition-colors shadow-2xl flex items-center gap-2"
+                className="px-8 py-4 bg-[#AE3E64] text-[#3F0E1B] text-xs font-sans tracking-[0.25em] uppercase font-bold hover:bg-[#EA90B5] transition-colors shadow-2xl flex items-center gap-2"
               >
                 <span>DISCOVER RUGBY WHITE</span>
                 <ArrowRight className="w-4 h-4" />

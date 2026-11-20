@@ -29,34 +29,34 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="py-24 sm:py-32 bg-[#EAE3D6] text-[#20251F] border-b border-[#D8CBB7]">
+    <section className="py-24 sm:py-32 bg-[#FDEAF3] text-[#2A1018] border-b border-[#F4CEDF]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
         <div className="inline-flex items-center justify-center gap-3">
-          <span className="w-8 h-[1px] bg-[#103B27]" />
-          <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#103B27] font-semibold">
+          <span className="w-8 h-[1px] bg-[#581527]" />
+          <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#581527] font-semibold">
             THE INNER SANCTUARY
           </span>
-          <span className="w-8 h-[1px] bg-[#103B27]" />
+          <span className="w-8 h-[1px] bg-[#581527]" />
         </div>
 
-        <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#103B27] tracking-tight leading-[1.1]">
+        <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#581527] tracking-tight leading-[1.1]">
           THE ART OF
-          <span className="block italic font-light text-[#87967E]">
+          <span className="block italic font-light text-[#8A304C]">
             EVERYDAY SKINCARE.
           </span>
         </h2>
 
-        <p className="font-sans text-sm sm:text-base text-[#20251F]/75 font-light max-w-xl mx-auto leading-relaxed">
+        <p className="font-sans text-sm sm:text-base text-[#2A1018]/75 font-light max-w-xl mx-auto leading-relaxed">
           Glow is not a trend. It&apos;s a feeling. Join our inner sanctuary for thoughtful skincare guidance and mindful rituals.
         </p>
 
         {status === "success" ? (
-          <div className="p-6 bg-[#FFFFFF] border border-[#103B27] max-w-md mx-auto shadow-md space-y-2 animate-fade-in">
-            <div className="w-10 h-10 rounded-full bg-[#103B27]/10 text-[#103B27] flex items-center justify-center mx-auto">
+          <div className="p-6 bg-[#FFFFFF] border border-[#581527] max-w-md mx-auto shadow-md space-y-2 animate-fade-in">
+            <div className="w-10 h-10 rounded-full bg-[#581527]/10 text-[#581527] flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-6 h-6 stroke-[1.5]" />
             </div>
-            <h3 className="font-serif text-xl text-[#103B27]">Welcome to Rugby White</h3>
-            <p className="text-xs text-[#20251F]/75 font-sans leading-relaxed">
+            <h3 className="font-serif text-xl text-[#581527]">Welcome to Rugby White</h3>
+            <p className="text-xs text-[#2A1018]/75 font-sans leading-relaxed">
               Thank you for subscribing. You will receive our seasonal skincare journal and ritual invitations directly in your inbox.
             </p>
           </div>
@@ -72,14 +72,14 @@ export default function Newsletter() {
                     if (status === "error") setStatus("idle");
                   }}
                   placeholder="Enter your email address"
-                  className="w-full px-4 py-3.5 bg-[#FFFFFF] border border-[#D8CBB7] text-xs font-sans text-[#20251F] placeholder-[#87967E] focus:outline-none focus:border-[#103B27] transition-colors"
+                  className="w-full px-4 py-3.5 bg-[#FFFFFF] border border-[#F4CEDF] text-xs font-sans text-[#2A1018] placeholder-[#8A304C] focus:outline-none focus:border-[#581527] transition-colors"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="px-6 py-3.5 bg-[#103B27] text-[#F5F1E8] text-xs font-sans tracking-[0.2em] uppercase font-medium hover:bg-[#09291C] transition-colors flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-75"
+                className="px-6 py-3.5 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-medium hover:bg-[#3F0E1B] transition-colors flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-75"
               >
                 <span>{status === "loading" ? "JOINING..." : "JOIN THE COMMUNITY"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -93,7 +93,7 @@ export default function Newsletter() {
               </div>
             )}
 
-            <p className="text-[10px] text-[#87967E] font-sans tracking-wide pt-1">
+            <p className="text-[10px] text-[#8A304C] font-sans tracking-wide pt-1">
               We respect your inbox. Unsubscribe at any time with one click.
             </p>
           </form>

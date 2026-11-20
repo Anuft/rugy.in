@@ -40,11 +40,11 @@ export default function QuickViewModal({ product, onClose }: Props) {
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
       <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div className="relative transform overflow-hidden bg-[#F5F1E8] text-left shadow-2xl transition-all sm:my-8 w-full max-w-2xl border border-[#D8CBB7]">
+        <div className="relative transform overflow-hidden bg-[#FEF7FB] text-left shadow-2xl transition-all sm:my-8 w-full max-w-2xl border border-[#F4CEDF]">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 p-2 text-[#20251F]/70 hover:text-[#103B27]"
+            className="absolute top-4 right-4 z-10 p-2 text-[#2A1018]/70 hover:text-[#581527]"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -54,7 +54,7 @@ export default function QuickViewModal({ product, onClose }: Props) {
             {/* Image Stage */}
             <div className="relative aspect-square sm:aspect-auto bg-[#FFFFFF] p-8 flex items-center justify-center">
               {product.badge && (
-                <div className="absolute top-4 left-4 bg-[#103B27] text-[#F5F1E8] px-2.5 py-0.5 text-[10px] font-sans tracking-widest uppercase">
+                <div className="absolute top-4 left-4 bg-[#581527] text-[#FEF7FB] px-2.5 py-0.5 text-[10px] font-sans tracking-widest uppercase">
                   {product.badge}
                 </div>
               )}
@@ -71,33 +71,33 @@ export default function QuickViewModal({ product, onClose }: Props) {
             {/* Details */}
             <div className="p-6 sm:p-8 flex flex-col justify-between space-y-4">
               <div className="space-y-2">
-                <span className="text-[10px] font-sans tracking-[0.25em] uppercase text-[#87967E] block">
+                <span className="text-[10px] font-sans tracking-[0.25em] uppercase text-[#8A304C] block">
                   {product.category}
                 </span>
-                <h3 className="font-serif text-2xl text-[#103B27] leading-snug">
+                <h3 className="font-serif text-2xl text-[#581527] leading-snug">
                   {product.name}
                 </h3>
                 <div className="flex items-center gap-2 text-xs font-sans">
-                  <div className="flex items-center text-[#C5A880]">
+                  <div className="flex items-center text-[#AE3E64]">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-3.5 h-3.5 fill-current" />
                     ))}
                   </div>
-                  <span className="font-semibold text-[#103B27]">{product.rating}</span>
+                  <span className="font-semibold text-[#581527]">{product.rating}</span>
                 </div>
 
                 <div className="flex items-baseline gap-3 pt-2">
-                  <span className="font-serif text-2xl font-bold text-[#103B27]">
+                  <span className="font-serif text-2xl font-bold text-[#581527]">
                     ₹{product.price}
                   </span>
                   {product.originalPrice && (
-                    <span className="text-sm text-[#87967E] line-through font-sans">
+                    <span className="text-sm text-[#8A304C] line-through font-sans">
                       ₹{product.originalPrice}
                     </span>
                   )}
                 </div>
 
-                <p className="font-sans text-xs text-[#20251F]/80 leading-relaxed pt-1 line-clamp-3">
+                <p className="font-sans text-xs text-[#2A1018]/80 leading-relaxed pt-1 line-clamp-3">
                   {product.shortDescription}
                 </p>
               </div>
@@ -105,17 +105,17 @@ export default function QuickViewModal({ product, onClose }: Props) {
               {/* Actions */}
               <div className="space-y-3 pt-2">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center border border-[#D8CBB7] px-2 py-1.5 bg-[#FFFFFF]">
+                  <div className="flex items-center border border-[#F4CEDF] px-2 py-1.5 bg-[#FFFFFF]">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="p-1 hover:text-[#103B27] text-[#87967E]"
+                      className="p-1 hover:text-[#581527] text-[#8A304C]"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
                     <span className="px-3 text-xs font-semibold">{quantity}</span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="p-1 hover:text-[#103B27] text-[#87967E]"
+                      className="p-1 hover:text-[#581527] text-[#8A304C]"
                     >
                       <Plus className="w-3.5 h-3.5" />
                     </button>
@@ -123,7 +123,7 @@ export default function QuickViewModal({ product, onClose }: Props) {
 
                   <button
                     onClick={handleAdd}
-                    className="flex-1 py-2.5 px-4 bg-[#103B27] text-[#F5F1E8] text-xs font-sans tracking-[0.18em] uppercase font-medium hover:bg-[#09291C] flex items-center justify-center gap-2"
+                    className="flex-1 py-2.5 px-4 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.18em] uppercase font-medium hover:bg-[#3F0E1B] flex items-center justify-center gap-2"
                   >
                     <ShoppingBag className="w-3.5 h-3.5" />
                     <span>ADD TO BAG</span>
@@ -142,7 +142,7 @@ export default function QuickViewModal({ product, onClose }: Props) {
                   <Link
                     href={`/products/${product.slug}`}
                     onClick={onClose}
-                    className="text-xs font-sans text-[#103B27] hover:underline tracking-wider uppercase inline-flex items-center gap-1"
+                    className="text-xs font-sans text-[#581527] hover:underline tracking-wider uppercase inline-flex items-center gap-1"
                   >
                     <span>View full product details</span>
                     <ArrowRight className="w-3 h-3" />

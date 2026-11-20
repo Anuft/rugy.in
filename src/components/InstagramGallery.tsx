@@ -47,12 +47,12 @@ export default function InstagramGallery() {
   ];
 
   return (
-    <section className="py-20 sm:py-24 bg-[#FCF8F3] text-[#1C1C1C] border-b border-[#E8DFC9] overflow-hidden">
+    <section className="py-20 sm:py-24 bg-[#FEF7FB] text-[#1C1C1C] border-b border-[#F4CEDF] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="space-y-2">
-            <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#B28A58] font-bold block">
+            <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block">
               COMMUNITY &amp; STORIES
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl text-[#1C1C1C] tracking-tight">
@@ -80,7 +80,7 @@ export default function InstagramGallery() {
               href={post.postUrl || siteConfig.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative aspect-square rounded-xl overflow-hidden bg-[#FFFFFF] border border-[#E8DFC9] shadow-xs hover:shadow-lg transition-all duration-300 block"
+              className="group relative aspect-square rounded-xl overflow-hidden bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs hover:shadow-lg transition-all duration-300 block"
               aria-label={`View Instagram post: ${post.caption}`}
             >
               <Image
@@ -92,17 +92,17 @@ export default function InstagramGallery() {
               />
 
               {/* Hover Dark Overlay with Details */}
-              <div className="absolute inset-0 bg-[#103B27]/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3.5 flex flex-col justify-between text-[#FCF8F3]">
+              <div className="absolute inset-0 bg-[#581527]/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3.5 flex flex-col justify-between text-[#FEF7FB]">
                 <div className="flex justify-between items-start">
-                  <InstagramIcon className="w-4 h-4 text-[#B28A58]" />
-                  <span className="text-[9px] font-sans tracking-widest text-[#E8DFC9] uppercase font-bold">
+                  <InstagramIcon className="w-4 h-4 text-[#AE3E64]" />
+                  <span className="text-[9px] font-sans tracking-widest text-[#F4CEDF] uppercase font-bold">
                     {post.tag}
                   </span>
                 </div>
-                <p className="text-[10px] font-sans font-light line-clamp-3 leading-relaxed text-[#E8DFC9]">
+                <p className="text-[10px] font-sans font-light line-clamp-3 leading-relaxed text-[#F4CEDF]">
                   {post.caption}
                 </p>
-                <span className="text-[9px] tracking-[0.2em] uppercase text-[#B28A58] font-bold">
+                <span className="text-[9px] tracking-[0.2em] uppercase text-[#AE3E64] font-bold">
                   VIEW POST ↗
                 </span>
               </div>

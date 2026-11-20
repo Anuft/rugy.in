@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       margin: 2,
       scale: 8,
       color: {
-        dark: "#103B27", // Primary Forest Green
+        dark: "#581527", // Primary Forest Green
         light: "#FFFFFF",
       },
     });
