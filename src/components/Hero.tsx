@@ -108,7 +108,7 @@ export default function Hero() {
                     FLAGSHIP RITUAL
                   </span>
                   <span className="text-xs text-[#FEF7FB] font-medium">
-                    10 Days Challenge • ₹750
+                    10 Days Challenge • ₹599
                   </span>
                 </div>
               </div>

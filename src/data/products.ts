@@ -47,7 +47,7 @@ export const products: Product[] = [
     name: "RUGBY WHITE 10 DAYS CHALLENGE",
     subtitle: "Radiance Nourishing Night Ritual Cream",
     category: "Night Cream",
-    price: 750,
+    price: 599,
     originalPrice: 1200,
     netWeight: "65 g / 2.29 oz.",
     rating: 4.9,

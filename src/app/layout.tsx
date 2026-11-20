@@ -102,7 +102,7 @@ export default function RootLayout({
                     "@type": "Offer",
                     url: "https://rugbywhite.in/products/10-days-challenge",
                     priceCurrency: "INR",
-                    price: "750",
+                    price: "599",
                     availability: "https://schema.org/InStock",
                   },
                 },
