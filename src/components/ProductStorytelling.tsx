@@ -8,7 +8,7 @@ export default function ProductStorytelling() {
     {
       title: "WHERE BOTANICAL CARE BEGINS",
       subtitle: "Hydration, Brightening & Smooth Complexion",
-      image: "/images/instagram/DYHfshgkR3Y.jpg",
+      image: "/images/instagram/DTzQd3pEfsT.jpg",
       span: "col-span-12 md:col-span-7",
       aspect: "aspect-[16/10]",
     },

@@ -52,7 +52,7 @@ export default function BrandIntro() {
 
               <div className="relative z-10 aspect-[4/5] overflow-hidden bg-[#FDEAF3] shadow-xl">
                 <Image
-                  src="/images/instagram/DYHfshgkR3Y.jpg"
+                  src="/images/instagram/DXqFYBckZEu.jpg"
                   alt="Rugby White Natural Skincare Ritual Lifestyle"
                   fill
                   className="object-cover object-center transition-transform duration-700 hover:scale-105"

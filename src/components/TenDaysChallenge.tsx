@@ -21,7 +21,7 @@ export default function TenDaysChallenge() {
       title: "STAY CONSISTENT",
       description: "Skin texture softens as moisture locks into deeper layers.",
       focus: "Moisture Balance",
-      image: "/images/instagram/DYHfshgkR3Y.jpg",
+      image: "/images/instagram/DTzQd3pEfsT.jpg",
     },
     {
       day: "DAY 05",
