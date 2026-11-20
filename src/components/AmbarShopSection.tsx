@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ShoppingBag, ShieldCheck, Truck, Star, Sparkles, Plus, Minus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowRight, ShoppingBag, ShieldCheck, Truck, Star, Sparkles, Plus, Minus, Lock } from "lucide-react";
 import { flagshipProduct } from "@/data/products";
 import { siteConfig } from "@/data/siteConfig";
 import { useCart } from "@/context/CartContext";
@@ -14,8 +15,14 @@ export default function AmbarShopSection() {
   const [quantity, setQuantity] = useState(1);
   const [showAltImage, setShowAltImage] = useState(false);
   const { addToCart } = useCart();
+  const router = useRouter();
 
   const product = flagshipProduct;
+
+  const handleBuyNow = () => {
+    addToCart(product, quantity);
+    router.push("/checkout");
+  };
 
   const handleWhatsApp = () => {
     const url = generateSingleProductWhatsAppUrl({
@@ -27,7 +34,7 @@ export default function AmbarShopSection() {
   };
 
   return (
-    <section id="shop" className="relative z-20 py-28 sm:py-36 bg-[#FEF7FB] text-[#2A1018] border-b border-[#F4CEDF]">
+    <section id="shop" className="relative z-20 py-16 sm:py-24 bg-[#FEF7FB] text-[#2A1018] border-b border-[#F4CEDF]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Ambar .pframe (Hoverable Dual Shot Image Frame) */}
@@ -152,11 +159,11 @@ export default function AmbarShopSection() {
               </li>
             </ul>
 
-            {/* Actions: Add to Bag & WhatsApp */}
+            {/* Actions: Buy Now & Add to Bag */}
             <div className="pt-2 space-y-3">
               <div className="flex flex-col sm:flex-row gap-3">
                 {/* Quantity */}
-                <div className="flex items-center justify-between border border-[#F4CEDF] px-3 py-3 w-full sm:w-36 bg-[#FFFFFF]">
+                <div className="flex items-center justify-between border border-[#F4CEDF] px-3 py-3 w-full sm:w-32 bg-[#FFFFFF]">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="p-1 hover:text-[#581527] text-[#8A304C]"
@@ -177,30 +184,50 @@ export default function AmbarShopSection() {
                 {/* Add to Bag */}
                 <button
                   onClick={() => addToCart(product, quantity)}
-                  className="flex-1 py-4 px-6 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-semibold hover:bg-[#3F0E1B] transition-all flex items-center justify-center gap-2 shadow-md"
+                  className="flex-1 py-3.5 px-4 bg-[#FFFFFF] text-[#581527] border border-[#581527] text-xs font-sans tracking-[0.2em] uppercase font-semibold hover:bg-[#581527] hover:text-[#FEF7FB] transition-all flex items-center justify-center gap-2"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span>ADD TO BAG · ₹{product.price * quantity}</span>
+                  <span>ADD TO BAG</span>
+                </button>
+
+                {/* Buy Now (Direct Checkout) */}
+                <button
+                  onClick={handleBuyNow}
+                  className="flex-1 py-3.5 px-6 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-semibold hover:bg-[#3F0E1B] transition-all flex items-center justify-center gap-2 shadow-md"
+                >
+                  <span>BUY NOW · ₹{product.price * quantity}</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
 
-              {/* Direct WhatsApp Order */}
-              <button
-                onClick={handleWhatsApp}
-                className="w-full py-3.5 px-6 bg-[#25D366] text-[#FFFFFF] text-xs font-sans tracking-[0.15em] uppercase font-medium hover:bg-[#20BA5A] transition-colors flex items-center justify-center gap-2 shadow-sm"
-              >
-                <WhatsAppIcon className="w-4 h-4 fill-current" />
-                <span>WHATSAPP CONCIERGE: {siteConfig.whatsappFormatted}</span>
-              </button>
+              {/* Secure Checkout Trust Info */}
+              <div className="flex items-center justify-center gap-4 text-[11px] text-[#8A304C] pt-1">
+                <span className="flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#581527]" />
+                  100% Original Formula
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1">
+                  <Truck className="w-3.5 h-3.5 text-[#581527]" />
+                  Free Express Shipping
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1">
+                  <Lock className="w-3.5 h-3.5 text-[#581527]" />
+                  Razorpay Verified
+                </span>
+              </div>
 
-              <div className="pt-2 text-center">
-                <Link
-                  href="/products/10-days-challenge"
-                  className="text-xs font-sans tracking-[0.2em] uppercase text-[#581527] hover:underline inline-flex items-center gap-1.5 font-medium"
+              {/* Concierge Assistance */}
+              <div className="pt-2 text-center flex items-center justify-center gap-2 text-xs text-[#8A304C]">
+                <span>Have questions?</span>
+                <button
+                  onClick={handleWhatsApp}
+                  className="text-[#581527] hover:underline inline-flex items-center gap-1 font-medium"
                 >
-                  <span>SEE FULL INGREDIENTS &amp; RITUAL GUIDE</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                  <WhatsAppIcon className="w-3.5 h-3.5 fill-[#25D366]" />
+                  <span>Chat with Concierge ({siteConfig.whatsappFormatted})</span>
+                </button>
               </div>
             </div>
           </div>

@@ -51,18 +51,18 @@ export default function Hero() {
 
             {/* CTAs */}
             <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-5">
-              <Link
-                href="/shop"
-                className="w-full sm:w-auto px-8 py-4 bg-[#FEF7FB] text-[#581527] text-xs font-medium tracking-[0.25em] uppercase hover:bg-[#AE3E64] hover:text-[#3F0E1B] transition-all duration-300 text-center shadow-lg hover:shadow-xl"
+              <a
+                href="#shop"
+                className="w-full sm:w-auto px-8 py-4 bg-[#FEF7FB] text-[#581527] text-xs font-semibold tracking-[0.25em] uppercase hover:bg-[#AE3E64] hover:text-[#FFFFFF] transition-all duration-300 text-center shadow-lg hover:shadow-xl"
               >
-                DISCOVER THE COLLECTION
-              </Link>
-              <Link
-                href="/about"
+                ORDER NOW · ₹599
+              </a>
+              <a
+                href="#face-reviews"
                 className="w-full sm:w-auto px-8 py-4 border border-[#FEF7FB]/40 text-[#FEF7FB] text-xs font-medium tracking-[0.25em] uppercase hover:border-[#AE3E64] hover:text-[#AE3E64] transition-all duration-300 text-center"
               >
-                OUR STORY
-              </Link>
+                VIEW 10-DAY REVIEWS
+              </a>
             </div>
 
             {/* Campaign Attributes pills */}

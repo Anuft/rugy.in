@@ -33,16 +33,16 @@ export default function InstagramGallery() {
       caption: "10 Days Challenge: Real Results. Visible Change. Fast-acting daily moisturizer with pure care.",
     },
     {
-      image: "/images/instagram/DcK0UwPRNUE.jpg",
-      postUrl: "https://www.instagram.com/p/DcK0UwPRNUE/",
-      tag: "#DuoPack",
-      caption: "BUY 2 & SAVE MORE! ✨ RUGBY Whitening Cream – 2 Pack Duo Routine.",
+      image: "/images/instagram/DTzQd3pEfsT.jpg",
+      postUrl: "https://www.instagram.com/rugbywhite.in/",
+      tag: "#NightRitual",
+      caption: "Gentle overnight radiance care. Let botanical actives restore and soothe your skin while you rest.",
     },
     {
-      image: "/images/instagram/DT-8pRRkk_1.jpg",
-      postUrl: "https://www.instagram.com/p/DT-8pRRkk_1/",
-      tag: "#HandCare",
-      caption: "Glow starts with your hands 🤍 Hand Whitening Cream — Available Now.",
+      image: "/images/instagram/DeORA4GxUig.jpg",
+      postUrl: "https://www.instagram.com/rugbywhite.in/",
+      tag: "#ClearSkin",
+      caption: "Natural glow & barrier support. Dermatologically tested 10 Days Challenge Night Cream.",
     },
   ];
 
