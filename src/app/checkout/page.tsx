@@ -310,7 +310,7 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="tel"
-                      placeholder="e.g. 9562172556"
+                      placeholder="e.g. 9207341674"
                       value={formData.mobile}
                       onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"

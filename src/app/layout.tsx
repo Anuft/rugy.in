@@ -82,7 +82,7 @@ export default function RootLayout({
                   sameAs: ["https://www.instagram.com/rugbywhite.in/"],
                   contactPoint: {
                     "@type": "ContactPoint",
-                    telephone: "+91-9562172556",
+                    telephone: "+91-9207341674",
                     contactType: "customer service",
                     areaServed: "IN",
                     availableLanguage: ["en", "hi", "ml"],

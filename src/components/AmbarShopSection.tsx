@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShoppingBag, ShieldCheck, Truck, Star, Sparkles, Plus, Minus } from "lucide-react";
 import { flagshipProduct } from "@/data/products";
+import { siteConfig } from "@/data/siteConfig";
 import { useCart } from "@/context/CartContext";
 import { generateSingleProductWhatsAppUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/Icons";
@@ -189,7 +190,7 @@ export default function AmbarShopSection() {
                 className="w-full py-3.5 px-6 bg-[#25D366] text-[#FFFFFF] text-xs font-sans tracking-[0.15em] uppercase font-medium hover:bg-[#20BA5A] transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
                 <WhatsAppIcon className="w-4 h-4 fill-current" />
-                <span>ORDER ON WHATSAPP: 9562172556</span>
+                <span>WHATSAPP CONCIERGE: {siteConfig.whatsappFormatted}</span>
               </button>
 
               <div className="pt-2 text-center">

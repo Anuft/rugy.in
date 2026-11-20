@@ -231,7 +231,7 @@ export default function AmbarNavbar() {
                 className="text-[#25D366] font-bold flex items-center gap-1.5"
               >
                 <WhatsAppIcon className="w-3.5 h-3.5 fill-[#25D366]" />
-                <span>+91 95621 72556</span>
+                <span>{siteConfig.whatsappFormatted}</span>
               </a>
             </div>
           </div>
