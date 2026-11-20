@@ -28,7 +28,7 @@ export default function TenDaysChallenge() {
       title: "KEEP CARING",
       description: "Noticeable reduction in dullness and active skin redness.",
       focus: "Texture Smoothing",
-      image: "/images/instagram/DXqFYBckZEu.jpg",
+      image: "/images/rugby-skin-revival.jpg",
     },
     {
       day: "DAY 07",

@@ -15,7 +15,7 @@ export default function ProductStorytelling() {
     {
       title: "THE TEXTURE OF PURE HYDRATION",
       subtitle: "Weightless velvety emulsion, fast-absorbing",
-      image: "/images/instagram/DXqFYBckZEu.jpg",
+      image: "/images/rugby-skin-revival.jpg",
       span: "col-span-12 md:col-span-5",
       aspect: "aspect-[4/5]",
     },

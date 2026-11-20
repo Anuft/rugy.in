@@ -121,7 +121,7 @@ export default function FaceReviews() {
         "“Pure botanical actives that work with your skin for honest, lasting results.”",
       reviewer: "Formulation Ethos",
       source: "Brand Formulation Sheet",
-      sourceUrl: "https://www.instagram.com/p/DXqFYBckZEu/",
+      sourceUrl: "https://www.instagram.com/rugbywhite.in/",
     },
   ];
 

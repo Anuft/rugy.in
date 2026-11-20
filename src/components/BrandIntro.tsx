@@ -50,12 +50,12 @@ export default function BrandIntro() {
               {/* Back decorative frame */}
               <div className="absolute -inset-4 border border-[#F4CEDF] pointer-events-none -z-0 translate-x-3 translate-y-3" />
 
-              <div className="relative z-10 aspect-[4/5] overflow-hidden bg-[#FDEAF3] shadow-xl">
+              <div className="relative z-10 aspect-[4/5] overflow-hidden bg-[#FFFFFF] shadow-xl border border-[#F4CEDF] p-6 flex items-center justify-center">
                 <Image
-                  src="/images/instagram/DXqFYBckZEu.jpg"
-                  alt="Rugby White Natural Skincare Ritual Lifestyle"
+                  src="/images/rugby-skin-revival.jpg"
+                  alt="Rugby White Skin Revival Botanical Night Cream"
                   fill
-                  className="object-cover object-center transition-transform duration-700 hover:scale-105"
+                  className="object-contain p-6 transition-transform duration-700 hover:scale-105"
                 />
               </div>
 

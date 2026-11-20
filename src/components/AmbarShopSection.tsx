@@ -58,7 +58,7 @@ export default function AmbarShopSection() {
               }`}
             >
               <Image
-                src="/images/instagram/DXqFYBckZEu.jpg"
+                src="/images/instagram/DTzQd3pEfsT.jpg"
                 alt="Rugby White Skincare Botanical Presentation"
                 fill
                 className="object-cover rounded-[20px]"

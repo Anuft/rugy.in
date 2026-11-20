@@ -21,8 +21,8 @@ export default function InstagramGallery() {
       caption: "Real WhatsApp review: 'Ente Tanning, pigmentation okke nalla pole remove aayi... Acne mark dull aayi varunnund...' (9 Days)",
     },
     {
-      image: "/images/instagram/DXqFYBckZEu.jpg",
-      postUrl: "https://www.instagram.com/p/DXqFYBckZEu/",
+      image: "/images/instagram/DZSAtQIxL-y.jpg",
+      postUrl: "https://www.instagram.com/rugbywhite.in/",
       tag: "#PureBotanicals",
       caption: "Take the 10 Days Challenge 🌿 Safe botanical formula that nourishes, brightens & protects.",
     },
