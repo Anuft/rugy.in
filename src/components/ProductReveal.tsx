@@ -85,7 +85,7 @@ export default function ProductReveal() {
 
           {/* Spec details underneath jar */}
           <div className="mt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-[#8A304C] font-sans tracking-widest uppercase">
-            <span>65G / 2.29 OZ</span>
+            <span>35G / 1.23 OZ</span>
             <span>•</span>
             <span>10 DAYS RITUAL FORMULA</span>
             <span>•</span>

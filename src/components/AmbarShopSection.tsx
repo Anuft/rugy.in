@@ -108,7 +108,7 @@ export default function AmbarShopSection() {
                 ₹{product.price}
               </span>
               <span className="text-sm text-[#8A304C] font-sans">
-                65 g · about two months, daily routine
+                35 g · daily ritual routine
               </span>
               <span className="text-xs text-[#8A304C] line-through font-sans">
                 ₹{product.originalPrice}

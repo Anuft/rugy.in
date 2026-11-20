@@ -49,7 +49,7 @@ export const products: Product[] = [
     category: "Night Cream",
     price: 599,
     originalPrice: 1200,
-    netWeight: "65 g / 2.29 oz.",
+    netWeight: "35 g / 1.23 oz.",
     rating: 4.9,
     reviewCount: 328,
     inStock: true,
