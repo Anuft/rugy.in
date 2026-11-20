@@ -166,6 +166,7 @@ export default function CheckoutPage() {
         modal: {
           ondismiss: function () {
             setIsSubmitting(false);
+            setPaymentError("Payment window was closed. You can click 'Pay Now' to retry anytime.");
           },
         },
         handler: async function (response: {
@@ -538,7 +539,7 @@ export default function CheckoutPage() {
                   ) : (
                     <>
                       <Lock className="w-4 h-4 text-[#EA90B5]" />
-                      <span>PAY ₹{total.toLocaleString("en-IN")} VIA RAZORPAY</span>
+                      <span>PAY NOW · ₹{total.toLocaleString("en-IN")}</span>
                       <ArrowRight className="w-4 h-4 text-[#EA90B5]" />
                     </>
                   )}
