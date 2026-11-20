@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { getDbPool, initDbSchema, getStorageDir } from "./db";
 
 export interface OrderItem {
   id: string;
@@ -13,21 +14,23 @@ export interface OrderItem {
 export interface OrderCustomer {
   fullName: string;
   mobile: string;
-  email?: string;
+  email: string;
   address: string;
   city: string;
   state: string;
   pincode: string;
   orderNotes?: string;
-  whatsappOptIn: boolean;
+  whatsappOptIn?: boolean;
 }
 
 export interface PaymentDetails {
-  method: "cod" | "online" | "whatsapp";
-  provider?: "upi" | "card" | "netbanking" | "wallet" | "whatsapp" | "cod";
-  status: "pending" | "paid" | "failed" | "cod_verified";
+  method: "online";
+  provider: "razorpay" | "upi" | "card" | "netbanking" | "wallet";
+  status: "pending" | "paid" | "failed";
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  razorpaySignature?: string;
   transactionId?: string;
-  upiId?: string;
   paymentTime?: string;
   currency: string;
 }
@@ -47,27 +50,23 @@ export interface Order {
   shipping: number;
   total: number;
   payment: PaymentDetails;
-  status:
-    | "Order Placed"
-    | "Payment Received"
-    | "Processing"
-    | "Packed"
-    | "Dispatched"
-    | "In Transit"
-    | "Out for Delivery"
-    | "Delivered"
-    | "Cancelled";
+  status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
   courier: string;
   awb: string;
   timeline: OrderTimelineEvent[];
+  razorpay_order_id?: string;
+  razorpay_payment_id?: string;
   createdAt: string;
   updatedAt: string;
 }
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
+const ORDERS_FILE_NAME = "orders.json";
 
-// Initial sample orders for immediate testing & demonstration
+function getOrdersFilePath(): string {
+  return path.join(getStorageDir(), ORDERS_FILE_NAME);
+}
+
+// Initial sample orders for immediate demonstration
 const INITIAL_ORDERS: Order[] = [
   {
     id: "RW-782419",
@@ -75,7 +74,7 @@ const INITIAL_ORDERS: Order[] = [
       {
         id: "10-days-challenge",
         name: "Rugby White 10 Days Challenge (50g)",
-        price: 999,
+        price: 599,
         quantity: 1,
         image: "/images/rugby-skin-revival.jpg",
         netWeight: "50g",
@@ -92,150 +91,241 @@ const INITIAL_ORDERS: Order[] = [
       orderNotes: "Leave at security desk if unavailable",
       whatsappOptIn: true,
     },
-    subtotal: 999,
+    subtotal: 599,
     shipping: 0,
-    total: 999,
+    total: 599,
     payment: {
       method: "online",
-      provider: "upi",
+      provider: "razorpay",
       status: "paid",
-      transactionId: "UPI-TXN-9847123984",
-      upiId: "ananya@oksbi",
-      paymentTime: "2026-11-17T14:30:00.000Z",
+      razorpayOrderId: "order_QWERTY123456",
+      razorpayPaymentId: "pay_QWERTY987654",
+      transactionId: "pay_QWERTY987654",
+      paymentTime: "2026-11-19T14:30:00.000Z",
       currency: "INR",
     },
-    status: "In Transit",
+    status: "Processing",
     courier: "BlueDart Air Express",
     awb: "BD982736412IN",
     timeline: [
       {
         title: "Order Confirmed & Paid",
-        date: "17 Nov, 02:30 PM",
-        desc: "Payment verified via Instant UPI. Order assigned to cleanroom dispatch.",
+        date: "19 Nov, 02:30 PM",
+        desc: "Payment of ₹599 verified securely via Razorpay. Order queued for dispatch.",
         done: true,
       },
       {
-        title: "Packed & Tamper Sealed",
-        date: "17 Nov, 06:15 PM",
-        desc: "Sealed with holographic Rugby White authenticity seal.",
-        done: true,
-      },
-      {
-        title: "Dispatched via Air Express",
-        date: "18 Nov, 08:45 AM",
-        desc: "Departed from Calicut Central Hub towards destination hub.",
-        done: true,
-      },
-      {
-        title: "Out for Delivery",
-        date: "Expected Tomorrow",
-        desc: "Courier executive will contact before delivery.",
-        done: false,
-      },
-    ],
-    createdAt: "2026-11-17T14:30:00.000Z",
-    updatedAt: "2026-11-18T08:45:00.000Z",
-  },
-  {
-    id: "RW-651290",
-    items: [
-      {
-        id: "buy-2-combo-pack",
-        name: "Rugby White Duo Pack (2 × 50g)",
-        price: 1899,
-        quantity: 1,
-        image: "/images/instagram/DXqFYBckZEu.jpg",
-        netWeight: "2 × 50g",
-      },
-    ],
-    customer: {
-      fullName: "Mohammed Faizal",
-      mobile: "9562172556",
-      email: "faizal.rugby@gmail.com",
-      address: "Beach Road, Near Gandhi Park, 2nd Floor",
-      city: "Kozhikode",
-      state: "Kerala",
-      pincode: "673001",
-      orderNotes: "Call on WhatsApp before arriving",
-      whatsappOptIn: true,
-    },
-    subtotal: 1899,
-    shipping: 0,
-    total: 1899,
-    payment: {
-      method: "cod",
-      provider: "cod",
-      status: "cod_verified",
-      currency: "INR",
-    },
-    status: "Packed",
-    courier: "Delhivery Surface Express",
-    awb: "DL102938475IN",
-    timeline: [
-      {
-        title: "Order Confirmed (Cash on Delivery)",
-        date: "18 Nov, 10:15 AM",
-        desc: "Address and mobile contact verified via automated OTP/WhatsApp.",
-        done: true,
-      },
-      {
-        title: "Packed & Tamper Sealed",
-        date: "18 Nov, 11:40 AM",
-        desc: "Fragile luxury glassware packaging completed.",
-        done: true,
-      },
-      {
-        title: "Handed to Air Express Courier",
-        date: "Scheduled for Today 04:00 PM",
-        desc: "Pickup scheduled by Delhivery courier partner.",
+        title: "Cleanroom Packaging & Tamper Seal",
+        date: "In Progress",
+        desc: "Hand-packing botanical jar with authenticity seal.",
         done: false,
       },
       {
-        title: "Out for Delivery",
-        date: "Expected in 2 Days",
-        desc: "Pay ₹1,899 via cash or doorstep UPI scanner upon delivery.",
+        title: "Dispatched with BlueDart Air",
+        date: "Expected in 24 Hours",
+        desc: "AWB tracking: BD982736412IN",
         done: false,
       },
     ],
-    createdAt: "2026-11-18T10:15:00.000Z",
-    updatedAt: "2026-11-18T11:40:00.000Z",
+    createdAt: "2026-11-19T14:30:00.000Z",
+    updatedAt: "2026-11-19T14:30:00.000Z",
   },
 ];
 
-async function ensureFile(): Promise<void> {
+async function ensureFileStorage(): Promise<void> {
+  const dir = getStorageDir();
+  const filePath = getOrdersFilePath();
   try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
+    await fs.mkdir(dir, { recursive: true });
     try {
-      await fs.access(ORDERS_FILE);
+      await fs.access(filePath);
     } catch {
-      await fs.writeFile(ORDERS_FILE, JSON.stringify(INITIAL_ORDERS, null, 2), "utf-8");
+      await fs.writeFile(filePath, JSON.stringify(INITIAL_ORDERS, null, 2), "utf-8");
     }
   } catch (err) {
-    console.error("Failed to ensure orders file:", err);
+    console.error("Failed to ensure orders file storage:", err);
   }
 }
 
+/**
+ * Get all orders, sorted by createdAt DESC
+ */
 export async function getAllOrders(): Promise<Order[]> {
-  await ensureFile();
+  const pool = getDbPool();
+  if (pool) {
+    await initDbSchema();
+    try {
+      const { rows } = await pool.query(
+        "SELECT * FROM orders ORDER BY created_at DESC"
+      );
+      return rows.map((r: any) => ({
+        id: r.id,
+        items: r.items,
+        customer: r.customer,
+        subtotal: parseFloat(r.subtotal),
+        shipping: parseFloat(r.shipping),
+        total: parseFloat(r.total),
+        payment: r.payment,
+        status: r.status,
+        courier: r.courier,
+        awb: r.awb,
+        timeline: r.timeline,
+        razorpay_order_id: r.razorpay_order_id,
+        razorpay_payment_id: r.razorpay_payment_id,
+        createdAt: r.created_at ? new Date(r.created_at).toISOString() : "",
+        updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : "",
+      }));
+    } catch (err) {
+      console.error("Postgres error in getAllOrders, falling back to file:", err);
+    }
+  }
+
+  // Fallback to local JSON storage
+  await ensureFileStorage();
   try {
-    const data = await fs.readFile(ORDERS_FILE, "utf-8");
+    const data = await fs.readFile(getOrdersFilePath(), "utf-8");
     return JSON.parse(data);
   } catch {
     return [];
   }
 }
 
+/**
+ * Get order by unique order ID (e.g. RW-123456)
+ */
 export async function getOrderById(id: string): Promise<Order | null> {
-  const orders = await getAllOrders();
   const normalizedId = id.trim().toUpperCase();
+  const pool = getDbPool();
+
+  if (pool) {
+    await initDbSchema();
+    try {
+      const { rows } = await pool.query(
+        "SELECT * FROM orders WHERE UPPER(id) = $1 LIMIT 1",
+        [normalizedId]
+      );
+      if (rows.length > 0) {
+        const r = rows[0];
+        return {
+          id: r.id,
+          items: r.items,
+          customer: r.customer,
+          subtotal: parseFloat(r.subtotal),
+          shipping: parseFloat(r.shipping),
+          total: parseFloat(r.total),
+          payment: r.payment,
+          status: r.status,
+          courier: r.courier,
+          awb: r.awb,
+          timeline: r.timeline,
+          razorpay_order_id: r.razorpay_order_id,
+          razorpay_payment_id: r.razorpay_payment_id,
+          createdAt: r.created_at ? new Date(r.created_at).toISOString() : "",
+          updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : "",
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error("Postgres error in getOrderById:", err);
+    }
+  }
+
+  const orders = await getAllOrders();
   return orders.find((o) => o.id.toUpperCase() === normalizedId) || null;
 }
 
-export async function findOrders(query: string): Promise<Order[]> {
+/**
+ * Get order by Razorpay order ID (e.g. order_xxxxxxxx)
+ */
+export async function getOrderByRazorpayOrderId(razorpayOrderId: string): Promise<Order | null> {
+  const pool = getDbPool();
+  if (pool) {
+    await initDbSchema();
+    try {
+      const { rows } = await pool.query(
+        "SELECT * FROM orders WHERE razorpay_order_id = $1 LIMIT 1",
+        [razorpayOrderId]
+      );
+      if (rows.length > 0) {
+        const r = rows[0];
+        return {
+          id: r.id,
+          items: r.items,
+          customer: r.customer,
+          subtotal: parseFloat(r.subtotal),
+          shipping: parseFloat(r.shipping),
+          total: parseFloat(r.total),
+          payment: r.payment,
+          status: r.status,
+          courier: r.courier,
+          awb: r.awb,
+          timeline: r.timeline,
+          razorpay_order_id: r.razorpay_order_id,
+          razorpay_payment_id: r.razorpay_payment_id,
+          createdAt: r.created_at ? new Date(r.created_at).toISOString() : "",
+          updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : "",
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error("Postgres error in getOrderByRazorpayOrderId:", err);
+    }
+  }
+
   const orders = await getAllOrders();
+  return (
+    orders.find(
+      (o) =>
+        o.razorpay_order_id === razorpayOrderId ||
+        o.payment?.razorpayOrderId === razorpayOrderId
+    ) || null
+  );
+}
+
+/**
+ * Find orders by query (ID, phone, name, email, AWB)
+ */
+export async function findOrders(query: string): Promise<Order[]> {
   const clean = query.trim().toLowerCase();
   if (!clean) return [];
 
+  const pool = getDbPool();
+  if (pool) {
+    await initDbSchema();
+    try {
+      const { rows } = await pool.query(
+        `SELECT * FROM orders WHERE 
+          LOWER(id) LIKE $1 OR
+          LOWER(customer->>'fullName') LIKE $1 OR
+          customer->>'mobile' LIKE $1 OR
+          LOWER(customer->>'email') LIKE $1 OR
+          LOWER(awb) LIKE $1
+        ORDER BY created_at DESC`,
+        [`%${clean}%`]
+      );
+      return rows.map((r: any) => ({
+        id: r.id,
+        items: r.items,
+        customer: r.customer,
+        subtotal: parseFloat(r.subtotal),
+        shipping: parseFloat(r.shipping),
+        total: parseFloat(r.total),
+        payment: r.payment,
+        status: r.status,
+        courier: r.courier,
+        awb: r.awb,
+        timeline: r.timeline,
+        razorpay_order_id: r.razorpay_order_id,
+        razorpay_payment_id: r.razorpay_payment_id,
+        createdAt: r.created_at ? new Date(r.created_at).toISOString() : "",
+        updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : "",
+      }));
+    } catch (err) {
+      console.error("Postgres error in findOrders:", err);
+    }
+  }
+
+  const orders = await getAllOrders();
   return orders.filter((o) => {
     return (
       o.id.toLowerCase().includes(clean) ||
@@ -247,23 +337,24 @@ export async function findOrders(query: string): Promise<Order[]> {
   });
 }
 
+/**
+ * Create a new order (stored with status "Processing" if paid, or pending)
+ */
 export async function createOrder(data: {
+  id?: string;
   items: OrderItem[];
   customer: OrderCustomer;
   subtotal: number;
   shipping: number;
   total: number;
   payment: PaymentDetails;
+  status?: Order["status"];
+  razorpay_order_id?: string;
 }): Promise<Order> {
-  await ensureFile();
-  const orders = await getAllOrders();
-
-  const orderId = "RW-" + Math.floor(100000 + Math.random() * 900000);
+  const orderId = data.id || "RW-" + Math.floor(100000 + Math.random() * 900000);
   const now = new Date().toISOString();
   const awb = "BD" + Math.floor(100000000 + Math.random() * 900000000) + "IN";
-
   const isPaid = data.payment.status === "paid";
-  const isCod = data.payment.method === "cod";
 
   const newOrder: Order = {
     id: orderId,
@@ -273,32 +364,26 @@ export async function createOrder(data: {
     shipping: data.shipping,
     total: data.total,
     payment: data.payment,
-    status: isPaid ? "Payment Received" : isCod ? "Order Placed" : "Processing",
+    status: data.status || (isPaid ? "Processing" : "Processing"),
     courier: "BlueDart Air Express",
     awb,
     timeline: [
       {
-        title: isPaid
-          ? "Payment Verified & Order Confirmed"
-          : isCod
-          ? "Order Placed (Cash on Delivery)"
-          : "Order Received (WhatsApp)",
+        title: isPaid ? "Payment Verified & Order Confirmed" : "Order Created",
         date: "Just now",
         desc: isPaid
-          ? `₹${data.total.toLocaleString("en-IN")} received via ${data.payment.provider?.toUpperCase() || "Instant Online"}. TXN: ${data.payment.transactionId || "N/A"}.`
-          : isCod
-          ? `Payment of ₹${data.total.toLocaleString("en-IN")} to be collected on doorstep delivery.`
-          : "Order details forwarded to WhatsApp concierge for priority booking.",
+          ? `₹${data.total.toLocaleString("en-IN")} verified securely via Razorpay. Payment ID: ${data.payment.razorpayPaymentId || data.payment.transactionId || "N/A"}`
+          : `Order placed, awaiting Razorpay confirmation.`,
         done: true,
       },
       {
-        title: "Cleanroom Packaging & Quality Check",
+        title: "Cleanroom Packaging & Tamper Seal",
         date: "Next Step",
-        desc: "Inspecting tamper-proof seal and luxury gift packaging.",
+        desc: "Inspecting tamper-proof seal and luxury packaging.",
         done: false,
       },
       {
-        title: "Dispatched with BlueDart Air",
+        title: "Dispatched with BlueDart Air Express",
         date: "Expected in 24 Hours",
         desc: "Assigned AWB tracking: " + awb,
         done: false,
@@ -310,67 +395,265 @@ export async function createOrder(data: {
         done: false,
       },
     ],
+    razorpay_order_id: data.razorpay_order_id || data.payment.razorpayOrderId,
+    razorpay_payment_id: data.payment.razorpayPaymentId,
     createdAt: now,
     updatedAt: now,
   };
 
-  orders.unshift(newOrder);
-  await fs.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2), "utf-8");
+  const pool = getDbPool();
+  if (pool) {
+    await initDbSchema();
+    try {
+      await pool.query(
+        `INSERT INTO orders (
+          id, customer, items, subtotal, shipping, total, payment, status, courier, awb, timeline, razorpay_order_id, razorpay_payment_id, created_at, updated_at
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`,
+        [
+          newOrder.id,
+          JSON.stringify(newOrder.customer),
+          JSON.stringify(newOrder.items),
+          newOrder.subtotal,
+          newOrder.shipping,
+          newOrder.total,
+          JSON.stringify(newOrder.payment),
+          newOrder.status,
+          newOrder.courier,
+          newOrder.awb,
+          JSON.stringify(newOrder.timeline),
+          newOrder.razorpay_order_id || null,
+          newOrder.razorpay_payment_id || null,
+          newOrder.createdAt,
+          newOrder.updatedAt,
+        ]
+      );
+      return newOrder;
+    } catch (err) {
+      console.error("Postgres error creating order, falling back to file:", err);
+    }
+  }
+
+  // Local storage fallback
+  await ensureFileStorage();
+  const filePath = getOrdersFilePath();
+  try {
+    const raw = await fs.readFile(filePath, "utf-8");
+    const orders: Order[] = JSON.parse(raw);
+    orders.unshift(newOrder);
+    await fs.writeFile(filePath, JSON.stringify(orders, null, 2), "utf-8");
+  } catch (err) {
+    console.error("File write error creating order:", err);
+  }
+
   return newOrder;
 }
 
-export async function updateOrderPayment(
-  orderId: string,
-  paymentUpdate: Partial<PaymentDetails>
-): Promise<Order | null> {
-  await ensureFile();
-  const orders = await getAllOrders();
-  const idx = orders.findIndex((o) => o.id.toUpperCase() === orderId.trim().toUpperCase());
+/**
+ * Mark order as PAID after successful server-side Razorpay verification.
+ * Idempotent: If order is already marked paid, returns existing order with alreadyPaid: true.
+ */
+export async function markOrderPaid(
+  orderIdOrRazorpayId: string,
+  details: {
+    razorpayPaymentId: string;
+    razorpayOrderId: string;
+    razorpaySignature?: string;
+    provider?: string;
+  }
+): Promise<{ order: Order | null; isAlreadyPaid: boolean }> {
+  // Find order first
+  let order =
+    (await getOrderById(orderIdOrRazorpayId)) ||
+    (await getOrderByRazorpayOrderId(orderIdOrRazorpayId)) ||
+    (await getOrderByRazorpayOrderId(details.razorpayOrderId));
 
-  if (idx === -1) return null;
+  if (!order) {
+    return { order: null, isAlreadyPaid: false };
+  }
 
-  const order = orders[idx];
-  order.payment = { ...order.payment, ...paymentUpdate };
-  if (paymentUpdate.status === "paid") {
-    order.status = "Payment Received";
-    // Update timeline first item
-    if (order.timeline[0]) {
-      order.timeline[0].title = "Payment Confirmed";
-      order.timeline[0].desc = `₹${order.total.toLocaleString("en-IN")} received via ${order.payment.provider?.toUpperCase() || "Instant UPI"}. TXN: ${paymentUpdate.transactionId || "SUCCESS"}.`;
-      order.timeline[0].done = true;
+  // Idempotency check: if already paid, do not re-process or duplicate email
+  if (order.payment && order.payment.status === "paid") {
+    return { order, isAlreadyPaid: true };
+  }
+
+  const now = new Date().toISOString();
+  order.payment = {
+    ...order.payment,
+    method: "online",
+    status: "paid",
+    provider: (details.provider as any) || "razorpay",
+    razorpayPaymentId: details.razorpayPaymentId,
+    razorpayOrderId: details.razorpayOrderId,
+    razorpaySignature: details.razorpaySignature,
+    transactionId: details.razorpayPaymentId,
+    paymentTime: now,
+  };
+  order.razorpay_payment_id = details.razorpayPaymentId;
+  order.razorpay_order_id = details.razorpayOrderId;
+  order.status = "Processing";
+  order.updatedAt = now;
+
+  // Update timeline
+  if (order.timeline && order.timeline.length > 0) {
+    order.timeline[0].title = "Payment Verified & Order Confirmed";
+    order.timeline[0].desc = `₹${order.total.toLocaleString("en-IN")} received via Razorpay. Payment ID: ${details.razorpayPaymentId}`;
+    order.timeline[0].done = true;
+  }
+
+  const pool = getDbPool();
+  if (pool) {
+    await initDbSchema();
+    try {
+      await pool.query(
+        `UPDATE orders SET 
+          payment = $1, 
+          status = $2, 
+          razorpay_payment_id = $3, 
+          razorpay_order_id = $4,
+          timeline = $5,
+          updated_at = $6
+        WHERE id = $7`,
+        [
+          JSON.stringify(order.payment),
+          order.status,
+          order.razorpay_payment_id,
+          order.razorpay_order_id,
+          JSON.stringify(order.timeline),
+          order.updatedAt,
+          order.id,
+        ]
+      );
+      return { order, isAlreadyPaid: false };
+    } catch (err) {
+      console.error("Postgres error in markOrderPaid:", err);
     }
   }
-  order.updatedAt = new Date().toISOString();
-  orders[idx] = order;
 
-  await fs.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2), "utf-8");
-  return order;
+  // Local file fallback
+  await ensureFileStorage();
+  const filePath = getOrdersFilePath();
+  try {
+    const raw = await fs.readFile(filePath, "utf-8");
+    const orders: Order[] = JSON.parse(raw);
+    const idx = orders.findIndex((o) => o.id === order.id);
+    if (idx !== -1) {
+      orders[idx] = order;
+      await fs.writeFile(filePath, JSON.stringify(orders, null, 2), "utf-8");
+    }
+  } catch (err) {
+    console.error("File write error in markOrderPaid:", err);
+  }
+
+  return { order, isAlreadyPaid: false };
 }
 
+/**
+ * Update order status (Processing, Shipped, Delivered, Cancelled) with optional AWB and notes
+ */
 export async function updateOrderStatus(
   orderId: string,
   status: Order["status"],
+  awb?: string,
   notes?: string
 ): Promise<Order | null> {
-  await ensureFile();
-  const orders = await getAllOrders();
-  const idx = orders.findIndex((o) => o.id.toUpperCase() === orderId.trim().toUpperCase());
+  const order = await getOrderById(orderId);
+  if (!order) return null;
 
-  if (idx === -1) return null;
-
-  const order = orders[idx];
   order.status = status;
+  if (awb && awb.trim()) {
+    order.awb = awb.trim();
+  }
   order.updatedAt = new Date().toISOString();
 
   // Add timeline entry
   order.timeline.push({
-    title: `Status updated to ${status}`,
-    desc: notes || `Order progressed to ${status}.`,
-    date: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    title: `Order Status: ${status}`,
+    desc: notes || `Order progressed to ${status}. ${awb ? `AWB: ${awb}` : ""}`,
+    date: new Date().toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
     done: true,
   });
 
-  orders[idx] = order;
-  await fs.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2), "utf-8");
+  const pool = getDbPool();
+  if (pool) {
+    await initDbSchema();
+    try {
+      await pool.query(
+        `UPDATE orders SET 
+          status = $1, 
+          awb = $2, 
+          timeline = $3, 
+          updated_at = $4 
+        WHERE id = $5`,
+        [order.status, order.awb, JSON.stringify(order.timeline), order.updatedAt, order.id]
+      );
+      return order;
+    } catch (err) {
+      console.error("Postgres error updating order status:", err);
+    }
+  }
+
+  // Local file fallback
+  await ensureFileStorage();
+  const filePath = getOrdersFilePath();
+  try {
+    const raw = await fs.readFile(filePath, "utf-8");
+    const orders: Order[] = JSON.parse(raw);
+    const idx = orders.findIndex((o) => o.id === order.id);
+    if (idx !== -1) {
+      orders[idx] = order;
+      await fs.writeFile(filePath, JSON.stringify(orders, null, 2), "utf-8");
+    }
+  } catch (err) {
+    console.error("File error updating order status:", err);
+  }
+
+  return order;
+}
+
+/**
+ * Update payment details
+ */
+export async function updateOrderPayment(
+  orderId: string,
+  paymentUpdate: Partial<PaymentDetails>
+): Promise<Order | null> {
+  const order = await getOrderById(orderId);
+  if (!order) return null;
+
+  order.payment = { ...order.payment, ...paymentUpdate };
+  order.updatedAt = new Date().toISOString();
+
+  const pool = getDbPool();
+  if (pool) {
+    await initDbSchema();
+    try {
+      await pool.query(
+        `UPDATE orders SET payment = $1, updated_at = $2 WHERE id = $3`,
+        [JSON.stringify(order.payment), order.updatedAt, order.id]
+      );
+      return order;
+    } catch (err) {
+      console.error("Postgres error updating order payment:", err);
+    }
+  }
+
+  const filePath = getOrdersFilePath();
+  try {
+    const raw = await fs.readFile(filePath, "utf-8");
+    const orders: Order[] = JSON.parse(raw);
+    const idx = orders.findIndex((o) => o.id === order.id);
+    if (idx !== -1) {
+      orders[idx] = order;
+      await fs.writeFile(filePath, JSON.stringify(orders, null, 2), "utf-8");
+    }
+  } catch (err) {
+    console.error("File error updating order payment:", err);
+  }
+
   return order;
 }

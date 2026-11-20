@@ -8,20 +8,28 @@ import {
   ShieldCheck,
   Truck,
   ArrowRight,
-  CheckCircle2,
   AlertCircle,
-  CreditCard,
-  Banknote,
-  Check,
+  Lock,
   Loader2,
-  QrCode,
+  Check,
+  Sparkles,
 } from "lucide-react";
-import confetti from "canvas-confetti";
 import { useCart } from "@/context/CartContext";
-import { siteConfig } from "@/data/siteConfig";
-import { generateCartWhatsAppUrl } from "@/lib/whatsapp";
-import { WhatsAppIcon } from "@/components/Icons";
-import PaymentGatewayModal from "@/components/PaymentGatewayModal";
+
+// Function to dynamically load Razorpay checkout script
+const loadRazorpayScript = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    if (typeof window !== "undefined" && (window as any).Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
 
 export default function CheckoutPage() {
   const { items, subtotal, shipping, total, clearCart } = useCart();
@@ -37,15 +45,11 @@ export default function CheckoutPage() {
     state: "Kerala",
     pincode: "",
     orderNotes: "",
-    whatsappOptIn: true,
   });
 
-  const [paymentMethod, setPaymentMethod] = useState<"cod" | "whatsapp" | "online">("online");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [orderConfirmed, setOrderConfirmed] = useState(false);
-  const [confirmedOrder, setConfirmedOrder] = useState<any>(null);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
   const indianStates = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -58,62 +62,67 @@ export default function CheckoutPage() {
   const validate = () => {
     const errs: Record<string, string> = {};
     if (!formData.fullName.trim()) errs.fullName = "Full name is required";
-    if (!formData.mobile.trim() || !/^\d{10}$/.test(formData.mobile.replace(/\D/g, ""))) {
+    
+    const cleanMobile = formData.mobile.replace(/\D/g, "");
+    if (!cleanMobile || cleanMobile.length !== 10) {
       errs.mobile = "Please enter a valid 10-digit mobile number";
     }
+
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      errs.email = "Valid email is required to receive order receipts & tracking";
+    }
+
     if (!formData.address.trim()) errs.address = "Complete delivery address is required";
     if (!formData.city.trim()) errs.city = "City / District is required";
-    if (!formData.pincode.trim() || !/^\d{6}$/.test(formData.pincode.trim())) {
-      errs.pincode = "Please enter a valid 6-digit PIN code";
+    
+    const cleanPincode = formData.pincode.replace(/\D/g, "");
+    if (!cleanPincode || cleanPincode.length !== 6) {
+      errs.pincode = "Please enter a valid 6-digit Indian PIN code";
     }
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
-  const getPayloadItems = () =>
-    items.map((i) => ({
-      id: i.product.id,
-      name: i.product.name,
-      price: i.product.price,
-      quantity: i.quantity,
-      image: i.product.images[0],
-      netWeight: i.product.netWeight,
-    }));
-
-  const handleSubmitOrder = async (e: React.FormEvent) => {
+  const handleRazorpayPayment = async (e: React.FormEvent) => {
     e.preventDefault();
+    setPaymentError(null);
 
     if (!validate()) {
       window.scrollTo({ top: 120, behavior: "smooth" });
       return;
     }
 
-    // If Online Payment is chosen, open the Payment Gateway Modal directly
-    if (paymentMethod === "online") {
-      setIsPaymentModalOpen(true);
+    if (items.length === 0) {
+      setPaymentError("Your cart is empty. Please add products to proceed.");
       return;
     }
 
-    // COD or WhatsApp direct backend persistence
     setIsSubmitting(true);
 
     try {
+      // 1. Ensure Razorpay checkout.js script is loaded
+      const isLoaded = await loadRazorpayScript();
+      if (!isLoaded) {
+        throw new Error(
+          "Failed to load Razorpay payment gateway SDK. Please check your internet connection."
+        );
+      }
+
+      // 2. Create Razorpay Order on server
       const orderPayload = {
-        items: getPayloadItems(),
-        customer: formData,
-        subtotal,
-        shipping: 0,
-        total,
-        payment: {
-          method: paymentMethod,
-          provider: paymentMethod === "cod" ? "cod" : "whatsapp",
-          status: paymentMethod === "cod" ? "cod_verified" : "pending",
-          currency: "INR",
+        customer: {
+          ...formData,
+          mobile: formData.mobile.replace(/\D/g, ""),
+          email: formData.email.trim(),
         },
+        items: items.map((i) => ({
+          id: i.product.id,
+          quantity: i.quantity,
+        })),
       };
 
-      const res = await fetch("/api/orders", {
+      const res = await fetch("/api/payment/razorpay-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderPayload),
@@ -121,152 +130,116 @@ export default function CheckoutPage() {
 
       const data = await res.json();
 
-      if (data.success && data.order) {
-        setConfirmedOrder(data.order);
-
-        // If WhatsApp checkout, open wa.me with filled order & backend ID
-        if (paymentMethod === "whatsapp") {
-          const waUrl = generateCartWhatsAppUrl({
-            items: items.map((i) => ({
-              name: i.product.name,
-              quantity: i.quantity,
-              price: i.product.price,
-            })),
-            subtotal,
-            shipping: 0,
-            total,
-            customerName: formData.fullName,
-            phone: formData.mobile,
-            address: formData.address,
-            city: formData.city,
-            state: formData.state,
-            pincode: formData.pincode,
-            notes: `Order Ref: ${data.order.id}. ${formData.orderNotes || ""}`,
-          });
-          window.open(waUrl, "_blank");
-        }
-
-        try {
-          confetti({
-            particleCount: 70,
-            spread: 60,
-            origin: { y: 0.6 },
-            colors: ["#581527", "#AE3E64", "#8A304C"],
-          });
-        } catch {}
-
-        setIsSubmitting(false);
-        setOrderConfirmed(true);
-        clearCart();
-      } else {
-        alert(data.error || "Failed to place order. Please try again.");
-        setIsSubmitting(false);
+      if (!data.success) {
+        throw new Error(data.error || "Failed to create payment order on server.");
       }
-    } catch (err) {
-      console.error("Order submit failed:", err);
-      alert("Failed to connect to checkout backend. Please try again.");
+
+      const { orderId, razorpayOrderId, amount, currency, keyId } = data;
+
+      if (!keyId) {
+        throw new Error(
+          "Razorpay Public Key (NEXT_PUBLIC_RAZORPAY_KEY_ID) is not configured in environment variables."
+        );
+      }
+
+      // 3. Configure Razorpay modal options
+      const options = {
+        key: keyId,
+        amount,
+        currency,
+        name: "RUGBY WHITE",
+        description: `Order #${orderId} · Skin Revival Ritual`,
+        image: "/images/rugby-skin-revival-jar.png",
+        order_id: razorpayOrderId,
+        prefill: {
+          name: formData.fullName,
+          email: formData.email,
+          contact: formData.mobile.replace(/\D/g, ""),
+        },
+        notes: {
+          orderId,
+          deliveryCity: formData.city,
+        },
+        theme: {
+          color: "#581527", // Official Rugby Burgundy
+        },
+        modal: {
+          ondismiss: function () {
+            setIsSubmitting(false);
+          },
+        },
+        handler: async function (response: {
+          razorpay_payment_id: string;
+          razorpay_order_id: string;
+          razorpay_signature: string;
+        }) {
+          try {
+            // 4. Server-Side Signature Verification
+            const verifyRes = await fetch("/api/payment/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+
+            const verifyData = await verifyRes.json();
+
+            if (verifyData.success && verifyData.order) {
+              clearCart();
+              router.push(`/order-success?id=${verifyData.order.id}`);
+            } else {
+              setPaymentError(
+                verifyData.error ||
+                  "Payment signature could not be verified by the server. Please contact support."
+              );
+              setIsSubmitting(false);
+            }
+          } catch (err: any) {
+            console.error("Signature verification error:", err);
+            setPaymentError(
+              "An error occurred while verifying your payment. Please contact support with Payment ID: " +
+                response.razorpay_payment_id
+            );
+            setIsSubmitting(false);
+          }
+        },
+      };
+
+      const razorpayInstance = new (window as any).Razorpay(options);
+
+      razorpayInstance.on("payment.failed", function (response: any) {
+        console.error("Razorpay payment failed:", response.error);
+        setPaymentError(
+          response.error?.description ||
+            "Payment attempt failed or was declined. You can try another payment method."
+        );
+        setIsSubmitting(false);
+      });
+
+      razorpayInstance.open();
+    } catch (err: any) {
+      console.error("Checkout submission failed:", err);
+      setPaymentError(err.message || "Failed to initiate payment. Please try again.");
       setIsSubmitting(false);
     }
   };
 
-  const handleOnlinePaymentSuccess = (confirmed: any) => {
-    setIsPaymentModalOpen(false);
-    setConfirmedOrder(confirmed);
-    setOrderConfirmed(true);
-    clearCart();
-  };
-
-  // If order is completed, show order confirmation screen with real backend data
-  if (orderConfirmed && confirmedOrder) {
-    return (
-      <div className="bg-[#FEF7FB] text-[#1C1C1C] min-h-screen pt-16 pb-24">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center space-y-6">
-          <div className="w-18 h-18 rounded-full bg-[#581527] text-white flex items-center justify-center mx-auto shadow-md">
-            <CheckCircle2 className="w-10 h-10 stroke-[1.5]" />
-          </div>
-
-          <div className="space-y-2">
-            <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block">
-              ORDER CONFIRMED &amp; REGISTERED
-            </span>
-            <h1 className="font-serif text-3xl sm:text-5xl text-[#581527]">
-              Thank you, {confirmedOrder.customer?.fullName || formData.fullName}!
-            </h1>
-            <p className="font-sans text-xs text-[#8A304C]">
-              Order Reference ID:{" "}
-              <span className="font-mono text-[#581527] font-bold text-sm bg-[#FDEAF3] px-2.5 py-1 rounded">
-                {confirmedOrder.id}
-              </span>
-            </p>
-          </div>
-
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs text-left space-y-4 text-xs font-sans">
-            <div className="flex items-center justify-between border-b border-[#F4CEDF] pb-3">
-              <h3 className="font-serif text-lg font-bold text-[#1C1C1C]">
-                DISPATCH &amp; DELIVERY SUMMARY
-              </h3>
-              <span className="text-[10px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#2E7D32]/10 text-[#2E7D32]">
-                {confirmedOrder.status}
-              </span>
-            </div>
-
-            <p className="text-[#1C1C1C]/80 leading-relaxed">
-              We have received your order and registered it in our fulfillment system. Tracking updates will be sent to{" "}
-              <strong className="text-[#581527]">{confirmedOrder.customer?.mobile || formData.mobile}</strong>.
-            </p>
-
-            <div className="pt-2 border-t border-[#F4CEDF] space-y-2 text-[#8A304C]">
-              <p>• <strong>Courier Partner:</strong> {confirmedOrder.courier} (Air Express)</p>
-              <p>• <strong>Airway Bill (AWB):</strong> <span className="font-mono text-[#581527] font-bold">{confirmedOrder.awb}</span></p>
-              <p>• <strong>Destination:</strong> {confirmedOrder.customer?.address}, {confirmedOrder.customer?.city}, {confirmedOrder.customer?.state} - {confirmedOrder.customer?.pincode}</p>
-              <p>• <strong>Payment Mode:</strong>{" "}
-                <span className="text-[#581527] font-semibold">
-                  {confirmedOrder.payment?.method === "cod"
-                    ? "Cash on Delivery (Pay at Doorstep)"
-                    : confirmedOrder.payment?.method === "whatsapp"
-                    ? "WhatsApp Order"
-                    : `Prepaid (${confirmedOrder.payment?.provider?.toUpperCase()} Verified)`}
-                </span>
-              </p>
-              {confirmedOrder.payment?.transactionId && (
-                <p>• <strong>Transaction Ref:</strong> <span className="font-mono text-xs">{confirmedOrder.payment.transactionId}</span></p>
-              )}
-              <p>• <strong>Total Amount:</strong> ₹{confirmedOrder.total?.toLocaleString("en-IN")}</p>
-            </div>
-          </div>
-
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href={`/track-order?id=${confirmedOrder.id}`}
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#581527] hover:bg-[#3F0E1B] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold rounded-full transition-all shadow-sm flex items-center justify-center gap-2"
-            >
-              <Truck className="w-4 h-4 text-[#AE3E64]" />
-              <span>LIVE TRACK THIS PARCEL</span>
-            </Link>
-            <Link
-              href="/"
-              className="w-full sm:w-auto px-8 py-3.5 border border-[#581527] text-[#581527] hover:bg-[#581527] hover:text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold rounded-full transition-all"
-            >
-              RETURN TO HOMEPAGE
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   // If bag is empty
   if (items.length === 0) {
     return (
-      <div className="bg-[#FEF7FB] min-h-screen pt-20 pb-24">
-        <div className="max-w-md mx-auto text-center p-8 bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] space-y-4">
-          <h2 className="font-serif text-2xl font-bold text-[#1C1C1C]">Your cart is empty</h2>
+      <div className="bg-[#FEF7FB] min-h-screen pt-28 pb-24">
+        <div className="max-w-md mx-auto text-center p-8 bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] space-y-4 shadow-sm">
+          <h2 className="font-serif text-2xl font-bold text-[#581527]">Your cart is empty</h2>
           <p className="text-xs text-[#8A304C] font-sans">
-            Please add items to your shopping cart before checking out.
+            Please add products to your bag before checking out.
           </p>
           <Link
             href="/shop"
-            className="px-6 py-3 rounded-full bg-[#581527] text-white text-xs font-sans tracking-widest uppercase font-bold inline-block"
+            className="px-6 py-3 rounded-full bg-[#581527] text-white text-xs font-sans tracking-widest uppercase font-bold inline-block hover:bg-[#3F0E1B] transition-colors"
           >
             DISCOVER THE COLLECTION
           </Link>
@@ -278,32 +251,45 @@ export default function CheckoutPage() {
   return (
     <div className="bg-[#FEF7FB] text-[#1C1C1C] min-h-screen pt-28 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
           <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block">
-            CHECKOUT
+            SECURE CHECKOUT
           </span>
-          <h1 className="font-serif text-3xl sm:text-5xl text-[#1C1C1C] tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl text-[#581527] tracking-tight">
             Delivery &amp; Payment.
           </h1>
-          <p className="font-sans text-xs sm:text-sm text-[#1C1C1C]/70 font-light">
-            Enter your shipping destination to receive your Rugby White order with free air courier.
+          <p className="font-sans text-xs sm:text-sm text-[#8A304C] font-light">
+            Enter your destination to complete your order via Razorpay secure checkout with complimentary air dispatch.
           </p>
         </div>
 
-        <form onSubmit={handleSubmitOrder}>
+        {paymentError && (
+          <div className="max-w-3xl mx-auto mb-8 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3 text-red-800 text-xs font-sans">
+            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <strong className="block font-semibold">Payment Notice</strong>
+              <p>{paymentError}</p>
+            </div>
+          </div>
+        )}
+
+        <form onSubmit={handleRazorpayPayment}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            
             {/* Left 7 Columns: Form */}
             <div className="lg:col-span-7 space-y-6">
+              
               {/* Recipient Information */}
               <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-6 sm:p-8 shadow-xs space-y-4">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#F4CEDF]">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#581527] pb-3 border-b border-[#F4CEDF]">
                   1. Contact Information
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="sm:col-span-2 space-y-1">
-                    <label className="text-xs font-sans font-semibold text-[#1C1C1C] uppercase tracking-wider block">
+                    <label className="text-xs font-sans font-semibold text-[#581527] uppercase tracking-wider block">
                       Full Name *
                     </label>
                     <input
@@ -314,12 +300,12 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.fullName && (
-                      <p className="text-[11px] text-[#E53935] font-sans">{errors.fullName}</p>
+                      <p className="text-[11px] text-[#AE3E64] font-sans">{errors.fullName}</p>
                     )}
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-sans font-semibold text-[#1C1C1C] uppercase tracking-wider block">
+                    <label className="text-xs font-sans font-semibold text-[#581527] uppercase tracking-wider block">
                       Mobile Number (10 digits) *
                     </label>
                     <input
@@ -330,46 +316,37 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.mobile && (
-                      <p className="text-[11px] text-[#E53935] font-sans">{errors.mobile}</p>
+                      <p className="text-[11px] text-[#AE3E64] font-sans">{errors.mobile}</p>
                     )}
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-sans font-semibold text-[#1C1C1C] uppercase tracking-wider block">
-                      Email Address (Optional)
+                    <label className="text-xs font-sans font-semibold text-[#581527] uppercase tracking-wider block">
+                      Email Address *
                     </label>
                     <input
                       type="email"
-                      placeholder="e.g. yourname@gmail.com"
+                      placeholder="e.g. adnan@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
-                  </div>
-
-                  <div className="sm:col-span-2 pt-1">
-                    <label className="flex items-center gap-2 cursor-pointer text-xs font-sans text-[#1C1C1C]/80">
-                      <input
-                        type="checkbox"
-                        checked={formData.whatsappOptIn}
-                        onChange={(e) => setFormData({ ...formData, whatsappOptIn: e.target.checked })}
-                        className="rounded text-[#25D366] focus:ring-[#25D366]"
-                      />
-                      <span>Receive real-time courier tracking updates on WhatsApp</span>
-                    </label>
+                    {errors.email && (
+                      <p className="text-[11px] text-[#AE3E64] font-sans">{errors.email}</p>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* Delivery Address */}
               <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-6 sm:p-8 shadow-xs space-y-4">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#F4CEDF]">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#581527] pb-3 border-b border-[#F4CEDF]">
                   2. Shipping Destination
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="sm:col-span-2 space-y-1">
-                    <label className="text-xs font-sans font-semibold text-[#1C1C1C] uppercase tracking-wider block">
+                    <label className="text-xs font-sans font-semibold text-[#581527] uppercase tracking-wider block">
                       House / Flat / Street Address *
                     </label>
                     <input
@@ -380,12 +357,12 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.address && (
-                      <p className="text-[11px] text-[#E53935] font-sans">{errors.address}</p>
+                      <p className="text-[11px] text-[#AE3E64] font-sans">{errors.address}</p>
                     )}
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-sans font-semibold text-[#1C1C1C] uppercase tracking-wider block">
+                    <label className="text-xs font-sans font-semibold text-[#581527] uppercase tracking-wider block">
                       City / District *
                     </label>
                     <input
@@ -396,12 +373,12 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.city && (
-                      <p className="text-[11px] text-[#E53935] font-sans">{errors.city}</p>
+                      <p className="text-[11px] text-[#AE3E64] font-sans">{errors.city}</p>
                     )}
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-sans font-semibold text-[#1C1C1C] uppercase tracking-wider block">
+                    <label className="text-xs font-sans font-semibold text-[#581527] uppercase tracking-wider block">
                       State *
                     </label>
                     <select
@@ -418,7 +395,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-sans font-semibold text-[#1C1C1C] uppercase tracking-wider block">
+                    <label className="text-xs font-sans font-semibold text-[#581527] uppercase tracking-wider block">
                       PIN Code (6 digits) *
                     </label>
                     <input
@@ -430,17 +407,17 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
                     />
                     {errors.pincode && (
-                      <p className="text-[11px] text-[#E53935] font-sans">{errors.pincode}</p>
+                      <p className="text-[11px] text-[#AE3E64] font-sans">{errors.pincode}</p>
                     )}
                   </div>
 
                   <div className="sm:col-span-2 space-y-1">
-                    <label className="text-xs font-sans font-semibold text-[#1C1C1C] uppercase tracking-wider block">
+                    <label className="text-xs font-sans font-semibold text-[#581527] uppercase tracking-wider block">
                       Delivery Instructions (Optional)
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. Deliver before 5 PM / Ring door bell"
+                      placeholder="e.g. Leave with building security / Ring doorbell"
                       value={formData.orderNotes}
                       onChange={(e) => setFormData({ ...formData, orderNotes: e.target.value })}
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64]"
@@ -449,113 +426,59 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Payment Method Selector */}
+              {/* Payment Method - Pure Razorpay Online Gateway */}
               <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-6 sm:p-8 shadow-xs space-y-4">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#F4CEDF]">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#581527] pb-3 border-b border-[#F4CEDF]">
                   3. Payment Method
                 </h3>
 
-                <div className="space-y-3">
-                  {/* Online UPI / Card Gateway */}
-                  <label
-                    onClick={() => setPaymentMethod("online")}
-                    className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                      paymentMethod === "online"
-                        ? "border-[#581527] bg-[#FEF7FB] ring-1 ring-[#581527]"
-                        : "border-[#F4CEDF] bg-[#FFFFFF] hover:border-[#AE3E64]"
-                    }`}
-                  >
+                <div className="p-5 rounded-xl border-2 border-[#581527] bg-[#FEF7FB] space-y-3">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-[#581527]/10 flex items-center justify-center text-[#581527]">
-                        <QrCode className="w-5 h-5" />
+                      <div className="w-10 h-10 rounded-full bg-[#581527] text-white flex items-center justify-center">
+                        <Lock className="w-5 h-5" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-serif text-base text-[#581527] font-bold block">
-                            Instant UPI QR, GPay, PhonePe, Cards &amp; NetBanking
+                            Razorpay Secure Online Checkout
                           </span>
                           <span className="text-[9px] uppercase tracking-widest font-sans font-bold bg-[#581527] text-white px-2 py-0.5 rounded">
-                            RECOMMENDED
+                            SECURE 256-BIT SSL
                           </span>
                         </div>
                         <span className="text-xs text-[#8A304C] font-sans">
-                          Instant NPCI QR code, auto-verified gateway payment with priority air shipping.
+                          Instant UPI (GPay, PhonePe, Paytm, QR), Cards (Visa, MasterCard, RuPay) &amp; NetBanking.
                         </span>
                       </div>
                     </div>
-                    <div className="w-5 h-5 rounded-full border border-[#581527] flex items-center justify-center">
-                      {paymentMethod === "online" && (
-                        <div className="w-3 h-3 rounded-full bg-[#581527]" />
-                      )}
+                    <div className="w-5 h-5 rounded-full border-2 border-[#581527] flex items-center justify-center">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#581527]" />
                     </div>
-                  </label>
+                  </div>
 
-                  {/* Cash On Delivery (COD) */}
-                  <label
-                    onClick={() => setPaymentMethod("cod")}
-                    className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                      paymentMethod === "cod"
-                        ? "border-[#581527] bg-[#FEF7FB] ring-1 ring-[#581527]"
-                        : "border-[#F4CEDF] bg-[#FFFFFF] hover:border-[#AE3E64]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-[#AE3E64]/10 flex items-center justify-center text-[#AE3E64]">
-                        <Banknote className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <span className="font-serif text-base text-[#581527] font-bold block">
-                          Cash on Delivery (COD)
-                        </span>
-                        <span className="text-xs text-[#8A304C] font-sans">
-                          Pay cash or UPI upon courier arrival at your doorstep.
-                        </span>
-                      </div>
-                    </div>
-                    <div className="w-5 h-5 rounded-full border border-[#581527] flex items-center justify-center">
-                      {paymentMethod === "cod" && (
-                        <div className="w-3 h-3 rounded-full bg-[#581527]" />
-                      )}
-                    </div>
-                  </label>
-
-                  {/* WhatsApp Direct Order */}
-                  <label
-                    onClick={() => setPaymentMethod("whatsapp")}
-                    className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                      paymentMethod === "whatsapp"
-                        ? "border-[#25D366] bg-[#25D366]/5 ring-1 ring-[#25D366]"
-                        : "border-[#F4CEDF] bg-[#FFFFFF] hover:border-[#25D366]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-[#25D366]/10 flex items-center justify-center">
-                        <WhatsAppIcon className="w-5 h-5 fill-[#25D366]" />
-                      </div>
-                      <div>
-                        <span className="font-serif text-base text-[#581527] font-bold block">
-                          Direct WhatsApp Concierge Order
-                        </span>
-                        <span className="text-xs text-[#8A304C] font-sans">
-                          Auto-registers backend order reference and connects with WhatsApp desk (+91 95621 72556).
-                        </span>
-                      </div>
-                    </div>
-                    <div className="w-5 h-5 rounded-full border border-[#25D366] flex items-center justify-center">
-                      {paymentMethod === "whatsapp" && (
-                        <div className="w-3 h-3 rounded-full bg-[#25D366]" />
-                      )}
-                    </div>
-                  </label>
+                  <div className="pt-3 border-t border-[#F4CEDF] flex flex-wrap items-center gap-2 text-[11px] font-sans text-[#8A304C]">
+                    <span className="bg-white border border-[#F4CEDF] px-2.5 py-1 rounded font-medium">Google Pay</span>
+                    <span className="bg-white border border-[#F4CEDF] px-2.5 py-1 rounded font-medium">PhonePe</span>
+                    <span className="bg-white border border-[#F4CEDF] px-2.5 py-1 rounded font-medium">Paytm</span>
+                    <span className="bg-white border border-[#F4CEDF] px-2.5 py-1 rounded font-medium">Any UPI App</span>
+                    <span className="bg-white border border-[#F4CEDF] px-2.5 py-1 rounded font-medium">Credit/Debit Card</span>
+                    <span className="bg-white border border-[#F4CEDF] px-2.5 py-1 rounded font-medium">50+ NetBanking</span>
+                  </div>
                 </div>
+
+                <p className="text-[11px] text-[#8A304C] font-sans flex items-center gap-1.5 pt-1">
+                  <ShieldCheck className="w-4 h-4 text-[#059669]" />
+                  <span>Orders are confirmed immediately upon verified server-side payment.</span>
+                </p>
               </div>
             </div>
 
             {/* Right 5 Columns: Order Summary */}
             <div className="lg:col-span-5 space-y-4">
               <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-6 sm:p-8 shadow-xs space-y-5 sticky top-28">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1C1C] pb-3 border-b border-[#F4CEDF]">
-                  Your Order ({items.reduce((s, i) => s + i.quantity, 0)} items)
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#581527] pb-3 border-b border-[#F4CEDF]">
+                  Order Summary ({items.reduce((s, i) => s + i.quantity, 0)} items)
                 </h3>
 
                 {/* Items List */}
@@ -571,7 +494,7 @@ export default function CheckoutPage() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-serif text-sm font-bold text-[#1C1C1C] truncate">
+                        <p className="font-serif text-sm font-bold text-[#581527] truncate">
                           {item.product.name}
                         </p>
                         <p className="text-[11px] text-[#8A304C] font-sans">
@@ -586,22 +509,22 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Totals */}
-                <div className="pt-4 border-t border-[#F4CEDF] space-y-2 text-xs font-sans text-[#1C1C1C]/80">
+                <div className="pt-4 border-t border-[#F4CEDF] space-y-2 text-xs font-sans text-[#8A304C]">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span className="font-semibold">₹{subtotal.toLocaleString("en-IN")}</span>
+                    <span className="font-semibold text-[#581527]">₹{subtotal.toLocaleString("en-IN")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Pan-India Air Courier</span>
-                    <span className="text-[#2E7D32] font-semibold">FREE</span>
+                    <span>Complimentary Pan-India Air Courier</span>
+                    <span className="text-[#059669] font-bold">FREE</span>
                   </div>
                   <div className="flex justify-between text-xl font-serif font-bold text-[#581527] pt-3 border-t border-[#F4CEDF]">
-                    <span>Total Amount</span>
+                    <span>Total Payable</span>
                     <span>₹{total.toLocaleString("en-IN")}</span>
                   </div>
                 </div>
 
-                {/* Submit Button */}
+                {/* Submit Razorpay Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -609,23 +532,14 @@ export default function CheckoutPage() {
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-[#AE3E64]" />
-                      <span>PROCESSING ORDER...</span>
-                    </>
-                  ) : paymentMethod === "online" ? (
-                    <>
-                      <span>PROCEED TO PAYMENT (₹{total.toLocaleString("en-IN")})</span>
-                      <ArrowRight className="w-4 h-4 text-[#AE3E64]" />
-                    </>
-                  ) : paymentMethod === "whatsapp" ? (
-                    <>
-                      <span>ORDER VIA WHATSAPP (₹{total.toLocaleString("en-IN")})</span>
-                      <WhatsAppIcon className="w-4 h-4 fill-white" />
+                      <Loader2 className="w-4 h-4 animate-spin text-[#EA90B5]" />
+                      <span>OPENING RAZORPAY GATEWAY...</span>
                     </>
                   ) : (
                     <>
-                      <span>CONFIRM COD ORDER (₹{total.toLocaleString("en-IN")})</span>
-                      <ArrowRight className="w-4 h-4 text-[#AE3E64]" />
+                      <Lock className="w-4 h-4 text-[#EA90B5]" />
+                      <span>PAY ₹{total.toLocaleString("en-IN")} VIA RAZORPAY</span>
+                      <ArrowRight className="w-4 h-4 text-[#EA90B5]" />
                     </>
                   )}
                 </button>
@@ -633,33 +547,19 @@ export default function CheckoutPage() {
                 <div className="space-y-1.5 text-[11px] text-[#8A304C] font-sans pt-2 border-t border-[#F4CEDF]">
                   <div className="flex items-center gap-2">
                     <Truck className="w-3.5 h-3.5 text-[#AE3E64]" />
-                    <span>Free Express Delivery across India (2–4 Days)</span>
+                    <span>Free Air Express Delivery across India (2–4 Days)</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#2E7D32]" />
-                    <span>Holographic Tamper Seal &amp; Fresh Batch Guarantee</span>
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#059669]" />
+                    <span>100% Secure 256-Bit SSL Encrypted Transaction</span>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
         </form>
       </div>
-
-      {/* Interactive Payment Gateway Modal */}
-      <PaymentGatewayModal
-        isOpen={isPaymentModalOpen}
-        onClose={() => setIsPaymentModalOpen(false)}
-        orderAmount={total}
-        orderData={{
-          items: getPayloadItems(),
-          customer: formData,
-          subtotal,
-          shipping: 0,
-          total,
-        }}
-        onPaymentSuccess={handleOnlinePaymentSuccess}
-      />
     </div>
   );
 }

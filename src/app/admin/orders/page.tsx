@@ -17,21 +17,122 @@ import {
   ArrowLeft,
   DollarSign,
   TrendingUp,
+  Lock,
+  LogOut,
+  AlertCircle,
+  Eye,
+  Edit2,
+  Save,
+  Check,
+  X,
+  Layers,
 } from "lucide-react";
-import { WhatsAppIcon } from "@/components/Icons";
 
-export default function AdminOrdersPage() {
+export default function AdminDashboardPage() {
+  // Authentication State
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [authChecking, setAuthChecking] = useState<boolean>(true);
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
+  const [adminToken, setAdminToken] = useState<string>("");
+
+  // Navigation Tabs
+  const [activeTab, setActiveTab] = useState<"orders" | "inventory">("orders");
+
+  // Orders State
   const [orders, setOrders] = useState<any[]>([]);
   const [filteredOrders, setFilteredOrders] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingOrders, setIsLoadingOrders] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string>("ALL");
-  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [selectedPaymentStatus, setSelectedPaymentStatus] = useState<string>("ALL");
+  const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
+  const [activeModalOrder, setActiveModalOrder] = useState<any | null>(null);
+  const [editingAwb, setEditingAwb] = useState<string>("");
+  const [statusUpdateMessage, setStatusUpdateMessage] = useState<string | null>(null);
 
-  const fetchOrders = async () => {
-    setIsLoading(true);
+  // Inventory State
+  const [inventory, setInventory] = useState<any[]>([]);
+  const [isLoadingInventory, setIsLoadingInventory] = useState(false);
+  const [savingProductId, setSavingProductId] = useState<string | null>(null);
+  const [inventorySuccessMessage, setInventorySuccessMessage] = useState<string | null>(null);
+
+  // 1. Check existing authentication on mount
+  useEffect(() => {
+    const savedToken = localStorage.getItem("rugby_admin_token") || "";
+    if (savedToken) {
+      setAdminToken(savedToken);
+      verifySavedToken(savedToken);
+    } else {
+      setAuthChecking(false);
+    }
+  }, []);
+
+  const verifySavedToken = async (token: string) => {
     try {
-      const res = await fetch("/api/orders");
+      const res = await fetch("/api/admin/auth", {
+        headers: { "x-admin-key": token },
+      });
+      const data = await res.json();
+      if (data.authenticated) {
+        setIsAuthenticated(true);
+        fetchOrders(token);
+        fetchInventory(token);
+      } else {
+        localStorage.removeItem("rugby_admin_token");
+        setIsAuthenticated(false);
+      }
+    } catch {
+      setIsAuthenticated(false);
+    } finally {
+      setAuthChecking(false);
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError(null);
+    setIsLoggingIn(true);
+
+    try {
+      const res = await fetch("/api/admin/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: passwordInput }),
+      });
+      const data = await res.json();
+
+      if (data.success && data.token) {
+        localStorage.setItem("rugby_admin_token", data.token);
+        setAdminToken(data.token);
+        setIsAuthenticated(true);
+        fetchOrders(data.token);
+        fetchInventory(data.token);
+      } else {
+        setLoginError(data.error || "Incorrect admin password.");
+      }
+    } catch {
+      setLoginError("Failed to authenticate. Please try again.");
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("rugby_admin_token");
+    setAdminToken("");
+    setIsAuthenticated(false);
+  };
+
+  // 2. Fetch Orders
+  const fetchOrders = async (token?: string) => {
+    const key = token || adminToken;
+    setIsLoadingOrders(true);
+    try {
+      const res = await fetch("/api/orders", {
+        headers: { "x-admin-key": key },
+      });
       const data = await res.json();
       if (data.success && data.orders) {
         setOrders(data.orders);
@@ -40,24 +141,43 @@ export default function AdminOrdersPage() {
     } catch (err) {
       console.error("Failed to fetch orders:", err);
     } finally {
-      setIsLoading(false);
+      setIsLoadingOrders(false);
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+  // 3. Fetch Inventory
+  const fetchInventory = async (token?: string) => {
+    const key = token || adminToken;
+    setIsLoadingInventory(true);
+    try {
+      const res = await fetch("/api/admin/inventory", {
+        headers: { "x-admin-key": key },
+      });
+      const data = await res.json();
+      if (data.success && data.items) {
+        setInventory(data.items);
+      }
+    } catch (err) {
+      console.error("Failed to fetch inventory:", err);
+    } finally {
+      setIsLoadingInventory(false);
+    }
+  };
 
-  // Filter logic
+  // 4. Filter logic
   useEffect(() => {
     let result = orders;
 
     if (selectedStatus !== "ALL") {
-      result = result.filter((o) => {
-        if (selectedStatus === "PAID") return o.payment?.status === "paid";
-        if (selectedStatus === "COD") return o.payment?.method === "cod";
-        return o.status === selectedStatus;
-      });
+      result = result.filter((o) => o.status === selectedStatus);
+    }
+
+    if (selectedPaymentStatus !== "ALL") {
+      if (selectedPaymentStatus === "PAID") {
+        result = result.filter((o) => o.payment?.status === "paid");
+      } else if (selectedPaymentStatus === "PENDING") {
+        result = result.filter((o) => o.payment?.status !== "paid");
+      }
     }
 
     if (searchQuery.trim()) {
@@ -65,308 +185,721 @@ export default function AdminOrdersPage() {
       result = result.filter(
         (o) =>
           o.id.toLowerCase().includes(q) ||
-          o.customer.fullName.toLowerCase().includes(q) ||
-          o.customer.mobile.includes(q) ||
-          o.customer.city.toLowerCase().includes(q)
+          o.customer?.fullName?.toLowerCase().includes(q) ||
+          o.customer?.mobile?.includes(q) ||
+          o.customer?.city?.toLowerCase().includes(q) ||
+          (o.awb && o.awb.toLowerCase().includes(q)) ||
+          (o.payment?.razorpayPaymentId && o.payment.razorpayPaymentId.toLowerCase().includes(q))
       );
     }
 
     setFilteredOrders(result);
-  }, [orders, selectedStatus, searchQuery]);
+  }, [orders, selectedStatus, selectedPaymentStatus, searchQuery]);
 
-  const handleUpdateStatus = async (orderId: string, newStatus: string) => {
-    setUpdatingId(orderId);
+  // 5. Update order status
+  const handleUpdateStatus = async (orderId: string, newStatus: string, awbCode?: string) => {
+    setUpdatingOrderId(orderId);
+    setStatusUpdateMessage(null);
     try {
       const res = await fetch(`/api/orders/${orderId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus }),
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-key": adminToken,
+        },
+        body: JSON.stringify({
+          status: newStatus,
+          awb: awbCode || undefined,
+        }),
       });
       const data = await res.json();
       if (data.success && data.order) {
-        setOrders((prev) =>
-          prev.map((o) => (o.id === orderId ? data.order : o))
-        );
+        setOrders((prev) => prev.map((o) => (o.id === orderId ? data.order : o)));
+        if (activeModalOrder && activeModalOrder.id === orderId) {
+          setActiveModalOrder(data.order);
+        }
+        setStatusUpdateMessage(`Order #${orderId} updated to ${newStatus}`);
+        setTimeout(() => setStatusUpdateMessage(null), 3000);
       }
     } catch (err) {
-      console.error("Status update failed:", err);
+      console.error("Failed to update status:", err);
     } finally {
-      setUpdatingId(null);
+      setUpdatingOrderId(null);
     }
   };
 
-  // Metrics
-  const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
-  const paidCount = orders.filter((o) => o.payment?.status === "paid").length;
-  const inTransitCount = orders.filter((o) => o.status === "In Transit").length;
+  // 6. Update inventory
+  const handleUpdateInventoryItem = async (item: any) => {
+    setSavingProductId(item.id);
+    setInventorySuccessMessage(null);
+    try {
+      const res = await fetch("/api/admin/inventory", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-key": adminToken,
+        },
+        body: JSON.stringify({
+          id: item.id,
+          stock: item.stock,
+          inStock: item.inStock,
+          price: item.price,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.item) {
+        setInventory((prev) =>
+          prev.map((i) => (i.id === item.id ? data.item : i))
+        );
+        setInventorySuccessMessage(`Saved changes for ${item.name}`);
+        setTimeout(() => setInventorySuccessMessage(null), 3000);
+      }
+    } catch (err) {
+      console.error("Failed to update inventory item:", err);
+    } finally {
+      setSavingProductId(null);
+    }
+  };
 
-  return (
-    <div className="bg-[#FEF7FB] text-[#1C1C1C] min-h-screen pt-28 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#F4CEDF] gap-4">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-sans text-[#8A304C] mb-1">
-              <Link href="/" className="hover:text-[#581527] flex items-center gap-1">
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to Store
-              </Link>
-              <span>/</span>
-              <span className="text-[#581527] font-semibold">Fulfillment Backend</span>
+  // Metrics calculation
+  const totalRevenue = orders
+    .filter((o) => o.payment?.status === "paid")
+    .reduce((sum, o) => sum + (o.total || 0), 0);
+  const paidCount = orders.filter((o) => o.payment?.status === "paid").length;
+  const pendingCount = orders.filter((o) => o.payment?.status !== "paid").length;
+  const processingCount = orders.filter((o) => o.status === "Processing").length;
+
+  // -------------------------------------------------------------
+  // Screen: Loading Auth
+  // -------------------------------------------------------------
+  if (authChecking) {
+    return (
+      <div className="min-h-screen bg-[#FEF7FB] flex items-center justify-center p-6 text-center">
+        <RefreshCw className="w-8 h-8 text-[#581527] animate-spin mb-4" />
+        <p className="font-serif text-lg text-[#581527]">Verifying Administrator Session...</p>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // Screen: Admin Login
+  // -------------------------------------------------------------
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#FEF7FB] flex items-center justify-center p-4 sm:p-6">
+        <div className="max-w-md w-full bg-white rounded-3xl border border-[#F4CEDF] p-8 sm:p-10 shadow-lg space-y-6">
+          <div className="text-center space-y-2">
+            <div className="w-16 h-16 rounded-2xl bg-[#581527] text-white flex items-center justify-center mx-auto shadow-md">
+              <Lock className="w-8 h-8 stroke-[1.5]" />
             </div>
-            <h1 className="font-serif text-3xl sm:text-4xl text-[#581527] tracking-tight">
-              Order Dispatch &amp; Payments Manager
+            <span className="text-[10px] font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block pt-2">
+              RUGBY WHITE CONTROL PANEL
+            </span>
+            <h1 className="font-serif text-3xl font-bold text-[#581527]">
+              Admin Authentication
             </h1>
-            <p className="text-xs font-sans text-[#8A304C]">
-              Real-time synchronization with courier logistics and payment verifications.
+            <p className="font-sans text-xs text-[#8A304C]">
+              Enter your master secret key to access order fulfillment and stock control.
             </p>
+          </div>
+
+          {loginError && (
+            <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-sans flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <span>{loginError}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-sans font-bold text-[#581527] uppercase tracking-wider block">
+                Master Admin Password
+              </label>
+              <input
+                type="password"
+                placeholder="Enter password..."
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                required
+                className="w-full px-4 py-3.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-xl text-sm font-sans focus:outline-none focus:border-[#581527]"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoggingIn}
+              className="w-full py-4 rounded-xl bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans tracking-[0.2em] uppercase font-bold transition-all shadow-md cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
+            >
+              {isLoggingIn ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin text-[#EA90B5]" />
+                  <span>AUTHENTICATING...</span>
+                </>
+              ) : (
+                <>
+                  <Lock className="w-4 h-4 text-[#EA90B5]" />
+                  <span>UNLOCK DASHBOARD</span>
+                </>
+              )}
+            </button>
+          </form>
+
+          <div className="text-center pt-2">
+            <Link
+              href="/"
+              className="text-xs font-sans text-[#8A304C] hover:text-[#581527] underline"
+            >
+              ← Back to Rugby White Store
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // Screen: Authenticated Dashboard
+  // -------------------------------------------------------------
+  return (
+    <div className="min-h-screen bg-[#FEF7FB] text-[#1C1C1C] pt-24 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        {/* Top Bar */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 border-b border-[#F4CEDF] gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold">
+                STORE BACKOFFICE
+              </span>
+              <span className="text-[10px] font-sans font-bold bg-[#059669]/10 text-[#059669] px-2 py-0.5 rounded-full">
+                LIVE PRODUCTION
+              </span>
+            </div>
+            <h1 className="font-serif text-3xl sm:text-4xl text-[#581527] font-bold mt-1">
+              Fulfillment &amp; Inventory Center
+            </h1>
           </div>
 
           <div className="flex items-center gap-3">
             <button
-              onClick={fetchOrders}
-              className="px-4 py-2 bg-[#FFFFFF] border border-[#F4CEDF] hover:border-[#581527] text-xs font-sans font-medium rounded-lg flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+              onClick={() => {
+                fetchOrders();
+                fetchInventory();
+              }}
+              className="px-4 py-2.5 rounded-xl border border-[#F4CEDF] bg-white text-[#581527] hover:bg-[#FEF7FB] text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
+              title="Refresh Data"
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-[#581527] ${isLoading ? "animate-spin" : ""}`} />
-              <span>Refresh Data</span>
+              <RefreshCw className={`w-3.5 h-3.5 ${isLoadingOrders ? "animate-spin" : ""}`} />
+              <span>Sync</span>
             </button>
-            <Link
-              href="/checkout"
-              className="px-4 py-2 bg-[#581527] text-[#FEF7FB] text-xs font-sans font-bold tracking-wider uppercase rounded-lg hover:bg-[#3F0E1B] transition-colors"
+
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2.5 rounded-xl bg-white border border-[#F4CEDF] text-[#AE3E64] hover:bg-red-50 text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
             >
-              Test New Order
-            </Link>
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Sign Out</span>
+            </button>
           </div>
         </div>
 
-        {/* Executive Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 my-6">
-          <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs space-y-1">
-            <span className="text-[10px] uppercase font-sans tracking-wider text-[#8A304C] font-semibold">
-              TOTAL ORDER VOLUME
-            </span>
-            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#581527]">
-              {orders.length} Orders
-            </p>
-            <span className="text-[11px] font-sans text-[#2E7D32]">100% recorded in backend DB</span>
+        {/* Status Toast Alert */}
+        {statusUpdateMessage && (
+          <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-sans flex items-center gap-2">
+            <Check className="w-4 h-4 text-emerald-600" />
+            <span>{statusUpdateMessage}</span>
           </div>
+        )}
 
-          <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs space-y-1">
-            <span className="text-[10px] uppercase font-sans tracking-wider text-[#8A304C] font-semibold">
-              ACCUMULATED GROSS VALUE
-            </span>
+        {inventorySuccessMessage && (
+          <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-sans flex items-center gap-2">
+            <Check className="w-4 h-4 text-emerald-600" />
+            <span>{inventorySuccessMessage}</span>
+          </div>
+        )}
+
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
+            <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">Total Revenue</span>
             <p className="font-serif text-2xl sm:text-3xl font-bold text-[#581527]">
               ₹{totalRevenue.toLocaleString("en-IN")}
             </p>
-            <span className="text-[11px] font-sans text-[#8A304C]">Average ₹{orders.length ? Math.round(totalRevenue / orders.length) : 0} per order</span>
+            <p className="text-[11px] text-[#059669] font-medium flex items-center gap-1">
+              <TrendingUp className="w-3.5 h-3.5" />
+              <span>Razorpay Verified</span>
+            </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs space-y-1">
-            <span className="text-[10px] uppercase font-sans tracking-wider text-[#8A304C] font-semibold">
-              PREPAID VERIFIED
-            </span>
-            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#2E7D32]">
-              {paidCount} Paid
+          <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
+            <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">Paid Orders</span>
+            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#059669]">
+              {paidCount}
             </p>
-            <span className="text-[11px] font-sans text-[#8A304C]">Instant UPI &amp; Cards</span>
+            <p className="text-[11px] text-[#8A304C]">Ready for dispatch</p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs space-y-1">
-            <span className="text-[10px] uppercase font-sans tracking-wider text-[#8A304C] font-semibold">
-              ACTIVE AIR FREIGHT
-            </span>
-            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#AE3E64]">
-              {inTransitCount} In Transit
+          <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
+            <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">In Processing</span>
+            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#581527]">
+              {processingCount}
             </p>
-            <span className="text-[11px] font-sans text-[#8A304C]">BlueDart / Delhivery Air</span>
+            <p className="text-[11px] text-[#8A304C]">Air courier packing</p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
+            <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">Total Inquiries</span>
+            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#581527]">
+              {orders.length}
+            </p>
+            <p className="text-[11px] text-[#8A304C]">{pendingCount} pending payment</p>
           </div>
         </div>
 
-        {/* Filter Bar */}
-        <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] p-4 shadow-xs mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="relative w-full md:w-80">
-            <Search className="w-4 h-4 text-[#8A304C] absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              placeholder="Search by ID, Customer Name, Phone, City..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#581527]"
-            />
-          </div>
+        {/* Tab Navigation */}
+        <div className="flex border-b border-[#F4CEDF] gap-8">
+          <button
+            onClick={() => setActiveTab("orders")}
+            className={`pb-3 text-sm font-sans font-bold uppercase tracking-wider cursor-pointer border-b-2 transition-all flex items-center gap-2 ${
+              activeTab === "orders"
+                ? "border-[#581527] text-[#581527]"
+                : "border-transparent text-[#8A304C] hover:text-[#581527]"
+            }`}
+          >
+            <Package className="w-4 h-4" />
+            <span>Customer Orders ({orders.length})</span>
+          </button>
 
-          <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto text-xs font-sans">
-            <span className="text-[11px] text-[#8A304C] mr-1 uppercase font-semibold">Status:</span>
-            {[
-              { id: "ALL", label: "All Orders" },
-              { id: "PAID", label: "Prepaid / Paid" },
-              { id: "COD", label: "Cash on Delivery" },
-              { id: "In Transit", label: "In Transit" },
-              { id: "Packed", label: "Packed" },
-              { id: "Delivered", label: "Delivered" },
-            ].map((f) => (
-              <button
-                key={f.id}
-                onClick={() => setSelectedStatus(f.id)}
-                className={`px-3 py-1.5 rounded-lg border transition-colors cursor-pointer ${
-                  selectedStatus === f.id
-                    ? "bg-[#581527] text-white border-[#581527] font-semibold"
-                    : "bg-[#FEF7FB] text-[#1C1C1C] border-[#F4CEDF] hover:border-[#581527]"
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
+          <button
+            onClick={() => setActiveTab("inventory")}
+            className={`pb-3 text-sm font-sans font-bold uppercase tracking-wider cursor-pointer border-b-2 transition-all flex items-center gap-2 ${
+              activeTab === "inventory"
+                ? "border-[#581527] text-[#581527]"
+                : "border-transparent text-[#8A304C] hover:text-[#581527]"
+            }`}
+          >
+            <Layers className="w-4 h-4" />
+            <span>Product Inventory &amp; Stock</span>
+          </button>
         </div>
 
-        {/* Orders Table */}
-        <div className="bg-[#FFFFFF] rounded-2xl border border-[#F4CEDF] shadow-xs overflow-hidden">
-          {isLoading ? (
-            <div className="py-20 text-center text-xs font-sans text-[#8A304C]">
-              Loading orders from database...
+        {/* ------------------------------------------------------------- */}
+        {/* TAB 1: CUSTOMER ORDERS */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab === "orders" && (
+          <div className="space-y-6">
+            
+            {/* Search and Filters Bar */}
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#F4CEDF] shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+              
+              {/* Search */}
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 text-[#8A304C] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search by Order ID, Name, Mobile, City, AWB, or Payment ID..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-xl text-xs font-sans focus:outline-none focus:border-[#581527]"
+                />
+              </div>
+
+              {/* Status Filter Dropdown */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 text-xs font-sans text-[#8A304C]">
+                  <Filter className="w-3.5 h-3.5" />
+                  <span>Status:</span>
+                </div>
+                <select
+                  value={selectedStatus}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
+                  className="px-3 py-2 bg-[#FEF7FB] border border-[#F4CEDF] rounded-xl text-xs font-sans text-[#581527] font-semibold cursor-pointer focus:outline-none"
+                >
+                  <option value="ALL">All Order Statuses</option>
+                  <option value="Processing">Processing</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+
+                <select
+                  value={selectedPaymentStatus}
+                  onChange={(e) => setSelectedPaymentStatus(e.target.value)}
+                  className="px-3 py-2 bg-[#FEF7FB] border border-[#F4CEDF] rounded-xl text-xs font-sans text-[#581527] font-semibold cursor-pointer focus:outline-none"
+                >
+                  <option value="ALL">All Payments</option>
+                  <option value="PAID">Paid Only</option>
+                  <option value="PENDING">Pending Only</option>
+                </select>
+              </div>
             </div>
-          ) : filteredOrders.length === 0 ? (
-            <div className="py-20 text-center space-y-2">
-              <Package className="w-10 h-10 text-[#8A304C] mx-auto stroke-[1.25]" />
-              <p className="font-serif text-lg font-bold text-[#1C1C1C]">No orders found</p>
-              <p className="text-xs text-[#8A304C] font-sans">
-                Try modifying your search or filter settings.
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs font-sans divide-y divide-[#F4CEDF]">
-                <thead className="bg-[#FEF7FB] text-[#8A304C] font-semibold uppercase text-[10px] tracking-wider">
-                  <tr>
-                    <th className="py-3.5 px-4">Order ID &amp; Date</th>
-                    <th className="py-3.5 px-4">Customer Details</th>
-                    <th className="py-3.5 px-4">Items</th>
-                    <th className="py-3.5 px-4">Amount &amp; Payment</th>
-                    <th className="py-3.5 px-4">Courier &amp; Status</th>
-                    <th className="py-3.5 px-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#F4CEDF]">
-                  {filteredOrders.map((order) => {
-                    const isPaid = order.payment?.status === "paid";
-                    return (
-                      <tr key={order.id} className="hover:bg-[#FEF7FB]/60 transition-colors">
-                        {/* ID & Date */}
-                        <td className="py-4 px-4 align-top">
-                          <Link
-                            href={`/track-order?id=${order.id}`}
-                            className="font-mono text-xs font-bold text-[#581527] hover:underline flex items-center gap-1"
-                          >
-                            <span>{order.id}</span>
-                            <ExternalLink className="w-3 h-3 text-[#8A304C]" />
-                          </Link>
-                          <p className="text-[11px] text-[#8A304C] mt-0.5">
-                            {new Date(order.createdAt).toLocaleDateString("en-IN", {
-                              day: "numeric",
-                              month: "short",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </p>
-                        </td>
 
-                        {/* Customer */}
-                        <td className="py-4 px-4 align-top max-w-[200px]">
-                          <p className="font-semibold text-[#1C1C1C]">{order.customer?.fullName}</p>
-                          <p className="text-[11px] text-[#8A304C] font-mono">{order.customer?.mobile}</p>
-                          <p className="text-[11px] text-[#8A304C] truncate mt-0.5">
-                            {order.customer?.city}, {order.customer?.state} ({order.customer?.pincode})
-                          </p>
-                        </td>
-
-                        {/* Items */}
-                        <td className="py-4 px-4 align-top">
-                          <div className="space-y-1">
-                            {order.items?.map((it: any, i: number) => (
-                              <div key={i} className="flex items-center gap-2">
-                                <span className="font-semibold text-[#581527]">{it.quantity}×</span>
-                                <span className="text-[#1C1C1C] truncate max-w-[160px]">{it.name}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </td>
-
-                        {/* Amount & Payment */}
-                        <td className="py-4 px-4 align-top">
-                          <p className="font-serif text-sm font-bold text-[#581527]">
-                            ₹{order.total?.toLocaleString("en-IN")}
-                          </p>
-                          <div className="mt-1 flex items-center gap-1.5">
-                            <span
-                              className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                                isPaid
-                                  ? "bg-[#2E7D32]/10 text-[#2E7D32]"
-                                  : "bg-[#AE3E64]/15 text-[#AE3E64]"
-                              }`}
-                            >
-                              {isPaid ? "PAID" : order.payment?.method?.toUpperCase() || "PENDING"}
-                            </span>
-                            <span className="text-[10px] text-[#8A304C] uppercase">
-                              {order.payment?.provider || order.payment?.method}
-                            </span>
-                          </div>
-                        </td>
-
-                        {/* Courier & Status */}
-                        <td className="py-4 px-4 align-top">
-                          <div className="space-y-1">
-                            <span className="inline-block text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-[#581527]/10 text-[#581527]">
-                              {order.status}
-                            </span>
-                            <p className="text-[11px] text-[#8A304C]">
-                              {order.courier}: <span className="font-mono text-[#581527]">{order.awb}</span>
-                            </p>
-                          </div>
-                        </td>
-
-                        {/* Action Buttons */}
-                        <td className="py-4 px-4 align-top text-right">
-                          <div className="flex flex-col items-end gap-1.5">
-                            {/* Update Status Dropdown / Quick Button */}
-                            <select
-                              value={order.status}
-                              disabled={updatingId === order.id}
-                              onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                              className="px-2 py-1 bg-[#FEF7FB] border border-[#F4CEDF] rounded text-[11px] font-sans text-[#581527] focus:outline-none cursor-pointer"
-                            >
-                              <option value="Order Placed">Order Placed</option>
-                              <option value="Payment Received">Payment Received</option>
-                              <option value="Packed">Packed</option>
-                              <option value="Dispatched">Dispatched</option>
-                              <option value="In Transit">In Transit</option>
-                              <option value="Out for Delivery">Out for Delivery</option>
-                              <option value="Delivered">Delivered</option>
-                              <option value="Cancelled">Cancelled</option>
-                            </select>
-
-                            {/* WhatsApp Direct Chat */}
-                            <a
-                              href={`https://wa.me/91${order.customer?.mobile.replace(/\D/g, "")}?text=Hello%20${encodeURIComponent(
-                                order.customer?.fullName
-                              )}%2C%20this%20is%20Rugby%20White%20Skincare%20regarding%20your%20order%20${order.id}.`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-[11px] text-[#25D366] hover:underline"
-                            >
-                              <WhatsAppIcon className="w-3 h-3 fill-[#25D366]" />
-                              <span>WhatsApp</span>
-                            </a>
-                          </div>
+            {/* Orders Table */}
+            <div className="bg-white rounded-2xl border border-[#F4CEDF] shadow-xs overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs font-sans border-collapse">
+                  <thead>
+                    <tr className="bg-[#FEF7FB] border-b border-[#F4CEDF] text-[#8A304C] uppercase tracking-wider text-[11px]">
+                      <th className="py-3.5 px-4 font-bold">Order ID</th>
+                      <th className="py-3.5 px-4 font-bold">Customer</th>
+                      <th className="py-3.5 px-4 font-bold">Items &amp; Total</th>
+                      <th className="py-3.5 px-4 font-bold">Payment</th>
+                      <th className="py-3.5 px-4 font-bold">Fulfillment Status</th>
+                      <th className="py-3.5 px-4 font-bold text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#F4CEDF]">
+                    {filteredOrders.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="py-12 text-center text-[#8A304C]">
+                          No orders matched your search criteria.
                         </td>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                    ) : (
+                      filteredOrders.map((order) => {
+                        const isPaid = order.payment?.status === "paid";
+                        return (
+                          <tr key={order.id} className="hover:bg-[#FEF7FB]/50 transition-colors">
+                            {/* Order ID & Date */}
+                            <td className="py-4 px-4 align-top">
+                              <span className="font-mono font-bold text-sm text-[#581527] block">
+                                #{order.id}
+                              </span>
+                              <span className="text-[10px] text-[#8A304C] block mt-0.5">
+                                {order.createdAt ? new Date(order.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "N/A"}
+                              </span>
+                            </td>
+
+                            {/* Customer Details */}
+                            <td className="py-4 px-4 align-top space-y-0.5">
+                              <p className="font-semibold text-[#1C1C1C] text-sm">
+                                {order.customer?.fullName || "Guest Customer"}
+                              </p>
+                              <a
+                                href={`tel:+91${order.customer?.mobile}`}
+                                className="text-[11px] text-[#581527] hover:underline block font-mono"
+                              >
+                                +91 {order.customer?.mobile}
+                              </a>
+                              <p className="text-[11px] text-[#777]">
+                                {order.customer?.city}, {order.customer?.state} - {order.customer?.pincode}
+                              </p>
+                            </td>
+
+                            {/* Items & Total */}
+                            <td className="py-4 px-4 align-top">
+                              <span className="font-bold text-sm text-[#581527] block">
+                                ₹{order.total?.toLocaleString("en-IN")}
+                              </span>
+                              <span className="text-[11px] text-[#8A304C] block mt-0.5">
+                                {order.items?.length || 0} items ({order.items?.reduce((s: number, i: any) => s + (i.quantity || 1), 0)} units)
+                              </span>
+                            </td>
+
+                            {/* Payment Status */}
+                            <td className="py-4 px-4 align-top">
+                              {isPaid ? (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#059669]/10 text-[#059669] uppercase tracking-wider">
+                                  <Check className="w-3 h-3" />
+                                  <span>PAID (RAZORPAY)</span>
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 uppercase tracking-wider">
+                                  <Clock className="w-3 h-3" />
+                                  <span>PENDING</span>
+                                </span>
+                              )}
+                              {order.payment?.razorpayPaymentId && (
+                                <span className="font-mono text-[10px] text-[#8A304C] block mt-1">
+                                  {order.payment.razorpayPaymentId}
+                                </span>
+                              )}
+                            </td>
+
+                            {/* Order Status Dropdown */}
+                            <td className="py-4 px-4 align-top">
+                              <select
+                                value={order.status}
+                                disabled={updatingOrderId === order.id}
+                                onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                className="px-3 py-1.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-semibold text-[#581527] cursor-pointer focus:outline-none"
+                              >
+                                <option value="Processing">Processing</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Cancelled">Cancelled</option>
+                              </select>
+                              {order.awb && (
+                                <span className="font-mono text-[10px] text-[#8A304C] block mt-1">
+                                  AWB: {order.awb}
+                                </span>
+                              )}
+                            </td>
+
+                            {/* Actions */}
+                            <td className="py-4 px-4 align-top text-right">
+                              <button
+                                onClick={() => {
+                                  setActiveModalOrder(order);
+                                  setEditingAwb(order.awb || "");
+                                }}
+                                className="px-3 py-1.5 rounded-lg border border-[#581527] text-[#581527] hover:bg-[#581527] hover:text-white transition-colors text-xs font-bold inline-flex items-center gap-1 cursor-pointer"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                <span>Details</span>
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          )}
-        </div>
+
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* TAB 2: PRODUCT INVENTORY & STOCK MANAGEMENT */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab === "inventory" && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl border border-[#F4CEDF] p-6 shadow-xs space-y-6">
+              <div>
+                <h3 className="font-serif text-xl font-bold text-[#581527]">
+                  Live Store Catalog &amp; Stock Levels
+                </h3>
+                <p className="text-xs font-sans text-[#8A304C] mt-1">
+                  Adjust current warehouse stock numbers or toggle in-stock availability instantly across the website.
+                </p>
+              </div>
+
+              <div className="divide-y divide-[#F4CEDF]">
+                {inventory.map((item) => {
+                  const isSaving = savingProductId === item.id;
+                  return (
+                    <div
+                      key={item.id}
+                      className="py-5 first:pt-0 last:pb-0 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-sans text-xs"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-[#FEF7FB] rounded-xl border border-[#F4CEDF] p-1 relative flex-shrink-0">
+                          <Image
+                            src="/images/rugby-skin-revival-jar.png"
+                            alt={item.name}
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                        <div>
+                          <p className="font-serif text-base font-bold text-[#581527]">{item.name}</p>
+                          <p className="text-[11px] text-[#8A304C]">Product ID: <span className="font-mono font-semibold">{item.id}</span></p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-4">
+                        {/* Price */}
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-[#8A304C] block mb-1">
+                            Price (₹)
+                          </label>
+                          <input
+                            type="number"
+                            value={item.price}
+                            onChange={(e) => {
+                              const val = parseFloat(e.target.value) || 0;
+                              setInventory((prev) =>
+                                prev.map((i) => (i.id === item.id ? { ...i, price: val } : i))
+                              );
+                            }}
+                            className="w-24 px-3 py-1.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg font-bold text-[#581527] focus:outline-none"
+                          />
+                        </div>
+
+                        {/* Stock Units */}
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-[#8A304C] block mb-1">
+                            Stock Units
+                          </label>
+                          <input
+                            type="number"
+                            value={item.stock}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value, 10) || 0;
+                              setInventory((prev) =>
+                                prev.map((i) => (i.id === item.id ? { ...i, stock: val } : i))
+                              );
+                            }}
+                            className="w-24 px-3 py-1.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg font-bold text-[#581527] focus:outline-none"
+                          />
+                        </div>
+
+                        {/* Availability Toggle */}
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-[#8A304C] block mb-1">
+                            Status
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setInventory((prev) =>
+                                prev.map((i) =>
+                                  i.id === item.id ? { ...i, inStock: !i.inStock } : i
+                                )
+                              );
+                            }}
+                            className={`px-3 py-1.5 rounded-lg font-bold text-xs uppercase tracking-wider cursor-pointer border ${
+                              item.inStock
+                                ? "bg-[#059669]/10 text-[#059669] border-[#059669]/20"
+                                : "bg-red-50 text-red-700 border-red-200"
+                            }`}
+                          >
+                            {item.inStock ? "IN STOCK" : "OUT OF STOCK"}
+                          </button>
+                        </div>
+
+                        {/* Save Button */}
+                        <div className="pt-4 md:pt-0">
+                          <button
+                            onClick={() => handleUpdateInventoryItem(item)}
+                            disabled={isSaving}
+                            className="px-4 py-2 rounded-lg bg-[#581527] hover:bg-[#3F0E1B] text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-60"
+                          >
+                            {isSaving ? (
+                              <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#EA90B5]" />
+                            ) : (
+                              <Save className="w-3.5 h-3.5 text-[#EA90B5]" />
+                            )}
+                            <span>Save</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
+
+      {/* ------------------------------------------------------------- */}
+      {/* ORDER DETAILS MODAL */}
+      {/* ------------------------------------------------------------- */}
+      {activeModalOrder && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-2xl rounded-3xl border border-[#F4CEDF] shadow-2xl p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+            
+            {/* Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-[#F4CEDF]">
+              <div>
+                <span className="text-[10px] uppercase font-bold text-[#AE3E64] tracking-widest block">ORDER INSPECTION</span>
+                <h3 className="font-serif text-2xl font-bold text-[#581527]">#{activeModalOrder.id}</h3>
+              </div>
+              <button
+                onClick={() => setActiveModalOrder(null)}
+                className="p-2 text-[#8A304C] hover:text-[#581527] cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Customer & Shipping Details */}
+            <div className="bg-[#FEF7FB] p-4 rounded-xl border border-[#F4CEDF] text-xs font-sans space-y-2">
+              <h4 className="font-bold uppercase tracking-wider text-[#581527] text-[11px]">Customer &amp; Delivery Destination</h4>
+              <p><strong>Name:</strong> {activeModalOrder.customer?.fullName}</p>
+              <p><strong>Mobile:</strong> <a href={`tel:+91${activeModalOrder.customer?.mobile}`} className="text-[#581527] underline">+91 {activeModalOrder.customer?.mobile}</a></p>
+              <p><strong>Email:</strong> <a href={`mailto:${activeModalOrder.customer?.email}`} className="text-[#581527] underline">{activeModalOrder.customer?.email}</a></p>
+              <p><strong>Address:</strong> {activeModalOrder.customer?.address}, {activeModalOrder.customer?.city}, {activeModalOrder.customer?.state} - {activeModalOrder.customer?.pincode}</p>
+              {activeModalOrder.customer?.orderNotes && (
+                <p><strong>Special Instructions:</strong> {activeModalOrder.customer.orderNotes}</p>
+              )}
+            </div>
+
+            {/* Products Table */}
+            <div>
+              <h4 className="font-bold uppercase tracking-wider text-[#581527] text-xs font-sans mb-3">Items Ordered</h4>
+              <div className="space-y-3 divide-y divide-[#F4CEDF] text-xs font-sans">
+                {activeModalOrder.items?.map((item: any) => (
+                  <div key={item.id} className="pt-3 first:pt-0 flex items-center justify-between">
+                    <div>
+                      <p className="font-serif font-bold text-[#581527] text-sm">{item.name}</p>
+                      <p className="text-[#8A304C]">Qty: {item.quantity} {item.netWeight ? `• ${item.netWeight}` : ""}</p>
+                    </div>
+                    <span className="font-bold text-[#581527]">₹{(item.price * item.quantity).toLocaleString("en-IN")}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="pt-3 mt-3 border-t border-[#F4CEDF] flex justify-between font-bold text-base text-[#581527] font-serif">
+                <span>Total Amount Paid</span>
+                <span>₹{activeModalOrder.total?.toLocaleString("en-IN")}</span>
+              </div>
+            </div>
+
+            {/* Payment Verification Data */}
+            <div className="p-4 rounded-xl bg-[#FDEAF3] text-xs font-sans space-y-1 text-[#581527]">
+              <h4 className="font-bold uppercase tracking-wider text-[11px]">Payment Gateway Record</h4>
+              <p><strong>Provider:</strong> Razorpay</p>
+              <p><strong>Status:</strong> {activeModalOrder.payment?.status?.toUpperCase() || "PENDING"}</p>
+              <p><strong>Razorpay Order ID:</strong> <span className="font-mono">{activeModalOrder.razorpay_order_id || activeModalOrder.payment?.razorpayOrderId || "N/A"}</span></p>
+              <p><strong>Razorpay Payment ID:</strong> <span className="font-mono">{activeModalOrder.razorpay_payment_id || activeModalOrder.payment?.razorpayPaymentId || activeModalOrder.payment?.transactionId || "N/A"}</span></p>
+            </div>
+
+            {/* AWB & Fulfillment Controls */}
+            <div className="space-y-3 pt-2 border-t border-[#F4CEDF] text-xs font-sans">
+              <h4 className="font-bold uppercase tracking-wider text-[#581527] text-[11px]">Courier Tracking &amp; Status</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[10px] uppercase font-bold text-[#8A304C] mb-1">Fulfillment Status</label>
+                  <select
+                    value={activeModalOrder.status}
+                    onChange={(e) => handleUpdateStatus(activeModalOrder.id, e.target.value, editingAwb)}
+                    className="w-full px-3 py-2 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg font-bold text-[#581527]"
+                  >
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase font-bold text-[#8A304C] mb-1">AWB Tracking Number</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={editingAwb}
+                      onChange={(e) => setEditingAwb(e.target.value)}
+                      placeholder="e.g. BD982736412IN"
+                      className="w-full px-3 py-2 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg font-mono font-bold text-[#581527]"
+                    />
+                    <button
+                      onClick={() => handleUpdateStatus(activeModalOrder.id, activeModalOrder.status, editingAwb)}
+                      className="px-3 py-2 bg-[#581527] text-white rounded-lg font-bold text-xs"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t border-[#F4CEDF]">
+              <button
+                onClick={() => setActiveModalOrder(null)}
+                className="px-6 py-2.5 rounded-full bg-[#581527] text-white font-bold text-xs uppercase tracking-wider cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

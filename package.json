@@ -9,12 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/nodemailer": "^8.0.2",
+    "@types/pg": "^8.23.1",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.4.7",
     "gsap": "^3.12.7",
     "lucide-react": "^1.16.0",
     "next": "16.4.6",
+    "nodemailer": "^10.6.0",
+    "pg": "^8.23.1",
     "qrcode": "^1.5.4",
+    "razorpay": "^2.9.8",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

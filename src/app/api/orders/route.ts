@@ -7,8 +7,17 @@ import {
   OrderCustomer,
   PaymentDetails,
 } from "@/lib/orders-db";
+import { verifyAdminRequest } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
+  // Only authenticated admin can view the entire orders list
+  if (!verifyAdminRequest(request)) {
+    return NextResponse.json(
+      { success: false, error: "Unauthorized access to orders. Admin login required." },
+      { status: 401 }
+    );
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("query") || searchParams.get("q");
@@ -49,7 +58,6 @@ export async function POST(request: NextRequest) {
       payment: PaymentDetails;
     };
 
-    // Basic Validation
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
         { success: false, error: "Order must contain at least one product" },
@@ -71,9 +79,9 @@ export async function POST(request: NextRequest) {
       shipping: Number(shipping) || 0,
       total: Number(total) || 0,
       payment: payment || {
-        method: "cod",
-        provider: "cod",
-        status: "cod_verified",
+        method: "online",
+        provider: "razorpay",
+        status: "pending",
         currency: "INR",
       },
     });

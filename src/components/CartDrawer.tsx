@@ -3,10 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { X, Trash2, Plus, Minus, ArrowRight, ShoppingBag, ShieldCheck, Truck, Check } from "lucide-react";
+import { X, Trash2, Plus, Minus, ArrowRight, ShoppingBag, ShieldCheck, Truck, Lock } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { generateCartWhatsAppUrl } from "@/lib/whatsapp";
-import { WhatsAppIcon } from "@/components/Icons";
 
 export default function CartDrawer() {
   const {
@@ -22,20 +20,6 @@ export default function CartDrawer() {
 
   if (!isCartOpen) return null;
 
-  const handleWhatsAppCheckout = () => {
-    const orderUrl = generateCartWhatsAppUrl({
-      items: items.map((i) => ({
-        name: i.product.name,
-        quantity: i.quantity,
-        price: i.product.price,
-      })),
-      subtotal,
-      shipping: 0,
-      total,
-    });
-    window.open(orderUrl, "_blank");
-  };
-
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
@@ -49,14 +33,14 @@ export default function CartDrawer() {
           {/* Header */}
           <div className="p-5 border-b border-[#F4CEDF] flex items-center justify-between bg-[#FFFFFF]">
             <div className="flex items-center gap-2.5">
-              <ShoppingBag className="w-5 h-5 text-[#AE3E64]" />
-              <h2 className="font-serif text-xl font-bold text-[#1C1C1C]">
+              <ShoppingBag className="w-5 h-5 text-[#581527]" />
+              <h2 className="font-serif text-xl font-bold text-[#581527]">
                 Shopping Cart ({items.reduce((s, i) => s + i.quantity, 0)})
               </h2>
             </div>
             <button
               onClick={closeCart}
-              className="p-1.5 text-[#8A304C] hover:text-[#1C1C1C] transition-colors cursor-pointer"
+              className="p-1.5 text-[#8A304C] hover:text-[#581527] transition-colors cursor-pointer"
               aria-label="Close cart"
             >
               <X className="w-5 h-5" />
@@ -64,28 +48,28 @@ export default function CartDrawer() {
           </div>
 
           {/* Free Shipping Strip */}
-          <div className="px-5 py-2.5 bg-[#2E7D32]/10 border-b border-[#2E7D32]/20 text-xs font-sans flex items-center gap-2 text-[#2E7D32] font-semibold">
+          <div className="px-5 py-2.5 bg-[#059669]/10 border-b border-[#059669]/20 text-xs font-sans flex items-center gap-2 text-[#059669] font-semibold">
             <Truck className="w-4 h-4 flex-shrink-0" />
-            <span>Complimentary Pan-India Express Shipping on your order!</span>
+            <span>Complimentary Pan-India Express Air Courier!</span>
           </div>
 
           {/* Cart Item List */}
           <div className="flex-1 overflow-y-auto p-5 space-y-4">
             {items.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-16 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-[#FFFFFF] border border-[#F4CEDF] flex items-center justify-center text-[#AE3E64]">
+                <div className="w-16 h-16 rounded-full bg-[#FFFFFF] border border-[#F4CEDF] flex items-center justify-center text-[#581527]">
                   <ShoppingBag className="w-8 h-8 stroke-[1.5]" />
                 </div>
                 <div className="space-y-1">
-                  <p className="font-serif text-xl font-bold text-[#1C1C1C]">Your cart is empty</p>
+                  <p className="font-serif text-xl font-bold text-[#581527]">Your cart is empty</p>
                   <p className="text-xs text-[#8A304C] max-w-xs font-sans">
-                    Begin your 10-day radiance transformation with Rugby White.
+                    Begin your skin revival ritual with Rugby White.
                   </p>
                 </div>
                 <Link
                   href="/shop"
                   onClick={closeCart}
-                  className="mt-3 px-6 py-3 rounded-full bg-[#AE3E64] hover:bg-[#8A304C] text-[#FFFFFF] text-xs font-sans tracking-wider uppercase font-bold transition-all shadow-xs"
+                  className="mt-3 px-6 py-3 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-[#FFFFFF] text-xs font-sans tracking-wider uppercase font-bold transition-all shadow-xs"
                 >
                   DISCOVER THE COLLECTION
                 </Link>
@@ -102,50 +86,51 @@ export default function CartDrawer() {
                       src={item.product.images[0]}
                       alt={item.product.name}
                       fill
-                      className="object-contain p-1"
+                      className="object-contain"
                     />
                   </div>
 
-                  {/* Details */}
+                  {/* Info */}
                   <div className="flex-1 flex flex-col justify-between">
-                    <div className="flex justify-between items-start">
-                      <div>
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
                         <Link
                           href={`/products/${item.product.slug}`}
                           onClick={closeCart}
-                          className="font-serif text-base font-bold text-[#1C1C1C] hover:text-[#AE3E64] leading-tight line-clamp-1"
+                          className="font-serif font-bold text-sm text-[#581527] hover:text-[#AE3E64] transition-colors leading-snug line-clamp-2"
                         >
                           {item.product.name}
                         </Link>
-                        <p className="text-[11px] text-[#8A304C] font-sans mt-0.5">
-                          {item.product.netWeight}
-                        </p>
+                        <button
+                          onClick={() => removeFromCart(item.product.id)}
+                          className="text-[#8A304C] hover:text-[#581527] transition-colors p-1"
+                          aria-label="Remove item"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => removeFromCart(item.product.id)}
-                        className="text-[#8A304C] hover:text-[#E53935] p-1 transition-colors cursor-pointer"
-                        aria-label="Remove item"
-                      >
-                        <Trash2 className="w-4 h-4 stroke-[1.5]" />
-                      </button>
+                      <p className="text-[11px] text-[#8A304C] font-sans mt-0.5">
+                        {item.product.netWeight}
+                      </p>
                     </div>
 
-                    <div className="flex items-center justify-between mt-3">
-                      {/* Quantity Controller */}
-                      <div className="flex items-center border border-[#F4CEDF] rounded-full bg-[#FEF7FB] px-2 py-0.5">
+                    <div className="flex items-center justify-between pt-2">
+                      {/* Quantity Stepper */}
+                      <div className="flex items-center border border-[#F4CEDF] rounded-lg bg-[#FEF7FB]">
                         <button
                           onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                          className="p-1 hover:text-[#AE3E64] text-[#8A304C] cursor-pointer"
+                          disabled={item.quantity <= 1}
+                          className="px-2 py-1 text-[#581527] hover:text-[#AE3E64] disabled:opacity-30 cursor-pointer"
                           aria-label="Decrease quantity"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="px-2.5 text-xs font-sans font-bold">
+                        <span className="px-2.5 text-xs font-sans font-bold text-[#581527]">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                          className="p-1 hover:text-[#AE3E64] text-[#8A304C] cursor-pointer"
+                          className="px-2 py-1 text-[#581527] hover:text-[#AE3E64] cursor-pointer"
                           aria-label="Increase quantity"
                         >
                           <Plus className="w-3 h-3" />
@@ -169,16 +154,16 @@ export default function CartDrawer() {
           {items.length > 0 && (
             <div className="p-5 bg-[#FFFFFF] border-t border-[#F4CEDF] space-y-4 shadow-sm">
               <div className="space-y-1.5 text-xs font-sans">
-                <div className="flex justify-between text-[#1C1C1C]/80">
+                <div className="flex justify-between text-[#8A304C]">
                   <span>Subtotal</span>
-                  <span className="font-semibold">₹{subtotal.toLocaleString("en-IN")}</span>
+                  <span className="font-semibold text-[#581527]">₹{subtotal.toLocaleString("en-IN")}</span>
                 </div>
-                <div className="flex justify-between text-[#1C1C1C]/80">
-                  <span>Pan-India Delivery</span>
-                  <span className="text-[#2E7D32] font-semibold">FREE</span>
+                <div className="flex justify-between text-[#8A304C]">
+                  <span>Pan-India Air Courier</span>
+                  <span className="text-[#059669] font-semibold">FREE</span>
                 </div>
                 <div className="flex justify-between text-lg font-serif font-bold text-[#581527] pt-2 border-t border-[#F4CEDF]">
-                  <span>Total</span>
+                  <span>Total Payable</span>
                   <span>₹{total.toLocaleString("en-IN")}</span>
                 </div>
               </div>
@@ -188,29 +173,22 @@ export default function CartDrawer() {
                 <Link
                   href="/checkout"
                   onClick={closeCart}
-                  className="w-full py-3.5 px-6 rounded-full bg-[#AE3E64] hover:bg-[#8A304C] text-[#FFFFFF] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-xs transition-all"
+                  className="w-full py-3.5 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-bold flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
                 >
-                  <span>PROCEED TO CHECKOUT</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <Lock className="w-4 h-4 text-[#EA90B5]" />
+                  <span>PROCEED TO SECURE CHECKOUT</span>
+                  <ArrowRight className="w-4 h-4 text-[#EA90B5]" />
                 </Link>
-
-                <button
-                  onClick={handleWhatsAppCheckout}
-                  className="w-full py-3 px-6 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white text-xs font-sans tracking-wider uppercase font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
-                >
-                  <WhatsAppIcon className="w-4 h-4 fill-white" />
-                  <span>ORDER ON WHATSAPP</span>
-                </button>
               </div>
 
               {/* Trust badges */}
               <div className="pt-1 flex items-center justify-center gap-3 text-[11px] text-[#8A304C] font-sans">
                 <div className="flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#2E7D32]" />
-                  <span>Cash on Delivery</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>Razorpay 256-Bit SSL</span>
                 </div>
                 <span>•</span>
-                <div>100% Genuine Botanical</div>
+                <div>100% Genuine Formula</div>
               </div>
             </div>
           )}
