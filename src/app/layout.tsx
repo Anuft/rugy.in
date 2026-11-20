@@ -33,7 +33,7 @@ export const metadata: Metadata = {
       "Discover the beauty of thoughtful skincare. A refined daily ritual designed to bring care, confidence and simplicity into every moment.",
     images: [
       {
-        url: "/images/instagram/DYWq6HcIte1.jpg",
+        url: "/images/rugby-skin-revival.jpg",
         width: 1200,
         height: 630,
         alt: "Rugby White Skincare Ritual",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     title: "RUGBY WHITE | The Art of Skincare · Glow is not a trend. It's a feeling.",
     description:
       "Glow is not a trend. It's a feeling. Discover the Rugby White 10 Days Challenge skincare ritual.",
-    images: ["/images/instagram/DYWq6HcIte1.jpg"],
+    images: ["/images/rugby-skin-revival.jpg"],
   },
   icons: {
     icon: "/favicon.ico",

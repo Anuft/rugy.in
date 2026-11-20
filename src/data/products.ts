@@ -62,7 +62,7 @@ export const products: Product[] = [
       "Crafted with pure botanicals, niacinamide, and deep moisture actives, Rugby White works overnight to clear sun tanning, calm blemishes, and reveal visibly luminous, unified skin in 10 days.",
     images: [
       "/images/rugby-skin-revival.jpg",
-      "/images/instagram/DYWq6HcIte1.jpg",
+      "/images/rugby-skin-revival-jar.png",
       "/images/instagram/DTzQd3pEfsT.jpg",
       "/images/instagram/DXqFYBckZEu.jpg",
       "/images/instagram/DYHfshgkR3Y.jpg",
@@ -155,7 +155,7 @@ export const products: Product[] = [
       "Our most popular bundle! The Buy 2 Combo Pack gives you two full-sized Rugby White 10 Days Challenge jars at a major discount. Consistent 20-30 day usage allows your skin to cycle through deep cellular renewal, fading stubborn marks and locking in a lasting natural glow.",
     images: [
       "/images/instagram/DcK0UwPRNUE.jpg",
-      "/images/instagram/DYWq6HcIte1.jpg",
+      "/images/rugby-skin-revival.jpg",
       "/images/instagram/DXqFYBckZEu.jpg",
       "/images/instagram/DXNVS0gkyTQ_1.jpg",
     ],
@@ -210,7 +210,7 @@ export const products: Product[] = [
     fullDescription:
       "Enter the lucrative skincare market with the official Rugby White Wholesale Entry Pack. Contains 5 brand-new, tamper-sealed 10 Days Challenge jars ready for retail resale or salon client treatments. Guaranteed fast turnover backed by strong brand demand across India.",
     images: [
-      "/images/instagram/DYWq6HcIte1.jpg",
+      "/images/rugby-skin-revival.jpg",
       "/images/instagram/DXqFYBckZEu.jpg",
       "/images/instagram/DcK0UwPRNUE.jpg",
     ],
@@ -259,7 +259,7 @@ export const products: Product[] = [
     fullDescription:
       "Maximize your business profits with our High Volume 10-Pack. Designed specifically for active beauty parlours, bridal makeup artists, aesthetic centers, and regional distributors. Every jar delivers consistent 10-day glowing satisfaction.",
     images: [
-      "/images/instagram/DYWq6HcIte1.jpg",
+      "/images/rugby-skin-revival.jpg",
       "/images/instagram/DXqFYBckZEu.jpg",
       "/images/instagram/DcK0UwPRNUE.jpg",
     ],
@@ -273,7 +273,7 @@ export const products: Product[] = [
         step: "WHOLESALE",
         title: "BULK ORDER",
         instruction: "Track and manage inventory with official batch codes and fresh expiry dates.",
-        image: "/images/instagram/DYWq6HcIte1.jpg",
+        image: "/images/rugby-skin-revival.jpg",
       },
     ],
     purityPillars: [

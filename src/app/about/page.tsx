@@ -37,8 +37,8 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-6 relative aspect-[4/5] rounded-2xl bg-[#FFFFFF] border border-[#F4CEDF] overflow-hidden shadow-sm">
             <Image
-              src="/images/instagram/DYWq6HcIte1.jpg"
-              alt="Rugby White Natural Skincare Jar on Sand"
+              src="/images/rugby-skin-revival.jpg"
+              alt="Rugby White Skin Revival Jar"
               fill
               className="object-cover object-center"
             />

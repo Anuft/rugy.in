@@ -17,7 +17,7 @@ export default function ProductReveal() {
       {/* Background: Natural Deep Emerald Water Surface with Reflections */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/instagram/DYWq6HcIte1.jpg"
+          src="/images/instagram/DZSAtQIxL-y.jpg"
           alt="Natural Water Ripples and Botanicals"
           fill
           className="object-cover object-center opacity-25 mix-blend-luminosity scale-110"

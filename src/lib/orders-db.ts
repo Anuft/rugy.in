@@ -77,7 +77,7 @@ const INITIAL_ORDERS: Order[] = [
         name: "Rugby White 10 Days Challenge (50g)",
         price: 999,
         quantity: 1,
-        image: "/images/instagram/DYWq6HcIte1.jpg",
+        image: "/images/rugby-skin-revival.jpg",
         netWeight: "50g",
       },
     ],

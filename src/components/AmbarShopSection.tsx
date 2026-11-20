@@ -35,18 +35,18 @@ export default function AmbarShopSection() {
             onMouseEnter={() => setShowAltImage(true)}
             onMouseLeave={() => setShowAltImage(false)}
           >
-            {/* Primary Image: Product Jar from Instagram */}
+            {/* Primary Image: New Rugby White Skin Revival Jar */}
             <div
               className={`absolute inset-0 p-4 sm:p-6 flex items-center justify-center transition-all duration-700 ${
                 showAltImage ? "opacity-0 scale-95" : "opacity-100 scale-100"
               }`}
             >
               <Image
-                src="/images/instagram/DYWq6HcIte1.jpg"
+                src="/images/rugby-skin-revival.jpg"
                 alt={product.name}
                 fill
                 priority
-                className="object-cover rounded-[20px]"
+                className="object-contain rounded-[20px]"
               />
             </div>
 

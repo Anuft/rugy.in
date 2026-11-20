@@ -35,7 +35,7 @@ export default function TenDaysChallenge() {
       title: "YOUR DAILY MOMENT",
       description: "Dark marks and uneven tone begin to visibly fade.",
       focus: "Radiance & Tone",
-      image: "/images/instagram/DYWq6HcIte1.jpg",
+      image: "/images/instagram/DTzQd3pEfsT.jpg",
     },
     {
       day: "DAY 10",

@@ -9,8 +9,8 @@ import { siteConfig } from "@/data/siteConfig";
 export default function InstagramGallery() {
   const posts = [
     {
-      image: "/images/instagram/DYWq6HcIte1.jpg",
-      postUrl: "https://www.instagram.com/p/DYWq6HcIte1/",
+      image: "/images/instagram/DXmmECOk9kS.jpg",
+      postUrl: "https://www.instagram.com/rugbywhite.in/",
       tag: "#10DaysChallenge",
       caption: "Glow that feels fresh, clean & confident. Experience the 10 Days Challenge with Rugby Beauty Cream.",
     },

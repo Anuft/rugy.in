@@ -29,7 +29,7 @@ export default function ProductStorytelling() {
     {
       title: "WHERE BEAUTY MEETS CONSISTENCY",
       subtitle: "Iconic 10 Days Challenge night cream",
-      image: "/images/instagram/DYWq6HcIte1.jpg",
+      image: "/images/rugby-skin-revival.jpg",
       span: "col-span-12 md:col-span-7",
       aspect: "aspect-[16/10]",
     },
