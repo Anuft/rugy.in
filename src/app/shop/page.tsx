@@ -3,43 +3,34 @@
 import React, { useState, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   Star,
-  ShoppingBag,
-  ArrowRight,
-  Check,
   ShieldCheck,
   Truck,
-  Sparkles,
-  Lock,
   Leaf,
   Clock,
+  Check,
 } from "lucide-react";
 import { flagshipProduct } from "@/data/products";
-import { useCart } from "@/context/CartContext";
 import { siteConfig } from "@/data/siteConfig";
+import { generateSingleProductWhatsAppUrl } from "@/lib/whatsapp";
+import { WhatsAppIcon } from "@/components/Icons";
 
 function ShopContent() {
-  const router = useRouter();
   const product = flagshipProduct;
-  const { addToCart } = useCart();
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [added, setAdded] = useState(false);
 
   const savings = product.originalPrice - product.price;
 
-  const handleAddToCart = () => {
-    addToCart(product, quantity);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  };
-
-  const handleBuyNow = () => {
-    addToCart(product, quantity);
-    router.push("/checkout");
+  const handleWhatsAppOrder = () => {
+    const url = generateSingleProductWhatsAppUrl({
+      productName: product.name,
+      quantity,
+      price: product.price * quantity,
+    });
+    window.open(url, "_blank");
   };
 
   return (
@@ -170,10 +161,10 @@ function ShopContent() {
                 </div>
               </div>
 
-              {/* Quantity Stepper & CTAs */}
+              {/* Quantity Stepper & WhatsApp Order CTA */}
               <div className="space-y-3 pt-2">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center border border-[#F4CEDF] rounded-full bg-[#FEF7FB] px-2 py-1">
+                  <div className="flex items-center border border-[#F4CEDF] rounded-full bg-[#FEF7FB] px-3 py-2">
                     <button
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                       disabled={quantity <= 1}
@@ -193,35 +184,13 @@ function ShopContent() {
                   </div>
 
                   <button
-                    onClick={handleAddToCart}
-                    className={`flex-1 py-3.5 px-6 rounded-full text-xs font-sans font-bold tracking-[0.15em] uppercase transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm ${
-                      added
-                        ? "bg-[#059669] text-white"
-                        : "bg-[#1C1C1C] hover:bg-[#581527] text-white"
-                    }`}
+                    onClick={handleWhatsAppOrder}
+                    className="flex-1 py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white text-xs font-sans font-bold tracking-[0.18em] uppercase transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg"
                   >
-                    {added ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        <span>ADDED TO BAG</span>
-                      </>
-                    ) : (
-                      <>
-                        <ShoppingBag className="w-4 h-4 text-[#EA90B5]" />
-                        <span>ADD TO CART · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
-                      </>
-                    )}
+                    <WhatsAppIcon className="w-4 h-4 fill-white" />
+                    <span>ORDER ON WHATSAPP · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
                   </button>
                 </div>
-
-                <button
-                  onClick={handleBuyNow}
-                  className="w-full py-4 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans font-bold tracking-[0.2em] uppercase flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
-                >
-                  <Lock className="w-4 h-4 text-[#EA90B5]" />
-                  <span>INSTANT CHECKOUT · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
-                  <ArrowRight className="w-4 h-4 text-[#EA90B5]" />
-                </button>
               </div>
 
               {/* Trust Badges */}

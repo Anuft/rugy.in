@@ -35,21 +35,6 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<"overview" | "benefits" | "ritual" | "ingredients" | "reviews">("overview");
-  const [isAdded, setIsAdded] = useState(false);
-
-  const { addToCart } = useCart();
-  const router = useRouter();
-
-  const handleAddToCart = () => {
-    addToCart(product, quantity);
-    setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 1800);
-  };
-
-  const handleBuyNow = () => {
-    addToCart(product, quantity);
-    router.push("/checkout");
-  };
 
   const handleWhatsAppOrder = () => {
     const url = generateSingleProductWhatsAppUrl({
@@ -209,48 +194,16 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                 </div>
               </div>
 
-              {/* Dual Action Buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                {/* ADD TO CART (Black pill) */}
+              {/* WhatsApp 1-Click Order Button */}
+              <div className="pt-2">
                 <button
-                  onClick={handleAddToCart}
-                  className={`w-full py-4 px-6 rounded-full text-xs font-sans tracking-[0.2em] uppercase font-bold transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer ${
-                    isAdded
-                      ? "bg-[#2E7D32] text-white"
-                      : "bg-[#1C1C1C] hover:bg-[#581527] text-[#FFFFFF]"
-                  }`}
+                  onClick={handleWhatsAppOrder}
+                  className="w-full py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer"
                 >
-                  {isAdded ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>ADDED TO BAG</span>
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag className="w-4 h-4" />
-                      <span>ADD TO BAG · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
-                    </>
-                  )}
-                </button>
-
-                {/* BUY NOW (Gold pill) */}
-                <button
-                  onClick={handleBuyNow}
-                  className="w-full py-4 px-6 rounded-full bg-[#AE3E64] hover:bg-[#8A304C] text-[#FFFFFF] text-xs font-sans tracking-[0.2em] uppercase font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <span>BUY NOW (COD &amp; UPI)</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <WhatsAppIcon className="w-5 h-5 fill-white" />
+                  <span>ORDER ON WHATSAPP · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
                 </button>
               </div>
-
-              {/* WhatsApp 1-Click Order Button */}
-              <button
-                onClick={handleWhatsAppOrder}
-                className="w-full py-3.5 px-6 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-sans tracking-wider uppercase font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <WhatsAppIcon className="w-4 h-4 fill-white" />
-                <span>ORDER ON WHATSAPP (INSTANT ASSIST)</span>
-              </button>
             </div>
 
             {/* Quick Guarantees Strip */}
@@ -545,12 +498,12 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                       <span className="font-serif font-bold text-lg text-[#581527]">
                         ₹{rel.price.toLocaleString("en-IN")}
                       </span>
-                      <button
-                        onClick={() => addToCart(rel, 1)}
+                      <Link
+                        href={`/products/${rel.slug}`}
                         className="text-xs font-sans tracking-wider uppercase text-[#AE3E64] hover:text-[#581527] font-bold cursor-pointer"
                       >
-                        + ADD TO BAG
-                      </button>
+                        VIEW RITUAL
+                      </Link>
                     </div>
                   </div>
                 </div>

@@ -53,9 +53,9 @@ export default function Hero() {
             <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-5">
               <a
                 href="#shop"
-                className="w-full sm:w-auto px-8 py-4 bg-[#FEF7FB] text-[#581527] text-xs font-semibold tracking-[0.25em] uppercase hover:bg-[#AE3E64] hover:text-[#FFFFFF] transition-all duration-300 text-center shadow-lg hover:shadow-xl"
+                className="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 text-center shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2"
               >
-                ORDER NOW · ₹599
+                <span>ORDER ON WHATSAPP · ₹599</span>
               </a>
               <a
                 href="#face-reviews"

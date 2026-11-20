@@ -159,11 +159,11 @@ export default function AmbarShopSection() {
               </li>
             </ul>
 
-            {/* Actions: Buy Now & Add to Bag */}
+            {/* Actions: Direct WhatsApp Order */}
             <div className="pt-2 space-y-3">
               <div className="flex flex-col sm:flex-row gap-3">
                 {/* Quantity */}
-                <div className="flex items-center justify-between border border-[#F4CEDF] px-3 py-3 w-full sm:w-32 bg-[#FFFFFF]">
+                <div className="flex items-center justify-between border border-[#F4CEDF] px-4 py-3.5 w-full sm:w-36 bg-[#FFFFFF]">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="p-1 hover:text-[#581527] text-[#8A304C]"
@@ -181,53 +181,32 @@ export default function AmbarShopSection() {
                   </button>
                 </div>
 
-                {/* Add to Bag */}
+                {/* Direct Order on WhatsApp */}
                 <button
-                  onClick={() => addToCart(product, quantity)}
-                  className="flex-1 py-3.5 px-4 bg-[#FFFFFF] text-[#581527] border border-[#581527] text-xs font-sans tracking-[0.2em] uppercase font-semibold hover:bg-[#581527] hover:text-[#FEF7FB] transition-all flex items-center justify-center gap-2"
+                  onClick={handleWhatsApp}
+                  className="flex-1 py-4 px-6 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold transition-all flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg cursor-pointer"
                 >
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>ADD TO BAG</span>
-                </button>
-
-                {/* Buy Now (Direct Checkout) */}
-                <button
-                  onClick={handleBuyNow}
-                  className="flex-1 py-3.5 px-6 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-semibold hover:bg-[#3F0E1B] transition-all flex items-center justify-center gap-2 shadow-md"
-                >
-                  <span>BUY NOW · ₹{product.price * quantity}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <WhatsAppIcon className="w-5 h-5 fill-white" />
+                  <span>ORDER ON WHATSAPP · ₹{product.price * quantity}</span>
                 </button>
               </div>
 
-              {/* Secure Checkout Trust Info */}
-              <div className="flex items-center justify-center gap-4 text-[11px] text-[#8A304C] pt-1">
-                <span className="flex items-center gap-1">
+              {/* Trust Badges */}
+              <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] text-[#8A304C] pt-2">
+                <span className="flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#581527]" />
                   100% Original Formula
                 </span>
                 <span>•</span>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1.5">
                   <Truck className="w-3.5 h-3.5 text-[#581527]" />
                   Free Express Shipping
                 </span>
                 <span>•</span>
-                <span className="flex items-center gap-1">
-                  <Lock className="w-3.5 h-3.5 text-[#581527]" />
-                  Razorpay Verified
+                <span className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#581527]" />
+                  Instant WhatsApp Confirmation
                 </span>
-              </div>
-
-              {/* Concierge Assistance */}
-              <div className="pt-2 text-center flex items-center justify-center gap-2 text-xs text-[#8A304C]">
-                <span>Have questions?</span>
-                <button
-                  onClick={handleWhatsApp}
-                  className="text-[#581527] hover:underline inline-flex items-center gap-1 font-medium"
-                >
-                  <WhatsAppIcon className="w-3.5 h-3.5 fill-[#25D366]" />
-                  <span>Chat with Concierge ({siteConfig.whatsappFormatted})</span>
-                </button>
               </div>
             </div>
           </div>

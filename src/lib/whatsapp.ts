@@ -10,18 +10,19 @@ export interface WhatsAppOrderDetails {
 }
 
 export function generateSingleProductWhatsAppUrl(details: WhatsAppOrderDetails): string {
-  const number = siteConfig.whatsappNumber;
-  const message = `Hello Rugby White!
+  const rawNumber = siteConfig.whatsappNumber.replace(/\D/g, "");
+  const fullNumber = rawNumber.startsWith("91") && rawNumber.length === 12 ? rawNumber : `91${rawNumber}`;
+  const message = `Hello Rugby White! 🌿
 
-I would like to place an order.
+I would like to place an order from your website:
 
-Product: ${details.productName}
-Quantity: ${details.quantity}
-Price: ₹${details.price}
+• Product: ${details.productName}
+• Quantity: ${details.quantity}
+• Total: ₹${details.price}
 
-Please share the ordering details.`;
+Please confirm my order and share delivery / payment details. Thank you!`;
 
-  return `https://wa.me/91${number}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${fullNumber}?text=${encodeURIComponent(message)}`;
 }
 
 export interface CartCheckoutItem {
@@ -79,7 +80,8 @@ Address: ${order.address || ""}, ${order.city || ""}, ${order.state || ""} - ${o
 }
 
 export function generateConciergeWhatsAppUrl(): string {
-  const number = siteConfig.whatsappNumber;
+  const rawNumber = siteConfig.whatsappNumber.replace(/\D/g, "");
+  const fullNumber = rawNumber.startsWith("91") && rawNumber.length === 12 ? rawNumber : `91${rawNumber}`;
   const message = `Hello Rugby White! I'm visiting your website and have a question about the 10 Days Challenge skincare ritual.`;
-  return `https://wa.me/91${number}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${fullNumber}?text=${encodeURIComponent(message)}`;
 }

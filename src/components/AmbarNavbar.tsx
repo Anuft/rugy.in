@@ -3,17 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingBag, User, Menu, X, Search, Truck } from "lucide-react";
+import { User, Menu, X, Truck } from "lucide-react";
 import RugbyWhiteLogo from "@/components/RugbyWhiteLogo";
 import { siteConfig } from "@/data/siteConfig";
-import { useCart } from "@/context/CartContext";
 import { WhatsAppIcon, InstagramIcon } from "@/components/Icons";
 
 export default function AmbarNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { totalItems, openCart } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -152,18 +150,20 @@ export default function AmbarNavbar() {
                   <User className="w-5 h-5 stroke-[1.5]" />
                 </Link>
 
-                {/* Cart Shopping Bag with Red Counter Badge */}
-                <button
-                  onClick={openCart}
-                  className="relative p-1.5 text-[#2A1018] hover:text-[#AE3E64] transition-colors cursor-pointer group"
-                  aria-label={`Shopping Bag with ${totalItems} items`}
+                {/* WhatsApp Direct Order Button */}
+                <a
+                  href={`https://wa.me/919207341674?text=${encodeURIComponent(
+                    "Hello Rugby White! 🌿 I would like to order the 10 Days Challenge Night Cream (₹599). Please confirm details!"
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-1.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white text-[11px] font-sans font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm hover:scale-105"
+                  aria-label="Order on WhatsApp"
                 >
-                  <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
-                  {/* Badge Counter (Rose-Burgundy luxury badge) */}
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#AE3E64] text-white text-[9px] font-bold font-sans flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                    {totalItems}
-                  </span>
-                </button>
+                  <WhatsAppIcon className="w-3.5 h-3.5 fill-white" />
+                  <span className="hidden sm:inline">ORDER ON WHATSAPP</span>
+                  <span className="sm:hidden">ORDER</span>
+                </a>
               </div>
             </div>
           </div>
