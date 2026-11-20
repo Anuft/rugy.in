@@ -24,8 +24,8 @@
   --color-gold-light: #EA90B5;
   --color-gold-dark: #8A304C;
 
-  --font-serif: "Cormorant Garamond", "Playfair Display", Didot, Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", "Outfit", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: "Cormorant Garamond", "EB Garamond", Garamond, "Playfair Display", Georgia, serif;
+  --font-sans: "EB Garamond", "Cormorant Garamond", Garamond, "Playfair Display", Georgia, serif;
 }
 
 :root {
@@ -84,6 +84,11 @@ body {
 h1, h2, h3, h4, .font-serif {
   font-family: var(--font-serif);
   letter-spacing: -0.015em;
+}
+
+/* Classic Luxury Body & Accents */
+p, span, a, button, input, textarea, select, label, li, .font-sans {
+  font-family: var(--font-sans);
 }
 
 /* Subtle Shimmer for luxury elements */
