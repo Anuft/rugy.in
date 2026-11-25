@@ -44,7 +44,7 @@ export const products: Product[] = [
   {
     id: "rugby-white-10-days-challenge",
     slug: "10-days-challenge",
-    name: "RUGBY WHITE 10 DAYS CHALLENGE",
+    name: "RUGBY WHITE NIGHT CREAM",
     subtitle: "Radiance Nourishing Night Ritual Cream",
     category: "Night Cream",
     price: 599,
@@ -57,9 +57,9 @@ export const products: Product[] = [
     badge: "SIGNATURE NIGHT CREAM",
     badgeColor: "red",
     shortDescription:
-      "Iconic 10 Days Challenge night cream. Brightens dull tone, fades dark spots, and restores glass-skin radiance.",
+      "Signature radiance nourishing night cream. Brightens dull tone, fades dark spots, and restores glass-skin radiance.",
     fullDescription:
-      "Crafted with pure botanicals, niacinamide, and deep moisture actives, Rugby White works overnight to clear sun tanning, calm blemishes, and reveal visibly luminous, unified skin in 10 days.",
+      "Crafted with pure botanicals, niacinamide, and deep moisture actives, Rugby White works overnight to clear sun tanning, calm blemishes, and reveal visibly luminous, unified skin.",
     images: [
       "/images/rugby-skin-revival.jpg",
       "/images/rugby-skin-revival-jar.png",

@@ -11,7 +11,7 @@ export default function ContactPage() {
     name: "",
     email: "",
     phone: "",
-    subject: "10 Days Challenge Consultation",
+    subject: "Rugby White Skincare Consultation",
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -34,7 +34,7 @@ export default function ContactPage() {
             Customer Concierge &amp; Inquiries.
           </h1>
           <p className="font-sans text-xs sm:text-sm text-[#1C1C1C]/70 font-light leading-relaxed">
-            Have questions about the Rugby White 10 Days Challenge night cream or your order? Connect directly with our skincare team.
+            Have questions about the Rugby White Night Cream or your order? Connect directly with our skincare team.
           </p>
         </div>
 
@@ -190,7 +190,7 @@ export default function ContactPage() {
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                       className="w-full px-4 py-3 bg-[#FEF7FB] border border-[#F4CEDF] rounded-lg text-xs font-sans focus:outline-none focus:border-[#AE3E64] cursor-pointer"
                     >
-                      <option value="10 Days Challenge Consultation">10 Days Challenge Consultation</option>
+                      <option value="Rugby White Skincare Consultation">Rugby White Skincare Consultation</option>
                       <option value="Order Tracking">Order &amp; Delivery Tracking</option>
                       <option value="Wholesale">Wholesale &amp; Reseller Packs</option>
                       <option value="General">General Inquiry</option>

@@ -220,7 +220,7 @@ function OrderSuccessContent() {
           </div>
           <div className="p-4 rounded-xl bg-white border border-[#F4CEDF] space-y-1">
             <Sparkles className="w-5 h-5 text-[#581527] mx-auto" />
-            <p className="font-bold text-[#581527]">10 Days Challenge</p>
+            <p className="font-bold text-[#581527]">Signature Night Ritual</p>
             <p className="text-[11px]">Visible skin radiance guaranteed</p>
           </div>
         </div>

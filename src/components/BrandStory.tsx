@@ -58,7 +58,7 @@ export default function BrandStory() {
               href="/products/10-days-challenge"
               className="text-xs font-sans tracking-[0.2em] uppercase text-[#EA90B5] hover:text-[#FFFFFF] border-b border-[#AE3E64] pb-1 transition-colors"
             >
-              EXPERIENCE THE 10 DAYS CHALLENGE
+              EXPERIENCE RUGBY WHITE NIGHT CREAM
             </Link>
           </div>
         </div>

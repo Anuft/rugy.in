@@ -11,26 +11,26 @@ export default function InstagramGallery() {
     {
       image: "/images/instagram/DXmmECOk9kS.jpg",
       postUrl: "https://www.instagram.com/rugbywhite.in/",
-      tag: "#10DaysChallenge",
-      caption: "Glow that feels fresh, clean & confident. Experience the 10 Days Challenge with Rugby Beauty Cream.",
+      tag: "#RugbyWhite",
+      caption: "Glow that feels fresh, clean & confident. Experience the signature night ritual with Rugby Beauty Cream.",
     },
     {
       image: "/images/instagram/DXNVS0gkyTQ_1.jpg",
       postUrl: "https://www.instagram.com/p/DXNVS0gkyTQ/",
       tag: "#CustomerReview",
-      caption: "Real WhatsApp review: 'Ente Tanning, pigmentation okke nalla pole remove aayi... Acne mark dull aayi varunnund...' (9 Days)",
+      caption: "Real WhatsApp review: 'Ente Tanning, pigmentation okke nalla pole remove aayi... Acne mark dull aayi varunnund...' (Verified Client)",
     },
     {
       image: "/images/instagram/DZSAtQIxL-y.jpg",
       postUrl: "https://www.instagram.com/rugbywhite.in/",
       tag: "#PureBotanicals",
-      caption: "Take the 10 Days Challenge 🌿 Safe botanical formula that nourishes, brightens & protects.",
+      caption: "Discover the pure night ritual 🌿 Safe botanical formula that nourishes, brightens & protects.",
     },
     {
       image: "/images/instagram/DZyyZ_Jx7_3.jpg",
       postUrl: "https://www.instagram.com/p/DZyyZ_Jx7_3/",
       tag: "#VisibleChange",
-      caption: "10 Days Challenge: Real Results. Visible Change. Fast-acting daily moisturizer with pure care.",
+      caption: "Real Results. Visible Change. Fast-acting daily night moisturizer with pure botanical care.",
     },
     {
       image: "/images/instagram/DTzQd3pEfsT.jpg",
@@ -42,7 +42,7 @@ export default function InstagramGallery() {
       image: "/images/instagram/DeORA4GxUig.jpg",
       postUrl: "https://www.instagram.com/rugbywhite.in/",
       tag: "#ClearSkin",
-      caption: "Natural glow & barrier support. Dermatologically tested 10 Days Challenge Night Cream.",
+      caption: "Natural glow & barrier support. Dermatologically tested Rugby White Night Cream.",
     },
   ];
 

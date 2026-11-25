@@ -94,7 +94,7 @@ export default function SkincareRitual() {
             &ldquo;For best ritual experience, apply twice daily — once upon waking, and once before evening rest. Consistency is the foundation of genuine glow.&rdquo;
           </p>
           <span className="text-[11px] text-[#8A304C] tracking-widest uppercase font-sans block">
-            RUGBY WHITE 10 DAYS CHALLENGE GUIDELINES
+            RUGBY WHITE NIGHT RITUAL GUIDELINES
           </span>
         </div>
       </div>

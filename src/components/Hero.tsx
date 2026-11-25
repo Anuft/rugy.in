@@ -32,7 +32,7 @@ export default function Hero() {
             <div className="inline-flex items-center justify-center lg:justify-start gap-3">
               <span className="w-8 h-[1px] bg-[#AE3E64]" />
               <span className="text-[11px] sm:text-xs font-sans tracking-[0.35em] uppercase text-[#EA90B5] font-medium">
-                THE 10 DAYS CHALLENGE RITUAL
+                SIGNATURE NIGHT RITUAL
               </span>
             </div>
 
@@ -46,7 +46,7 @@ export default function Hero() {
 
             {/* Subtitle */}
             <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/80 font-light max-w-lg mx-auto lg:mx-0 leading-relaxed tracking-wide">
-              Botanical hydration and barrier care for clear, glowing skin in 10 days.
+              Botanical hydration and barrier care for clear, glowing, radiant skin.
             </p>
 
             {/* CTAs */}
@@ -61,7 +61,7 @@ export default function Hero() {
                 href="#face-reviews"
                 className="w-full sm:w-auto px-8 py-4 border border-[#FEF7FB]/40 text-[#FEF7FB] text-xs font-medium tracking-[0.25em] uppercase hover:border-[#AE3E64] hover:text-[#AE3E64] transition-all duration-300 text-center"
               >
-                VIEW 10-DAY REVIEWS
+                VIEW CLIENT REVIEWS
               </a>
             </div>
 
@@ -108,7 +108,7 @@ export default function Hero() {
                     FLAGSHIP RITUAL
                   </span>
                   <span className="text-xs text-[#FEF7FB] font-medium">
-                    10 Days Challenge • ₹599
+                    Night Cream • ₹599
                   </span>
                 </div>
               </div>

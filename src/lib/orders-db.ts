@@ -73,7 +73,7 @@ const INITIAL_ORDERS: Order[] = [
     items: [
       {
         id: "10-days-challenge",
-        name: "Rugby White 10 Days Challenge (50g)",
+        name: "Rugby White Night Cream (35g)",
         price: 599,
         quantity: 1,
         image: "/images/rugby-skin-revival.jpg",

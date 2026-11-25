@@ -92,13 +92,13 @@ export default function AmbarShopSection() {
                 INTRODUCING
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl text-[#581527] tracking-tight leading-[1.1]">
-                THE 10 DAYS CHALLENGE.
+                RUGBY WHITE NIGHT CREAM.
               </h2>
               <p className="font-serif italic text-base sm:text-lg text-[#8A304C]">
                 Radiance Nourishing Night Ritual Cream
               </p>
               <p className="font-sans text-sm text-[#2A1018]/80 font-light leading-relaxed pt-1">
-                Visibly luminous, clear skin in 10 days of consistent evening care.
+                Visibly luminous, clear skin with consistent evening care.
               </p>
             </div>
 

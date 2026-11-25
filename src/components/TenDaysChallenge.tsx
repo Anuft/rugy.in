@@ -62,7 +62,7 @@ export default function TenDaysChallenge() {
           <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl tracking-tight text-[#581527] leading-[1.1]">
             INTRODUCING
             <span className="block italic font-light text-[#8A304C]">
-              THE 10 DAYS CHALLENGE.
+              THE NIGHT RITUAL.
             </span>
           </h2>
 
@@ -139,7 +139,7 @@ export default function TenDaysChallenge() {
                 href="/products/10-days-challenge"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-medium hover:bg-[#3F0E1B] transition-colors shadow-sm"
               >
-                <span>DISCOVER THE CHALLENGE</span>
+                <span>DISCOVER THE RITUAL</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <div className="text-right">
@@ -147,7 +147,7 @@ export default function TenDaysChallenge() {
                   YOUR SKIN. YOUR RITUAL. YOUR MOMENT.
                 </span>
                 <span className="text-xs text-[#8A304C] font-sans">
-                  {timelineDays[selectedDay].day} of the 10 Days Challenge
+                  {timelineDays[selectedDay].day} of the Night Ritual
                 </span>
               </div>
             </div>

@@ -40,7 +40,7 @@ export default function FeaturedShopping() {
             THE SIGNATURE RITUAL
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl text-[#581527] tracking-tight">
-            COMMENCE YOUR 10 DAYS CHALLENGE.
+            COMMENCE YOUR NIGHT RITUAL.
           </h2>
           <p className="font-sans text-xs sm:text-sm text-[#2A1018]/70 font-light max-w-md mx-auto">
             Experience the transformative daily nourishment formulated to awaken natural radiance.

@@ -77,7 +77,7 @@ export default function ProductReveal() {
           >
             <Image
               src="/images/rugby-white-jar.png"
-              alt="Rugby White 10 Days Challenge Skincare Jar"
+              alt="Rugby White Night Cream Skincare Jar"
               fill
               className="object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.85)]"
             />
@@ -87,7 +87,7 @@ export default function ProductReveal() {
           <div className="mt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-[#8A304C] font-sans tracking-widest uppercase">
             <span>35G / 1.23 OZ</span>
             <span>•</span>
-            <span>10 DAYS RITUAL FORMULA</span>
+            <span>NIGHT RITUAL FORMULA</span>
             <span>•</span>
             <span>PAN-INDIA DISPATCH</span>
           </div>
@@ -95,7 +95,7 @@ export default function ProductReveal() {
 
         {/* Description */}
         <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/85 font-light max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10">
-          Discover the Rugby White 10 Days Challenge and experience a thoughtful daily skincare routine crafted to celebrate your authentic, healthy complexion.
+          Discover Rugby White Night Cream and experience a thoughtful daily skincare routine crafted to celebrate your authentic, healthy complexion.
         </p>
 
         {/* CTA */}

@@ -59,7 +59,7 @@ export default function AboutPage() {
                 Beauty is personal. There is no need to follow every trend. No need to be anything other than yourself. Just thoughtful care, everyday rituals and confidence that feels entirely your own.
               </p>
               <p>
-                The 10 Days Challenge was created to encourage mindful daily consistency — because the greatest luxury is feeling genuinely at ease in your own skin.
+                Rugby White was created to encourage mindful daily consistency — because the greatest luxury is feeling genuinely at ease in your own skin.
               </p>
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function AboutPage() {
             href="/products/10-days-challenge"
             className="px-8 py-3.5 bg-[#AE3E64] hover:bg-[#8A304C] text-[#FFFFFF] text-xs font-sans tracking-[0.2em] uppercase font-bold rounded-full transition-all inline-flex items-center gap-2 shadow-sm"
           >
-            <span>DISCOVER THE 10 DAYS CHALLENGE</span>
+            <span>DISCOVER RUGBY WHITE NIGHT CREAM</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

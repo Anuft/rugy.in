@@ -34,7 +34,7 @@ export default function FaceReviews() {
       subtitle: "Side-by-side transformation to glass glow",
       image: "/images/instagram/DZyyZ_Jx7_3.jpg",
       tag: "DULL SKIN TO GLASS SKIN",
-      duration: "7 to 10 Days",
+      duration: "Daily Evening Care",
       targetConcerns: [
         "Dull, fatigued complexion",
         "Sun tanning & dark patches",
@@ -125,7 +125,7 @@ export default function FaceReviews() {
           </h2>
 
           <p className="font-sans text-sm sm:text-base text-[#2A1018]/75 font-light max-w-xl mx-auto leading-relaxed pt-2">
-            See authentic 10-day face reviews directly from Rugby White clients. Documented improvements in acne, dark spots, sun tanning, and natural glass-skin radiance.
+            See authentic face reviews and transformations directly from Rugby White clients. Documented improvements in acne, dark spots, sun tanning, and natural glass-skin radiance.
           </p>
         </div>
 
@@ -259,12 +259,12 @@ export default function FaceReviews() {
                   href="#shop"
                   className="py-3.5 px-6 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-semibold hover:bg-[#3F0E1B] transition-colors text-center shadow-md flex items-center justify-center gap-2"
                 >
-                  <span>TRY THE 10 DAYS CHALLENGE</span>
+                  <span>ORDER RUGBY WHITE NIGHT CREAM</span>
                   <ArrowRight className="w-4 h-4" />
                 </a>
 
                 <a
-                  href={`https://wa.me/91${siteConfig.whatsappNumber}?text=Hi%20Rugby%20White%2C%20I%20saw%20the%20face%20reviews%20and%20would%20like%20to%20order%20the%2010%20Days%20Challenge%20Cream`}
+                  href={`https://wa.me/91${siteConfig.whatsappNumber}?text=Hi%20Rugby%20White%2C%20I%20saw%20the%20face%20reviews%20and%20would%20like%20to%20order%20the%20Rugby%20White%20Night%20Cream`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="py-3.5 px-6 bg-[#25D366] text-[#FFFFFF] text-xs font-sans tracking-[0.15em] uppercase font-semibold hover:bg-[#20BA5A] transition-colors text-center shadow-sm flex items-center justify-center gap-2"
@@ -282,7 +282,7 @@ export default function FaceReviews() {
           <div className="p-6 bg-[#FFFFFF] border border-[#FDEAF3] shadow-sm">
             <span className="font-serif text-3xl sm:text-4xl font-bold text-[#581527] block">98%</span>
             <span className="text-[11px] font-sans tracking-widest uppercase text-[#8A304C] mt-1 block">
-              Noticeable Glow in 10 Days
+              Noticeable Radiant Glow
             </span>
           </div>
 

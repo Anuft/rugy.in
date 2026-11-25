@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "Discover the beauty of thoughtful skincare. A refined daily ritual designed to bring care, confidence and simplicity into every moment. Care in every detail. Confidence in every moment.",
   keywords: [
     "Rugby White skincare",
-    "Rugby White 10 Days Challenge",
+    "Rugby White Night Cream",
     "The art of skincare",
     "Skincare cream",
     "Daily skincare routine",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "RUGBY WHITE | The Art of Skincare · Glow is not a trend. It's a feeling.",
     description:
-      "Glow is not a trend. It's a feeling. Discover the Rugby White 10 Days Challenge skincare ritual.",
+      "Glow is not a trend. It's a feeling. Discover the Rugby White Night Cream skincare ritual.",
     images: ["/images/rugby-skin-revival.jpg"],
   },
   icons: {
@@ -90,7 +90,7 @@ export default function RootLayout({
                 },
                 {
                   "@type": "Product",
-                  name: "Rugby White 10 Days Challenge",
+                  name: "Rugby White Night Cream",
                   image: "https://rugbywhite.in/images/rugby-white-jar-hero.png",
                   description:
                     "A daily skincare ritual cream formulated with botanical extracts and essential hydrators.",

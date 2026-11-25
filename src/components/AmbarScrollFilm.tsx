@@ -278,7 +278,7 @@ export default function AmbarScrollFilm() {
           </div>
         </div>
 
-        {/* BEAT 3: INTRODUCING THE 10 DAYS CHALLENGE */}
+        {/* BEAT 3: INTRODUCING THE NIGHT RITUAL */}
         <div
           id="b-concern"
           className="fixed inset-0 flex items-center justify-end z-20 px-6 sm:px-12 lg:px-20 transition-transform duration-500"
@@ -297,14 +297,14 @@ export default function AmbarScrollFilm() {
             </div>
 
             <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-tight text-[#FEF7FB] leading-[1.05]">
-              The 10 Days
+              The Night
               <span className="block italic text-[#EA90B5] font-light mt-1">
-                Challenge.
+                Ritual.
               </span>
             </h2>
 
             <p className="font-sans text-sm sm:text-base text-[#FDEAF3]/85 font-light leading-relaxed max-w-md sm:ml-auto">
-              10 days to renewed, glowing skin with mindful consistency.
+              Renewed, glowing skin with mindful evening consistency.
             </p>
 
             <div className="inline-block px-4 py-2 bg-[#581527]/80 border border-[#AE3E64]/50 text-xs font-sans text-[#EA90B5] tracking-[0.25em] uppercase font-medium">

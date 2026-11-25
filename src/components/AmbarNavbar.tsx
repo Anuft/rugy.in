@@ -42,7 +42,7 @@ export default function AmbarNavbar() {
         <div className="bg-[#581527] text-[#FEF7FB] text-[10px] sm:text-[11px] font-sans tracking-[0.25em] uppercase py-1.5 px-4 text-center border-b border-[#AE3E64]/20 flex items-center justify-center gap-2">
           <span>COMPLIMENTARY PAN-INDIA AIR COURIER ON ALL ORDERS</span>
           <span className="hidden sm:inline text-[#AE3E64]">•</span>
-          <span className="hidden sm:inline text-[#AE3E64]">10 DAYS CHALLENGE</span>
+          <span className="hidden sm:inline text-[#AE3E64]">SIGNATURE NIGHT CREAM</span>
         </div>
 
         {/* Main Navigation Bar — Perfectly Centered 3-Column Luxury Architecture */}
@@ -153,7 +153,7 @@ export default function AmbarNavbar() {
                 {/* WhatsApp Direct Order Button */}
                 <a
                   href={`https://wa.me/919207341674?text=${encodeURIComponent(
-                    "Hello Rugby White! 🌿 I would like to order the 10 Days Challenge Night Cream (₹599). Please confirm details!"
+                    "Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599). Please confirm details!"
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -193,7 +193,7 @@ export default function AmbarNavbar() {
                 href="/products/10-days-challenge"
                 className="py-1.5 border-b border-[#F4CEDF]/60 text-[#2A1018]"
               >
-                THE 10 DAYS CHALLENGE
+                NIGHT CREAM
               </Link>
               <Link
                 href="/#face-reviews"

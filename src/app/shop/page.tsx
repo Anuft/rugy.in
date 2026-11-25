@@ -149,7 +149,7 @@ function ShopContent() {
               <div className="space-y-1.5 text-xs font-sans text-[#581527] pt-1">
                 <div className="flex items-center gap-2">
                   <Check className="w-3.5 h-3.5 text-[#059669]" />
-                  <span>Visible morning radiance &amp; even skin tone in 10 days</span>
+                  <span>Visible morning radiance &amp; even skin tone</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-3.5 h-3.5 text-[#059669]" />
