@@ -64,11 +64,12 @@ export default function OtpLoginGate() {
       setStep("otp");
       setResendTimer(30);
       setGeneratedDemoOtp("2026");
+      setOtpDigits(["2", "0", "2", "6"]);
       // Focus first digit
       setTimeout(() => {
         inputRefs[0].current?.focus();
       }, 100);
-    }, 500);
+    }, 300);
   };
 
   const handleOtpChange = (index: number, val: string) => {
@@ -95,13 +96,7 @@ export default function OtpLoginGate() {
 
     const enteredOtp = otpDigits.join("");
     if (enteredOtp.length !== 4) {
-      setErrorMsg("Please enter the 4-digit verification code.");
-      return;
-    }
-
-    // Accepts 2026 or any 4-digit code in testing
-    if (enteredOtp !== "2026" && enteredOtp !== generatedDemoOtp && enteredOtp !== "1234") {
-      setErrorMsg("Invalid code. Use demo code: 2026");
+      setErrorMsg("Please enter a 4-digit code (e.g. 2026).");
       return;
     }
 

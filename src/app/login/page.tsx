@@ -63,7 +63,8 @@ export default function CustomerLoginPage() {
     setTimeout(() => {
       setIsSubmitting(false);
       setPhoneStep("otp");
-    }, 400);
+      setOtpDigits(["2", "0", "2", "6"]);
+    }, 300);
   };
 
   const handleVerifyOtp = (e: React.FormEvent) => {
@@ -72,15 +73,11 @@ export default function CustomerLoginPage() {
 
     const entered = otpDigits.join("");
     if (entered.length !== 4) {
-      setErrorMsg("Please enter the 4-digit code.");
+      setErrorMsg("Please enter a 4-digit code (e.g. 2026).");
       return;
     }
 
-    if (entered !== "2026" && entered !== "1234") {
-      setErrorMsg("Invalid OTP code. Please use demo code: 2026");
-      return;
-    }
-
+    // Accepts 2026 or any 4 digits during live mode so nobody is locked out
     setIsSubmitting(true);
     fetch("/api/customer-logins", {
       method: "POST",
@@ -369,15 +366,14 @@ export default function CustomerLoginPage() {
                 ) : (
                   /* Step 2: OTP Verification */
                   <form onSubmit={handleVerifyOtp} className="space-y-4">
-                    <div className="p-2.5 rounded-xl bg-[#FDEAF3] border border-[#F4CEDF] text-center text-[11px] font-sans text-[#581527]">
-                      <span>Verification Code: </span>
-                      <button
-                        type="button"
-                        onClick={() => setOtpDigits(["2", "0", "2", "6"])}
-                        className="font-bold underline text-[#AE3E64] hover:text-[#581527] ml-1"
-                      >
-                        Auto-fill 2026
-                      </button>
+                    <div className="p-3 rounded-xl bg-[#FDEAF3] border border-[#F4CEDF] text-center text-xs font-sans text-[#581527] space-y-1">
+                      <div className="flex items-center justify-center gap-1.5 font-bold text-[#581527]">
+                        <Sparkles className="w-3.5 h-3.5 text-[#AE3E64]" />
+                        <span>Instant Access Code: 2026</span>
+                      </div>
+                      <p className="text-[10px] text-[#8A304C]">
+                        Auto-filled for instant verification. You can also enter any 4 digits.
+                      </p>
                     </div>
 
                     <div className="flex items-center justify-center gap-3 py-2">
