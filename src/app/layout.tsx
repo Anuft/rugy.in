@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import OtpLoginGate from "@/components/OtpLoginGate";
+import { flagshipProduct } from "@/data/products";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rugbywhite.in"),
@@ -138,7 +139,7 @@ export default function RootLayout({
                     "@type": "Offer",
                     url: "https://rugbywhite.in/products/rugby-white-night-cream",
                     priceCurrency: "INR",
-                    price: "599",
+                    price: String(flagshipProduct.price),
                     priceValidUntil: "2027-12-31",
                     itemCondition: "https://schema.org/NewCondition",
                     availability: "https://schema.org/InStock",
