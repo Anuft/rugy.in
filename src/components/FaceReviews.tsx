@@ -28,30 +28,6 @@ export default function FaceReviews() {
 
   const reviewCases: ReviewCase[] = [
     {
-      id: "clear-skin-challenge",
-      tabLabel: "Acne & Spot Clearance",
-      title: "10-DAY CLEAR SKIN CHALLENGE",
-      subtitle: "Targeted action for acne, dark spots & redness",
-      image: "/images/instagram/DUBr6Jsky8H.jpg",
-      tag: "VERIFIED 10 DAYS CHALLENGE",
-      duration: "10 Days Night Routine",
-      targetConcerns: [
-        "Active acne & surface pimples",
-        "Stubborn dark spots",
-        "Uneven cheek & forehead texture",
-      ],
-      visibleOutcomes: [
-        "Calmed redness & active spots",
-        "Faded dark spot intensity",
-        "Smooth, unified glass-skin glow",
-      ],
-      testimonial:
-        "“Noticeable reduction in blemishes and dark marks within 10 days. Skin feels calm and naturally radiant.”",
-      reviewer: "Verified Client Assessment",
-      source: "Official Instagram Campaign @rugbywhite.in",
-      sourceUrl: "https://www.instagram.com/p/DTzQd3pEfsT/",
-    },
-    {
       id: "before-after-tone",
       tabLabel: "Before & After Transformation",
       title: "REAL RESULTS. VISIBLE CHANGE.",

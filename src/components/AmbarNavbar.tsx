@@ -123,7 +123,7 @@ export default function AmbarNavbar() {
                 {/* 'Track your order' Text Link (ALFA Beauty style in gold/amber) */}
                 <Link
                   href="/track-order"
-                  className="hidden md:inline-block text-xs font-sans font-semibold tracking-wider text-[#AE3E64] hover:text-[#8A304C] hover:underline whitespace-nowrap transition-colors"
+                  className="hidden xl:inline-block text-xs font-sans font-semibold tracking-wider text-[#AE3E64] hover:text-[#8A304C] hover:underline whitespace-nowrap transition-colors"
                 >
                   Track your order
                 </Link>
