@@ -10,9 +10,11 @@ import { siteConfig } from "@/data/siteConfig";
 export default function CustomerLoginPage() {
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
   const [loginMethod, setLoginMethod] = useState<"phone" | "email">("phone");
+  const [phoneStep, setPhoneStep] = useState<"input" | "otp">("input");
 
   // Form Fields
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [otpDigits, setOtpDigits] = useState(["", "", "", ""]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -37,47 +39,81 @@ export default function CustomerLoginPage() {
     return null;
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
-    setIsSubmitting(true);
 
+    const clean = phoneNumber.replace(/\D/g, "");
+    if (clean.length !== 10) {
+      setErrorMsg("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-      if (loginMethod === "phone") {
-        if (!phoneNumber || phoneNumber.length < 10) {
-          setErrorMsg("Please enter a valid 10-digit mobile number.");
-          return;
-        }
-        const user = {
-          name: fullName || "Valued Client",
-          contact: `+91 ${phoneNumber.replace(/\D/g, "")}`,
-        };
-        setLoggedInUser(user);
-        if (typeof window !== "undefined") {
-          localStorage.setItem("rw_customer_session", JSON.stringify(user));
-        }
-      } else {
-        if (!email || !password) {
-          setErrorMsg("Please enter your email and password.");
-          return;
-        }
-        const user = {
-          name: fullName || email.split("@")[0],
-          contact: email,
-        };
-        setLoggedInUser(user);
-        if (typeof window !== "undefined") {
-          localStorage.setItem("rw_customer_session", JSON.stringify(user));
-        }
+      setPhoneStep("otp");
+    }, 400);
+  };
+
+  const handleVerifyOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+
+    const entered = otpDigits.join("");
+    if (entered.length !== 4) {
+      setErrorMsg("Please enter the 4-digit code.");
+      return;
+    }
+
+    if (entered !== "2026" && entered !== "1234") {
+      setErrorMsg("Invalid OTP code. Please use demo code: 2026");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      const user = {
+        name: fullName || `Member (+91 ${phoneNumber.slice(-4)})`,
+        contact: `+91 ${phoneNumber}`,
+      };
+      setLoggedInUser(user);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("rw_customer_session", JSON.stringify(user));
+      }
+    }, 400);
+  };
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    if (!email || !password) {
+      setErrorMsg("Please enter email and password.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      const user = {
+        name: fullName || email.split("@")[0],
+        contact: email,
+      };
+      setLoggedInUser(user);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("rw_customer_session", JSON.stringify(user));
       }
     }, 400);
   };
 
   const handleSignOut = () => {
     setLoggedInUser(null);
+    setPhoneStep("input");
+    setOtpDigits(["", "", "", ""]);
     if (typeof window !== "undefined") {
       localStorage.removeItem("rw_customer_session");
+      sessionStorage.removeItem("rw_guest_dismissed");
     }
   };
 
@@ -131,7 +167,7 @@ export default function CustomerLoginPage() {
                   Rugby White Night Cream (35g)
                 </p>
                 <p className="text-xs font-sans text-[#8A304C]">
-                  Complimentary Pan-India Air Express Delivery on all refills.
+                  Complimentary Pan-India Air Express Delivery on all orders.
                 </p>
               </div>
 
@@ -182,6 +218,7 @@ export default function CustomerLoginPage() {
                   onClick={() => {
                     setAuthMode("signin");
                     setErrorMsg(null);
+                    setPhoneStep("input");
                   }}
                   className={`flex-1 pb-3 text-xs font-sans font-bold uppercase tracking-wider text-center cursor-pointer border-b-2 transition-all ${
                     authMode === "signin"
@@ -196,6 +233,7 @@ export default function CustomerLoginPage() {
                   onClick={() => {
                     setAuthMode("signup");
                     setErrorMsg(null);
+                    setPhoneStep("input");
                   }}
                   className={`flex-1 pb-3 text-xs font-sans font-bold uppercase tracking-wider text-center cursor-pointer border-b-2 transition-all ${
                     authMode === "signup"
@@ -211,7 +249,11 @@ export default function CustomerLoginPage() {
               <div className="flex p-1 rounded-xl bg-[#FEF7FB] border border-[#F4CEDF]">
                 <button
                   type="button"
-                  onClick={() => setLoginMethod("phone")}
+                  onClick={() => {
+                    setLoginMethod("phone");
+                    setPhoneStep("input");
+                    setErrorMsg(null);
+                  }}
                   className={`flex-1 py-2 text-xs font-sans font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                     loginMethod === "phone"
                       ? "bg-[#581527] text-white shadow-xs"
@@ -223,7 +265,10 @@ export default function CustomerLoginPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setLoginMethod("email")}
+                  onClick={() => {
+                    setLoginMethod("email");
+                    setErrorMsg(null);
+                  }}
                   className={`flex-1 py-2 text-xs font-sans font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                     loginMethod === "email"
                       ? "bg-[#581527] text-white shadow-xs"
@@ -242,90 +287,169 @@ export default function CustomerLoginPage() {
                 </div>
               )}
 
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {authMode === "signup" && (
+              {/* FORM RENDERING */}
+              {loginMethod === "phone" ? (
+                phoneStep === "input" ? (
+                  /* Step 1: Mobile Number */
+                  <form onSubmit={handlePhoneSubmit} className="space-y-4">
+                    {authMode === "signup" && (
+                      <div>
+                        <label className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#581527] mb-1.5">
+                          Full Name
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          placeholder="e.g. Ahamed Adnan"
+                          className="w-full px-4 py-3 rounded-xl border border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans focus:outline-none focus:border-[#581527] focus:bg-white transition-colors"
+                        />
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#581527] mb-1.5">
+                        Mobile Number
+                      </label>
+                      <div className="flex">
+                        <span className="inline-flex items-center px-3.5 rounded-l-xl border border-r-0 border-[#F4CEDF] bg-[#FDEAF3]/50 text-xs font-sans font-semibold text-[#581527]">
+                          +91
+                        </span>
+                        <input
+                          type="tel"
+                          required
+                          maxLength={10}
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ""))}
+                          placeholder="92073 41674"
+                          className="w-full px-4 py-3 rounded-r-xl border border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans tracking-widest focus:outline-none focus:border-[#581527] focus:bg-white transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || phoneNumber.length < 10}
+                      className="w-full py-3.5 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans font-bold tracking-[0.2em] uppercase transition-all shadow-md cursor-pointer disabled:opacity-50"
+                    >
+                      {isSubmitting ? "SENDING OTP..." : "GET LOGIN OTP"}
+                    </button>
+                  </form>
+                ) : (
+                  /* Step 2: OTP Verification */
+                  <form onSubmit={handleVerifyOtp} className="space-y-4">
+                    <div className="p-2.5 rounded-xl bg-[#FDEAF3] border border-[#F4CEDF] text-center text-[11px] font-sans text-[#581527]">
+                      <span>Verification Code: </span>
+                      <button
+                        type="button"
+                        onClick={() => setOtpDigits(["2", "0", "2", "6"])}
+                        className="font-bold underline text-[#AE3E64] hover:text-[#581527] ml-1"
+                      >
+                        Auto-fill 2026
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-3 py-2">
+                      {otpDigits.map((digit, idx) => (
+                        <input
+                          key={idx}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={1}
+                          value={digit}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, "").slice(-1);
+                            const updated = [...otpDigits];
+                            updated[idx] = val;
+                            setOtpDigits(updated);
+                          }}
+                          className="w-14 h-14 text-center text-xl font-serif font-bold text-[#581527] bg-[#FEF7FB] border border-[#F4CEDF] rounded-2xl focus:outline-none focus:border-[#581527] focus:bg-white shadow-xs"
+                        />
+                      ))}
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || otpDigits.some((d) => !d)}
+                      className="w-full py-3.5 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans font-bold tracking-[0.2em] uppercase transition-all shadow-md cursor-pointer disabled:opacity-50"
+                    >
+                      {isSubmitting ? "VERIFYING..." : "VERIFY & ENTER ACCOUNT"}
+                    </button>
+
+                    <div className="text-center">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPhoneStep("input");
+                          setErrorMsg(null);
+                        }}
+                        className="text-xs text-[#8A304C] hover:underline"
+                      >
+                        Change Mobile Number
+                      </button>
+                    </div>
+                  </form>
+                )
+              ) : (
+                /* Email & Password */
+                <form onSubmit={handleEmailSubmit} className="space-y-4">
+                  {authMode === "signup" && (
+                    <div>
+                      <label className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#581527] mb-1.5">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="e.g. Ahamed Adnan"
+                        className="w-full px-4 py-3 rounded-xl border border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans focus:outline-none focus:border-[#581527] focus:bg-white transition-colors"
+                      />
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#581527] mb-1.5">
-                      Full Name
+                      Email Address
                     </label>
                     <input
-                      type="text"
+                      type="email"
                       required
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      placeholder="e.g. Anjali Nair"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="yourname@gmail.com"
                       className="w-full px-4 py-3 rounded-xl border border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans focus:outline-none focus:border-[#581527] focus:bg-white transition-colors"
                     />
                   </div>
-                )}
 
-                {loginMethod === "phone" ? (
                   <div>
                     <label className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#581527] mb-1.5">
-                      Mobile Number
+                      Password
                     </label>
-                    <div className="flex">
-                      <span className="inline-flex items-center px-3.5 rounded-l-xl border border-r-0 border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans font-semibold text-[#8A304C]">
-                        +91
-                      </span>
-                      <input
-                        type="tel"
-                        required
-                        maxLength={10}
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ""))}
-                        placeholder="98765 43210"
-                        className="w-full px-4 py-3 rounded-r-xl border border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans tracking-widest focus:outline-none focus:border-[#581527] focus:bg-white transition-colors"
-                      />
-                    </div>
+                    <input
+                      type="password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full px-4 py-3 rounded-xl border border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans focus:outline-none focus:border-[#581527] focus:bg-white transition-colors"
+                    />
                   </div>
-                ) : (
-                  <>
-                    <div>
-                      <label className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#581527] mb-1.5">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="yourname@gmail.com"
-                        className="w-full px-4 py-3 rounded-xl border border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans focus:outline-none focus:border-[#581527] focus:bg-white transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-sans font-bold uppercase tracking-wider text-[#581527] mb-1.5">
-                        Password
-                      </label>
-                      <input
-                        type="password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••"
-                        className="w-full px-4 py-3 rounded-xl border border-[#F4CEDF] bg-[#FEF7FB] text-xs font-sans focus:outline-none focus:border-[#581527] focus:bg-white transition-colors"
-                      />
-                    </div>
-                  </>
-                )}
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3.5 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans font-bold tracking-[0.2em] uppercase transition-all shadow-md cursor-pointer disabled:opacity-50"
-                >
-                  {isSubmitting
-                    ? "Authenticating..."
-                    : authMode === "signin"
-                    ? "Sign In to Ritual"
-                    : "Create Privilege Account"}
-                </button>
-              </form>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-3.5 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans font-bold tracking-[0.2em] uppercase transition-all shadow-md cursor-pointer disabled:opacity-50"
+                  >
+                    {isSubmitting ? "Authenticating..." : authMode === "signin" ? "Sign In" : "Create Account"}
+                  </button>
+                </form>
+              )}
 
-              {/* Divider */}
-              <div className="relative my-4">
+              {/* Instant WhatsApp Login */}
+              <div className="relative my-3">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-[#F4CEDF]" />
                 </div>
@@ -334,7 +458,6 @@ export default function CustomerLoginPage() {
                 </div>
               </div>
 
-              {/* 1-Click WhatsApp Login Button */}
               <a
                 href={whatsappDirectLoginUrl}
                 target="_blank"

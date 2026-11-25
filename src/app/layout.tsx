@@ -5,6 +5,7 @@ import AmbarNavbar from "@/components/AmbarNavbar";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import OtpLoginGate from "@/components/OtpLoginGate";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rugbywhite.in"),
@@ -171,6 +172,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-[#FEF7FB] text-[#2A1018] antialiased selection:bg-[#581527] selection:text-[#FEF7FB]">
         <CartProvider>
+          <OtpLoginGate />
           <AmbarNavbar />
           <CartDrawer />
           <main className="flex-1">{children}</main>
