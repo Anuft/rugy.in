@@ -8,21 +8,28 @@ import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rugbywhite.in"),
-  title: "RUGBY WHITE | The Art of Skincare · Glow is not a trend. It's a feeling.",
+  title: {
+    default: "RUGBY WHITE | The Art of Skincare · Glow is not a trend. It's a feeling.",
+    template: "%s | RUGBY WHITE",
+  },
   description:
-    "Discover the beauty of thoughtful skincare. A refined daily ritual designed to bring care, confidence and simplicity into every moment. Care in every detail. Confidence in every moment.",
+    "Discover the beauty of thoughtful skincare. A refined daily ritual designed to bring care, confidence and simplicity into every moment. Formulated with pure botanicals and niacinamide for glass-skin radiance.",
   keywords: [
+    "Rugby White",
     "Rugby White skincare",
     "Rugby White Night Cream",
-    "The art of skincare",
-    "Skincare cream",
-    "Daily skincare routine",
-    "Skincare products India",
+    "Radiance night ritual cream",
+    "Glass skin routine India",
+    "Botanical night cream",
     "Natural skincare ritual",
-    "Radiance night cream",
+    "Dermatologically tested cream",
   ],
-  authors: [{ name: "Rugby White" }],
+  authors: [{ name: "Rugby White", url: "https://rugbywhite.in" }],
   creator: "Rugby White",
+  publisher: "Rugby White",
+  alternates: {
+    canonical: "https://rugbywhite.in",
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",
@@ -46,6 +53,17 @@ export const metadata: Metadata = {
     description:
       "Glow is not a trend. It's a feeling. Discover the Rugby White Night Cream skincare ritual.",
     images: ["/images/rugby-skin-revival.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   icons: {
     icon: "/favicon.ico",
@@ -89,21 +107,61 @@ export default function RootLayout({
                   },
                 },
                 {
+                  "@type": "WebSite",
+                  "@id": "https://rugbywhite.in/#website",
+                  url: "https://rugbywhite.in",
+                  name: "Rugby White",
+                  publisher: {
+                    "@id": "https://rugbywhite.in/#organization",
+                  },
+                },
+                {
                   "@type": "Product",
                   name: "Rugby White Night Cream",
-                  image: "https://rugbywhite.in/images/rugby-white-jar-hero.png",
+                  image: "https://rugbywhite.in/images/rugby-skin-revival-jar.png",
                   description:
-                    "A daily skincare ritual cream formulated with botanical extracts and essential hydrators.",
+                    "A daily radiance nourishing night ritual cream formulated with botanical extracts and essential hydrators for luminous glass-skin.",
+                  sku: "RW-NC-35G",
                   brand: {
                     "@type": "Brand",
                     name: "Rugby White",
                   },
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: "4.9",
+                    reviewCount: "328",
+                    bestRating: "5",
+                    worstRating: "1",
+                  },
                   offers: {
                     "@type": "Offer",
-                    url: "https://rugbywhite.in/products/10-days-challenge",
+                    url: "https://rugbywhite.in/products/rugby-white-night-cream",
                     priceCurrency: "INR",
                     price: "599",
+                    priceValidUntil: "2027-12-31",
+                    itemCondition: "https://schema.org/NewCondition",
                     availability: "https://schema.org/InStock",
+                    shippingDetails: {
+                      "@type": "OfferShippingDetails",
+                      shippingRate: {
+                        "@type": "MonetaryAmount",
+                        value: "0",
+                        currency: "INR",
+                      },
+                      shippingDestination: {
+                        "@type": "DefinedRegion",
+                        addressCountry: "IN",
+                      },
+                      deliveryTime: {
+                        "@type": "ShippingDeliveryTime",
+                        transitTime: {
+                          "@type": "QuantitativeValue",
+                          minValue: 2,
+                          maxValue: 4,
+                          unitCode: "DAY",
+                        },
+                      },
+                    },
                   },
                 },
               ],

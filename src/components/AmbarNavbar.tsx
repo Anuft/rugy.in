@@ -190,7 +190,7 @@ export default function AmbarNavbar() {
                 SHOP ALL PRODUCTS
               </Link>
               <Link
-                href="/products/10-days-challenge"
+                href="/products/rugby-white-night-cream"
                 className="py-1.5 border-b border-[#F4CEDF]/60 text-[#2A1018]"
               >
                 NIGHT CREAM

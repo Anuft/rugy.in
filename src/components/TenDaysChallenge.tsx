@@ -136,7 +136,7 @@ export default function TenDaysChallenge() {
 
             <div className="pt-4 border-t border-[#FDEAF3] flex flex-wrap items-center justify-between gap-4">
               <Link
-                href="/products/10-days-challenge"
+                href="/products/rugby-white-night-cream"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-medium hover:bg-[#3F0E1B] transition-colors shadow-sm"
               >
                 <span>DISCOVER THE RITUAL</span>

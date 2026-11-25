@@ -135,7 +135,7 @@ export default function AboutPage() {
         </p>
         <div className="pt-3">
           <Link
-            href="/products/10-days-challenge"
+            href="/products/rugby-white-night-cream"
             className="px-8 py-3.5 bg-[#AE3E64] hover:bg-[#8A304C] text-[#FFFFFF] text-xs font-sans tracking-[0.2em] uppercase font-bold rounded-full transition-all inline-flex items-center gap-2 shadow-sm"
           >
             <span>DISCOVER RUGBY WHITE NIGHT CREAM</span>

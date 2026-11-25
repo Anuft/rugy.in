@@ -42,8 +42,8 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    id: "rugby-white-10-days-challenge",
-    slug: "10-days-challenge",
+    id: "rugby-white-night-cream",
+    slug: "rugby-white-night-cream",
     name: "RUGBY WHITE NIGHT CREAM",
     subtitle: "Radiance Nourishing Night Ritual Cream",
     category: "Night Cream",

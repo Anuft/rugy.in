@@ -72,7 +72,7 @@ const INITIAL_ORDERS: Order[] = [
     id: "RW-782419",
     items: [
       {
-        id: "10-days-challenge",
+        id: "rugby-white-night-cream",
         name: "Rugby White Night Cream (35g)",
         price: 599,
         quantity: 1,

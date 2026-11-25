@@ -55,7 +55,7 @@ export default function BrandStory() {
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/products/10-days-challenge"
+              href="/products/rugby-white-night-cream"
               className="text-xs font-sans tracking-[0.2em] uppercase text-[#EA90B5] hover:text-[#FFFFFF] border-b border-[#AE3E64] pb-1 transition-colors"
             >
               EXPERIENCE RUGBY WHITE NIGHT CREAM

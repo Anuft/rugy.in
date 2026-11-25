@@ -1,5 +1,5 @@
 import React from "react";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Metadata } from "next";
 import ProductDetailClient from "./ProductDetailClient";
 import { products } from "@/data/products";
@@ -9,13 +9,19 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
+  return [
+    ...products.map((product) => ({
+      slug: product.slug,
+    })),
+    { slug: "10-days-challenge" },
+  ];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  if (slug === "10-days-challenge") {
+    permanentRedirect("/products/rugby-white-night-cream");
+  }
   const product = products.find((p) => p.slug === slug);
 
   if (!product) {
@@ -37,6 +43,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
+  if (slug === "10-days-challenge") {
+    permanentRedirect("/products/rugby-white-night-cream");
+  }
   const product = products.find((p) => p.slug === slug);
 
   if (!product) {

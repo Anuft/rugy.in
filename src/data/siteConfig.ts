@@ -37,7 +37,7 @@ export const siteConfig: SiteConfig = {
 export const navLinks = [
   { label: "HOME", href: "/" },
   { label: "SHOP", href: "/shop" },
-  { label: "NIGHT CREAM", href: "/products/10-days-challenge" },
+  { label: "NIGHT CREAM", href: "/products/rugby-white-night-cream" },
   { label: "FACE REVIEWS", href: "/#face-reviews" },
   { label: "TRACK ORDER", href: "/track-order" },
   { label: "OUR STORY", href: "/about" },

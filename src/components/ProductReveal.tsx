@@ -101,7 +101,7 @@ export default function ProductReveal() {
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/products/10-days-challenge"
+            href="/products/rugby-white-night-cream"
             className="w-full sm:w-auto px-10 py-4 bg-[#AE3E64] text-[#3F0E1B] text-xs font-sans tracking-[0.25em] uppercase font-semibold hover:bg-[#EA90B5] transition-all duration-300 shadow-xl inline-flex items-center justify-center gap-3 group"
           >
             <span>EXPLORE THE PRODUCT</span>
