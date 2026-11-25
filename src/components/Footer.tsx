@@ -97,37 +97,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Accepted Payment Badges (Like ALFA Beauty) */}
-        <div className="py-6 border-b border-[#333333] flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-xs font-sans text-[#8A304C]">
-            <ShieldCheck className="w-4 h-4 text-[#2E7D32]" />
-            <span>100% Secure Checkout with Trusted Indian Gateways</span>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
-              UPI / QR
-            </span>
-            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
-              GPay
-            </span>
-            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
-              PhonePe
-            </span>
-            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
-              Paytm
-            </span>
-            <span className="px-2.5 py-1 rounded bg-[#2D2D2D] text-[10px] font-sans font-bold text-white tracking-wider">
-              Cards / NetBanking
-            </span>
-            <span className="px-2.5 py-1 rounded bg-[#581527] text-[10px] font-sans font-bold text-[#F4CEDF] tracking-wider border border-[#8A304C]">
-              Cash On Delivery (COD)
-            </span>
-          </div>
-        </div>
-
         {/* Bottom Legal & Copyright Bar */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-[#8A304C] font-sans gap-4">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#8A304C] font-sans gap-4">
           <div className="flex flex-wrap items-center justify-center gap-6">
             {legalLinks.map((link) => (
               <Link

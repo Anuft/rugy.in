@@ -30,7 +30,6 @@ export default function AmbarNavbar() {
   const leftNavLinks = [
     { label: "HOME", href: "/" },
     { label: "SHOP", href: "/shop" },
-    { label: "TRACK ORDER", href: "/track-order" },
     { label: "OUR STORY", href: "/about" },
     { label: "REVIEWS", href: "/#face-reviews" },
   ];
@@ -118,15 +117,8 @@ export default function AmbarNavbar() {
                 </Link>
               </div>
 
-              {/* Right Column: Track your order + Instagram + User + Cart Bag */}
+              {/* Right Column: Instagram + User + WhatsApp Concierge */}
               <div className="flex items-center justify-end space-x-4 sm:space-x-5 z-10">
-                {/* 'Track your order' Text Link (ALFA Beauty style in gold/amber) */}
-                <Link
-                  href="/track-order"
-                  className="hidden xl:inline-block text-xs font-sans font-semibold tracking-wider text-[#AE3E64] hover:text-[#8A304C] hover:underline whitespace-nowrap transition-colors"
-                >
-                  Track your order
-                </Link>
 
                 {/* Instagram Direct Link */}
                 <a
@@ -200,13 +192,6 @@ export default function AmbarNavbar() {
                 className="py-1.5 border-b border-[#F4CEDF]/60 text-[#2A1018]"
               >
                 FACE REVIEWS
-              </Link>
-              <Link
-                href="/track-order"
-                className="py-1.5 border-b border-[#F4CEDF]/60 text-[#AE3E64] font-bold flex items-center justify-between"
-              >
-                <span>TRACK YOUR ORDER</span>
-                <Truck className="w-4 h-4 text-[#AE3E64]" />
               </Link>
               <Link
                 href="/about"

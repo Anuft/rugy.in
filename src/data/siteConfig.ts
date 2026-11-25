@@ -39,7 +39,6 @@ export const navLinks = [
   { label: "SHOP", href: "/shop" },
   { label: "NIGHT CREAM", href: "/products/rugby-white-night-cream" },
   { label: "FACE REVIEWS", href: "/#face-reviews" },
-  { label: "TRACK ORDER", href: "/track-order" },
   { label: "OUR STORY", href: "/about" },
   { label: "CONTACT", href: "/contact" },
 ];
@@ -48,6 +47,4 @@ export const legalLinks = [
   { label: "PRIVACY POLICY", href: "/privacy-policy" },
   { label: "TERMS & CONDITIONS", href: "/terms" },
   { label: "SHIPPING & RETURNS", href: "/shipping-returns" },
-  { label: "TRACK YOUR ORDER", href: "/track-order" },
-  { label: "ADMIN FULFILLMENT", href: "/admin/orders" },
 ];
