@@ -33,7 +33,7 @@ export default function InstagramGallery() {
       caption: "Glow that speaks before you do ✨ Pure botanical night moisturizer for clear, illuminated skin.",
     },
     {
-      image: "/images/instagram/DX-90AVkTAS.jpg",
+      image: "/images/instagram/DX3VxQQkYnm.jpg",
       postUrl: "https://www.instagram.com/rugbywhite.in/",
       tag: "#NightRitual",
       caption: "Gentle overnight radiance care. Let botanical actives restore and soothe your skin while you rest.",

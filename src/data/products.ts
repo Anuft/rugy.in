@@ -63,7 +63,7 @@ export const products: Product[] = [
     images: [
       "/images/rugby-skin-revival.jpg",
       "/images/rugby-skin-revival-jar.png",
-      "/images/instagram/DX-90AVkTAS.jpg",
+      "/images/instagram/DX6C8-Skat0.jpg",
       "/images/instagram/DZSAtQIxL-y.jpg",
       "/images/instagram/DXNVS0gkyTQ_1.jpg",
       "/images/instagram/DcK0UwPRNUE.jpg",
@@ -112,7 +112,7 @@ export const products: Product[] = [
         step: "03. EMBRACE",
         title: "GENTLE MASSAGE",
         instruction: "Massage gently in upward circular motions until absorbed.",
-        image: "/images/instagram/DX-90AVkTAS.jpg",
+        image: "/images/instagram/DX6C8-Skat0.jpg",
       },
     ],
     purityPillars: [
