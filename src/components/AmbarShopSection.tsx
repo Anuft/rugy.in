@@ -95,10 +95,10 @@ export default function AmbarShopSection() {
                 RUGBY WHITE NIGHT CREAM.
               </h2>
               <p className="font-serif italic text-base sm:text-lg text-[#8A304C]">
-                Radiance Nourishing Night Ritual Cream
+                Radiance Nourishing Night Cream
               </p>
               <p className="font-sans text-sm text-[#2A1018]/80 font-light leading-relaxed pt-1">
-                Visibly luminous, clear skin with consistent evening care.
+                Visibly clear, glowing skin with nightly care.
               </p>
             </div>
 
@@ -108,7 +108,7 @@ export default function AmbarShopSection() {
                 ₹{product.price}
               </span>
               <span className="text-sm text-[#8A304C] font-sans">
-                35 g · daily ritual routine
+                35g · Daily Night Care
               </span>
               <span className="text-xs text-[#8A304C] line-through font-sans">
                 ₹{product.originalPrice}
@@ -119,10 +119,10 @@ export default function AmbarShopSection() {
             <ul className="divide-y divide-[#FDEAF3] border-y border-[#FDEAF3] text-xs font-sans">
               <li className="py-3 flex justify-between gap-4">
                 <b className="font-semibold text-[#581527] tracking-wider uppercase min-w-[120px]">
-                  Key Ingredients
+                  Key Actives
                 </b>
                 <span className="text-[#2A1018]/80 text-right">
-                  Niacinamide, Green Tea &amp; Centella Asiatica
+                  Niacinamide, Green Tea &amp; Centella
                 </span>
               </li>
               <li className="py-3 flex justify-between gap-4">
@@ -130,23 +130,23 @@ export default function AmbarShopSection() {
                   Texture
                 </b>
                 <span className="text-[#2A1018]/80 text-right">
-                  Light velvety emulsion, absorbs without sticky finish
+                  Light emulsion, absorbs non-sticky
                 </span>
               </li>
               <li className="py-3 flex justify-between gap-4">
                 <b className="font-semibold text-[#581527] tracking-wider uppercase min-w-[120px]">
-                  Ritual Use
+                  How to Use
                 </b>
                 <span className="text-[#2A1018]/80 text-right">
-                  A small touch, morning &amp; night, on clean skin
+                  Apply nightly on clean face
                 </span>
               </li>
               <li className="py-3 flex justify-between gap-4">
                 <b className="font-semibold text-[#581527] tracking-wider uppercase min-w-[120px]">
-                  Purity Standards
+                  Purity
                 </b>
                 <span className="text-[#2A1018]/80 text-right">
-                  Paraben free · Sulphate free · Cruelty free
+                  100% Clean · 0% Parabens
                 </span>
               </li>
               <li className="py-3 flex justify-between gap-4">
@@ -154,7 +154,7 @@ export default function AmbarShopSection() {
                   Packaging
                 </b>
                 <span className="text-[#2A1018]/80 text-right">
-                  Heavy glass jar with protective screw lid, tamper-proof seal and RB monogram
+                  Premium 35g glass jar
                 </span>
               </li>
             </ul>

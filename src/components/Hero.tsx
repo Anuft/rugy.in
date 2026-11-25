@@ -47,7 +47,7 @@ export default function Hero() {
 
             {/* Subtitle */}
             <p className="font-sans text-sm sm:text-base md:text-lg text-[#FDEAF3]/80 font-light max-w-lg mx-auto lg:mx-0 leading-relaxed tracking-wide">
-              Botanical hydration and barrier care for clear, glowing, radiant skin.
+              Pure botanical care for clear, radiant glass skin.
             </p>
 
             {/* CTAs */}
@@ -67,7 +67,7 @@ export default function Hero() {
                 href="#face-reviews"
                 className="w-full sm:w-auto px-8 py-4 border border-[#FEF7FB]/40 text-[#FEF7FB] text-xs font-medium tracking-[0.25em] uppercase hover:border-[#AE3E64] hover:text-[#AE3E64] transition-all duration-300 text-center"
               >
-                VIEW CLIENT REVIEWS
+                REVIEWS
               </a>
             </div>
 

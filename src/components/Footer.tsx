@@ -20,7 +20,7 @@ export default function Footer() {
             </p>
 
             <p className="font-sans text-xs text-[#8A304C] font-light max-w-sm leading-relaxed">
-              Pure botanical skincare for healthy, radiant glass skin. Crafted in India.
+              Pure botanical skincare. Crafted in India.
             </p>
 
             <div className="flex items-center gap-3 pt-1">

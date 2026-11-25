@@ -57,9 +57,9 @@ export const products: Product[] = [
     badge: "SIGNATURE NIGHT CREAM",
     badgeColor: "red",
     shortDescription:
-      "Signature radiance nourishing night cream. Brightens dull tone, fades dark spots, and restores glass-skin radiance.",
+      "Nourishing night cream for dark spots, sun tan, and natural glass-skin radiance.",
     fullDescription:
-      "Crafted with pure botanicals, niacinamide, and deep moisture actives, Rugby White works overnight to clear sun tanning, calm blemishes, and reveal visibly luminous, unified skin.",
+      "Crafted with pure botanicals and niacinamide to clear sun tan, fade dark marks, and restore glowing skin overnight.",
     images: [
       "/images/rugby-skin-revival.jpg",
       "/images/rugby-skin-revival-jar.png",
@@ -72,27 +72,27 @@ export const products: Product[] = [
       {
         number: "01",
         title: "INSTANT RADIANCE",
-        description: "Restores natural morning glass-skin luminosity.",
+        description: "Natural morning glass-skin glow.",
       },
       {
         number: "02",
-        title: "EVEN SKIN TONE",
-        description: "Fades dark spots, sun tanning & blemishes.",
+        title: "EVEN TONE",
+        description: "Fades dark spots and sun tan.",
       },
       {
         number: "03",
-        title: "DEEP BARRIER HYDRATION",
-        description: "Deep moisture lock with zero greasy residue.",
+        title: "DEEP HYDRATION",
+        description: "Locks moisture with zero stickiness.",
       },
       {
         number: "04",
-        title: "BLEMISH & ACNE CARE",
-        description: "Purifies pores and soothes active redness.",
+        title: "BLEMISH CARE",
+        description: "Clears pores and calms redness.",
       },
       {
         number: "05",
-        title: "CONFIDENCE & COMFORT",
-        description: "100% clean formula: 0% bleach, steroids, or parabens.",
+        title: "CLEAN & SAFE",
+        description: "0% bleach, steroids, or parabens.",
       },
     ],
     ritualSteps: [
