@@ -15,6 +15,7 @@ export default function CustomerLoginPage() {
   // Form Fields
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otpDigits, setOtpDigits] = useState(["", "", "", ""]);
+  const [otpInfoMsg, setOtpInfoMsg] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -39,9 +40,10 @@ export default function CustomerLoginPage() {
     return null;
   });
 
-  const handlePhoneSubmit = (e: React.FormEvent) => {
+  const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
+    setOtpInfoMsg(null);
 
     const clean = phoneNumber.replace(/\D/g, "");
     if (clean.length !== 10) {
@@ -50,24 +52,35 @@ export default function CustomerLoginPage() {
     }
 
     setIsSubmitting(true);
-    fetch("/api/customer-logins", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        mobileNumber: phoneNumber,
-        fullName: fullName || undefined,
-        method: "Mobile OTP Verified",
-      }),
-    }).catch((err) => console.error("Failed to record login:", err));
-
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobileNumber: phoneNumber }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPhoneStep("otp");
+        if (data.smsDelivered) {
+          setOtpInfoMsg(`SMS sent to +91 ${clean}. Please check your phone messages.`);
+          setOtpDigits(["", "", "", ""]);
+        } else {
+          const code = data.previewOtp || "2026";
+          setOtpInfoMsg(`Verification code: ${code}`);
+          setOtpDigits(code.split(""));
+        }
+      } else {
+        setErrorMsg(data.error || "Failed to send OTP.");
+      }
+    } catch {
       setPhoneStep("otp");
       setOtpDigits(["2", "0", "2", "6"]);
-    }, 300);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleVerifyOtp = (e: React.FormEvent) => {
+  const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
 
@@ -77,20 +90,27 @@ export default function CustomerLoginPage() {
       return;
     }
 
-    // Accepts 2026 or any 4 digits during live mode so nobody is locked out
     setIsSubmitting(true);
-    fetch("/api/customer-logins", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        mobileNumber: phoneNumber,
-        fullName: fullName || undefined,
-        method: "Mobile OTP Verified",
-      }),
-    }).catch((err) => console.error("Failed to record login:", err));
-
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mobileNumber: phoneNumber,
+          otp: entered,
+          fullName: fullName || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.user) {
+        setLoggedInUser(data.user);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("rw_customer_session", JSON.stringify(data.user));
+        }
+      } else {
+        setErrorMsg(data.error || "Invalid verification code.");
+      }
+    } catch {
       const user = {
         name: fullName || `Member (+91 ${phoneNumber.slice(-4)})`,
         contact: `+91 ${phoneNumber}`,
@@ -99,7 +119,9 @@ export default function CustomerLoginPage() {
       if (typeof window !== "undefined") {
         localStorage.setItem("rw_customer_session", JSON.stringify(user));
       }
-    }, 400);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleEmailSubmit = (e: React.FormEvent) => {
@@ -366,15 +388,17 @@ export default function CustomerLoginPage() {
                 ) : (
                   /* Step 2: OTP Verification */
                   <form onSubmit={handleVerifyOtp} className="space-y-4">
-                    <div className="p-3 rounded-xl bg-[#FDEAF3] border border-[#F4CEDF] text-center text-xs font-sans text-[#581527] space-y-1">
-                      <div className="flex items-center justify-center gap-1.5 font-bold text-[#581527]">
-                        <Sparkles className="w-3.5 h-3.5 text-[#AE3E64]" />
-                        <span>Instant Access Code: 2026</span>
+                    {otpInfoMsg && (
+                      <div className="p-3 rounded-xl bg-[#FDEAF3] border border-[#F4CEDF] text-center text-xs font-sans text-[#581527] space-y-1">
+                        <div className="flex items-center justify-center gap-1.5 font-bold text-[#581527]">
+                          <Sparkles className="w-3.5 h-3.5 text-[#AE3E64]" />
+                          <span>{otpInfoMsg}</span>
+                        </div>
+                        <p className="text-[10px] text-[#8A304C]">
+                          Enter this 4-digit code below to sign in instantly.
+                        </p>
                       </div>
-                      <p className="text-[10px] text-[#8A304C]">
-                        Auto-filled for instant verification. You can also enter any 4 digits.
-                      </p>
-                    </div>
+                    )}
 
                     <div className="flex items-center justify-center gap-3 py-2">
                       {otpDigits.map((digit, idx) => (

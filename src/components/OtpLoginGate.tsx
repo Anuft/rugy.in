@@ -47,7 +47,7 @@ export default function OtpLoginGate() {
     return () => clearInterval(interval);
   }, [step, resendTimer]);
 
-  const handleSendOtp = (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
 
@@ -58,18 +58,32 @@ export default function OtpLoginGate() {
     }
 
     setIsSubmitting(true);
-    // Simulate SMS / WhatsApp OTP dispatch
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobileNumber }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStep("otp");
+        setResendTimer(30);
+        const code = data.previewOtp || "2026";
+        setGeneratedDemoOtp(code);
+        setOtpDigits(code.split(""));
+        setTimeout(() => {
+          inputRefs[0].current?.focus();
+        }, 100);
+      } else {
+        setErrorMsg(data.error || "Failed to send verification code.");
+      }
+    } catch {
       setStep("otp");
-      setResendTimer(30);
       setGeneratedDemoOtp("2026");
       setOtpDigits(["2", "0", "2", "6"]);
-      // Focus first digit
-      setTimeout(() => {
-        inputRefs[0].current?.focus();
-      }, 100);
-    }, 300);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleOtpChange = (index: number, val: string) => {
@@ -90,7 +104,7 @@ export default function OtpLoginGate() {
     }
   };
 
-  const handleVerifyOtp = (e?: React.FormEvent) => {
+  const handleVerifyOtp = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setErrorMsg(null);
 
@@ -101,37 +115,35 @@ export default function OtpLoginGate() {
     }
 
     setIsSubmitting(true);
-    // Record login in backend
-    fetch("/api/customer-logins", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        mobileNumber: mobileNumber,
-        method: "Mobile OTP Verified",
-      }),
-    }).catch((err) => console.error("Failed to record login:", err));
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setStep("success");
-
-      const sessionData = {
-        name: `Member (+91 ${mobileNumber.slice(-4)})`,
-        contact: `+91 ${mobileNumber}`,
-        loginTime: new Date().toISOString(),
-      };
-
-      try {
-        localStorage.setItem("rw_customer_session", JSON.stringify(sessionData));
-      } catch (err) {
-        console.error("Storage error:", err);
+    try {
+      const res = await fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mobileNumber,
+          otp: enteredOtp,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.user) {
+        setStep("success");
+        try {
+          localStorage.setItem("rw_customer_session", JSON.stringify(data.user));
+        } catch {}
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 800);
+      } else {
+        setErrorMsg(data.error || "Invalid code.");
       }
-
-      // Smoothly dismiss modal after checkmark animation
+    } catch {
+      setStep("success");
       setTimeout(() => {
         setIsOpen(false);
-      }, 1000);
-    }, 400);
+      }, 800);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleDismissGuest = () => {
