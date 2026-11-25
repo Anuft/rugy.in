@@ -14,14 +14,14 @@ export default function TenDaysChallenge() {
       title: "BEGIN YOUR RITUAL",
       description: "Cleanse, apply, and feel instant botanical hydration.",
       focus: "Hydration Awakening",
-      image: "/images/instagram/DTzQd3pEfsT.jpg",
+      image: "/images/instagram/DX6C8-Skat0.jpg",
     },
     {
       day: "DAY 03",
       title: "STAY CONSISTENT",
       description: "Skin texture softens as moisture locks into deeper layers.",
       focus: "Moisture Balance",
-      image: "/images/instagram/DTzQd3pEfsT.jpg",
+      image: "/images/instagram/DZSAtQIxL-y.jpg",
     },
     {
       day: "DAY 05",
@@ -35,7 +35,7 @@ export default function TenDaysChallenge() {
       title: "YOUR DAILY MOMENT",
       description: "Dark marks and uneven tone begin to visibly fade.",
       focus: "Radiance & Tone",
-      image: "/images/instagram/DTzQd3pEfsT.jpg",
+      image: "/images/instagram/DX1j8ajEbuB.jpg",
     },
     {
       day: "DAY 10",

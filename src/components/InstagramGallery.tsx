@@ -33,13 +33,13 @@ export default function InstagramGallery() {
       caption: "Glow that speaks before you do ✨ Pure botanical night moisturizer for clear, illuminated skin.",
     },
     {
-      image: "/images/instagram/DTzQd3pEfsT.jpg",
+      image: "/images/instagram/DX-90AVkTAS.jpg",
       postUrl: "https://www.instagram.com/rugbywhite.in/",
       tag: "#NightRitual",
       caption: "Gentle overnight radiance care. Let botanical actives restore and soothe your skin while you rest.",
     },
     {
-      image: "/images/instagram/DeORA4GxUig.jpg",
+      image: "/images/instagram/DX6C8-Skat0.jpg",
       postUrl: "https://www.instagram.com/rugbywhite.in/",
       tag: "#ClearSkin",
       caption: "Natural glow & barrier support. Dermatologically tested Rugby White Night Cream.",

@@ -63,7 +63,7 @@ export const products: Product[] = [
     images: [
       "/images/rugby-skin-revival.jpg",
       "/images/rugby-skin-revival-jar.png",
-      "/images/instagram/DTzQd3pEfsT.jpg",
+      "/images/instagram/DX-90AVkTAS.jpg",
       "/images/instagram/DZSAtQIxL-y.jpg",
       "/images/instagram/DXNVS0gkyTQ_1.jpg",
       "/images/instagram/DcK0UwPRNUE.jpg",
@@ -100,7 +100,7 @@ export const products: Product[] = [
         step: "01. PREPARE",
         title: "CLEANSE",
         instruction: "Wash face gently and pat dry.",
-        image: "/images/instagram/DTzQd3pEfsT.jpg",
+        image: "/images/instagram/DX6C8-Skat0.jpg",
       },
       {
         step: "02. APPLY",
@@ -112,7 +112,7 @@ export const products: Product[] = [
         step: "03. EMBRACE",
         title: "GENTLE MASSAGE",
         instruction: "Massage gently in upward circular motions until absorbed.",
-        image: "/images/instagram/DTzQd3pEfsT.jpg",
+        image: "/images/instagram/DX-90AVkTAS.jpg",
       },
     ],
     purityPillars: [
