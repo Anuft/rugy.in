@@ -13,7 +13,6 @@ import { WhatsAppIcon } from "@/components/Icons";
 
 export default function AmbarShopSection() {
   const [quantity, setQuantity] = useState(1);
-  const [showAltImage, setShowAltImage] = useState(false);
   const { addToCart } = useCart();
   const router = useRouter();
 
@@ -37,18 +36,10 @@ export default function AmbarShopSection() {
     <section id="shop" className="relative z-20 py-16 sm:py-24 bg-[#FEF7FB] text-[#2A1018] border-b border-[#F4CEDF]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left Column: Ambar .pframe (Hoverable Dual Shot Image Frame) */}
-          <div
-            className="lg:col-span-6 relative aspect-[4/5] rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#FFFFFF] shadow-[0_40px_80px_-40px_rgba(9,41,28,0.35)] border border-[#FDEAF3] p-8 flex items-center justify-center cursor-pointer group"
-            onMouseEnter={() => setShowAltImage(true)}
-            onMouseLeave={() => setShowAltImage(false)}
-          >
-            {/* Primary Image: New Rugby White Skin Revival Jar */}
-            <div
-              className={`absolute inset-0 p-4 sm:p-6 flex items-center justify-center transition-all duration-700 ${
-                showAltImage ? "opacity-0 scale-95" : "opacity-100 scale-100"
-              }`}
-            >
+          {/* Left Column: Product Jar Showcase Frame (Single Static Image) */}
+          <div className="lg:col-span-6 relative aspect-[4/5] rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#FFFFFF] shadow-[0_40px_80px_-40px_rgba(9,41,28,0.35)] border border-[#FDEAF3] p-8 flex items-center justify-center">
+            {/* Sole Product Image */}
+            <div className="absolute inset-0 p-4 sm:p-6 flex items-center justify-center">
               <Image
                 src="/images/rugby-skin-revival.jpg"
                 alt={product.name}
@@ -58,30 +49,9 @@ export default function AmbarShopSection() {
               />
             </div>
 
-            {/* Alternate Image: Authentic Botanical Jar View on Hover */}
-            <div
-              className={`absolute inset-0 transition-all duration-700 ${
-                showAltImage ? "opacity-100 scale-105" : "opacity-0 scale-100"
-              }`}
-            >
-              <Image
-                src="/images/instagram/DX6C8-Skat0.jpg"
-                alt="Rugby White Skincare Botanical Presentation"
-                fill
-                className="object-cover rounded-[20px]"
-              />
-              <div className="absolute bottom-4 left-4 right-4 bg-[#3F0E1B]/90 backdrop-blur-md px-4 py-2 text-center text-xs text-[#FEF7FB] font-sans rounded-lg">
-                Dermatologically Tested Botanical Formula · Fast Absorbing &amp; Non-Greasy
-              </div>
-            </div>
-
             {/* Top Corner Badge */}
             <div className="absolute top-6 left-6 z-10 bg-[#581527] text-[#FEF7FB] px-3.5 py-1 text-[11px] font-sans tracking-[0.2em] uppercase font-medium">
               SIGNATURE RITUAL
-            </div>
-
-            <div className="absolute bottom-6 right-6 z-10 text-[10px] tracking-widest uppercase font-sans text-[#8A304C] bg-[#FFFFFF]/90 px-3 py-1 rounded-full shadow-sm">
-              {showAltImage ? "VIEWING TEXTURE" : "HOVER FOR TEXTURE"}
             </div>
           </div>
 

@@ -10,19 +10,11 @@ import { flagshipProduct } from "@/data/products";
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#3F0E1B] text-[#FEF7FB] pt-24 pb-16">
-      {/* Background Cinematic Atmosphere */}
+      {/* Background Atmosphere - Clean gradient without background image */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/instagram/DZSAtQIxL-y.jpg"
-          alt="Rugby White Skincare Campaign"
-          fill
-          priority
-          className="object-cover object-center opacity-30 mix-blend-luminosity scale-105"
-        />
-        {/* Deep emerald luxury gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#3F0E1B]/80 via-[#3F0E1B]/70 to-[#3F0E1B]" />
-        {/* Soft radial warm glow for sunlight effect */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#AE3E64]/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#3F0E1B] via-[#4A1020] to-[#3F0E1B]" />
+        {/* Soft radial warm glow for lighting effect */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#AE3E64]/15 rounded-full blur-[140px] pointer-events-none" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8 sm:pt-12">
