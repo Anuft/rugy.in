@@ -28,49 +28,25 @@ export default function FaceReviews() {
 
   const reviewCases: ReviewCase[] = [
     {
-      id: "before-after-tone",
-      tabLabel: "Before & After Transformation",
-      title: "REAL RESULTS. VISIBLE CHANGE.",
-      subtitle: "Side-by-side transformation to glass glow",
-      image: "/images/instagram/DZyyZ_Jx7_3.jpg",
-      tag: "DULL SKIN TO GLASS SKIN",
-      duration: "Daily Evening Care",
-      targetConcerns: [
-        "Dull, fatigued complexion",
-        "Sun tanning & dark patches",
-        "Rough surface texture",
-      ],
-      visibleOutcomes: [
-        "Brighter, replenished skin",
-        "Even melanin balance",
-        "Soft, plump moisture lock",
-      ],
-      testimonial:
-        "“Specially formulated to brighten, repair and reveal a natural, long-lasting glow.”",
-      reviewer: "Verified Product Review",
-      source: "Official Campaign Visual & Clinical Survey",
-      sourceUrl: "https://www.instagram.com/p/DZyyZ_Jx7_3/",
-    },
-    {
       id: "whatsapp-feedback",
       tabLabel: "WhatsApp Client Chat",
       title: "AUTHENTIC WHATSAPP FEEDBACK",
       subtitle: "Customer report on tan removal & zero irritation",
       image: "/images/instagram/DXNVS0gkyTQ_1.jpg",
       tag: "VERIFIED BUYER",
-      duration: "Day 09 Update",
+      duration: "Daily Evening Care",
       targetConcerns: [
         "Deep sun tanning",
         "Post-acne dark marks",
         "Sensitive skin concern",
       ],
       visibleOutcomes: [
-        "Tanning lifted within 9 days",
-        "Marks noticeably faded",
+        "Tanning lifted noticeably",
+        "Marks visibly faded",
         "Zero redness or irritation",
       ],
       testimonial:
-        "“Been using it for 9 days... Sun tanning and pigmentation cleared up so well. Marks are fading with zero irritation. Thank you ❤️”",
+        "“Been using it every evening... Sun tanning and pigmentation cleared up so well. Marks are fading with zero irritation. Thank you ❤️”",
       reviewer: "Verified Customer (Kerala)",
       source: "WhatsApp Order Concierge",
       sourceUrl: "https://www.instagram.com/p/DXNVS0gkyTQ/",

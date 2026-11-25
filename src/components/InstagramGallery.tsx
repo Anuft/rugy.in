@@ -27,10 +27,10 @@ export default function InstagramGallery() {
       caption: "Discover the pure night ritual 🌿 Safe botanical formula that nourishes, brightens & protects.",
     },
     {
-      image: "/images/instagram/DZyyZ_Jx7_3.jpg",
-      postUrl: "https://www.instagram.com/p/DZyyZ_Jx7_3/",
-      tag: "#VisibleChange",
-      caption: "Real Results. Visible Change. Fast-acting daily night moisturizer with pure botanical care.",
+      image: "/images/instagram/DX1j8ajEbuB.jpg",
+      postUrl: "https://www.instagram.com/rugbywhite.in/",
+      tag: "#GlassSkin",
+      caption: "Glow that speaks before you do ✨ Pure botanical night moisturizer for clear, illuminated skin.",
     },
     {
       image: "/images/instagram/DTzQd3pEfsT.jpg",

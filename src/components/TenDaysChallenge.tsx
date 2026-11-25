@@ -42,7 +42,7 @@ export default function TenDaysChallenge() {
       title: "CELEBRATE YOUR ROUTINE",
       description: "Luminous, unified skin with a lasting natural glow.",
       focus: "Radiant Glass Skin",
-      image: "/images/instagram/DZyyZ_Jx7_3.jpg",
+      image: "/images/instagram/DX-90AVkTAS.jpg",
     },
   ];
 
