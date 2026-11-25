@@ -82,6 +82,6 @@ Address: ${order.address || ""}, ${order.city || ""}, ${order.state || ""} - ${o
 export function generateConciergeWhatsAppUrl(): string {
   const rawNumber = siteConfig.whatsappNumber.replace(/\D/g, "");
   const fullNumber = rawNumber.startsWith("91") && rawNumber.length === 12 ? rawNumber : `91${rawNumber}`;
-  const message = `Hello Rugby White! I'm visiting your website and have a question about the Rugby White Night Cream ritual.`;
+  const message = `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599). Please confirm details!`;
   return `https://wa.me/${fullNumber}?text=${encodeURIComponent(message)}`;
 }

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, Menu, X, Truck } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import RugbyWhiteLogo from "@/components/RugbyWhiteLogo";
 import { siteConfig } from "@/data/siteConfig";
 import { WhatsAppIcon, InstagramIcon } from "@/components/Icons";
@@ -132,16 +132,6 @@ export default function AmbarNavbar() {
                   <InstagramIcon className="w-4 h-4" />
                 </a>
 
-                {/* Profile / Account / WhatsApp Concierge Icon */}
-                <Link
-                  href="/admin/orders"
-                  className="p-1.5 text-[#2A1018] hover:text-[#AE3E64] transition-colors"
-                  title="Fulfillment & Order Account"
-                  aria-label="User Account"
-                >
-                  <User className="w-5 h-5 stroke-[1.5]" />
-                </Link>
-
                 {/* WhatsApp Direct Order Button */}
                 <a
                   href={`https://wa.me/919207341674?text=${encodeURIComponent(
@@ -198,12 +188,6 @@ export default function AmbarNavbar() {
                 className="py-1.5 border-b border-[#F4CEDF]/60 text-[#2A1018]"
               >
                 OUR STORY
-              </Link>
-              <Link
-                href="/admin/orders"
-                className="py-1.5 border-b border-[#F4CEDF]/60 text-[#581527]"
-              >
-                FULFILLMENT BACKEND
               </Link>
             </nav>
 

@@ -232,11 +232,15 @@ export default function FaceReviews() {
               {/* Action Buttons */}
               <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <a
-                  href="#shop"
-                  className="py-3.5 px-6 bg-[#581527] text-[#FEF7FB] text-xs font-sans tracking-[0.2em] uppercase font-semibold hover:bg-[#3F0E1B] transition-colors text-center shadow-md flex items-center justify-center gap-2"
+                  href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+                    "Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599). Please confirm details!"
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3.5 px-6 bg-[#25D366] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold hover:bg-[#20BA5A] transition-colors text-center shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>ORDER RUGBY WHITE NIGHT CREAM</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <WhatsAppIcon className="w-4 h-4 fill-white" />
+                  <span>ORDER ON WHATSAPP · ₹599</span>
                 </a>
 
                 <a

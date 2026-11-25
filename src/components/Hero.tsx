@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowDown, Sparkles } from "lucide-react";
+import { WhatsAppIcon } from "@/components/Icons";
 import { flagshipProduct } from "@/data/products";
 
 export default function Hero() {
@@ -52,9 +53,14 @@ export default function Hero() {
             {/* CTAs */}
             <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-5">
               <a
-                href="#shop"
-                className="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 text-center shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2"
+                href={`https://wa.me/919207341674?text=${encodeURIComponent(
+                  "Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599). Please confirm details!"
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 text-center shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2 group cursor-pointer"
               >
+                <WhatsAppIcon className="w-4 h-4 fill-white" />
                 <span>ORDER ON WHATSAPP · ₹599</span>
               </a>
               <a
