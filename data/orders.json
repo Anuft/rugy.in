@@ -34,7 +34,7 @@
       "paymentTime": "2026-11-18T07:07:14.518Z",
       "currency": "INR"
     },
-    "status": "Payment Received",
+    "status": "Delivered",
     "courier": "BlueDart Air Express",
     "awb": "BD165113585IN",
     "timeline": [
@@ -61,10 +61,40 @@
         "date": "Expected in 2–4 Business Days",
         "desc": "Delivery destination: Kozhikode, Kerala.",
         "done": false
+      },
+      {
+        "title": "Order Status: Delivered",
+        "desc": "Order progressed to Delivered. ",
+        "date": "25 Nov, 05:52 pm",
+        "done": true
+      },
+      {
+        "title": "Order Status: Delivered",
+        "desc": "Order progressed to Delivered. AWB: BD165113585IN",
+        "date": "25 Nov, 05:52 pm",
+        "done": true
+      },
+      {
+        "title": "Order Status: Delivered",
+        "desc": "Order progressed to Delivered. AWB: BD165113585IN",
+        "date": "25 Nov, 05:52 pm",
+        "done": true
+      },
+      {
+        "title": "Order Status: Delivered",
+        "desc": "Order progressed to Delivered. AWB: BD165113585IN",
+        "date": "25 Nov, 05:52 pm",
+        "done": true
+      },
+      {
+        "title": "Order Status: Delivered",
+        "desc": "Order progressed to Delivered. AWB: BD165113585IN",
+        "date": "25 Nov, 05:52 pm",
+        "done": true
       }
     ],
     "createdAt": "2026-11-18T07:07:14.520Z",
-    "updatedAt": "2026-11-18T07:07:14.520Z"
+    "updatedAt": "2026-11-25T12:22:25.063Z"
   },
   {
     "id": "RW-468679",

@@ -2,47 +2,40 @@
 
 import React from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
-import { InstagramIcon } from "@/components/Icons";
+import { Sparkles } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 
 export default function InstagramGallery() {
-  const posts = [
+  const productShots = [
     {
-      image: "/images/instagram/DXmmECOk9kS.jpg",
-      postUrl: "https://www.instagram.com/rugbywhite.in/",
-      tag: "#RugbyWhite",
-      caption: "Glow that feels fresh, clean & confident. Experience the signature night ritual with Rugby Beauty Cream.",
+      image: "/images/rugby-skin-revival.jpg",
+      title: "Signature Jar",
+      caption: "Pure botanical night cream formula",
     },
     {
-      image: "/images/instagram/DXNVS0gkyTQ_1.jpg",
-      postUrl: "https://www.instagram.com/p/DXNVS0gkyTQ/",
-      tag: "#CustomerReview",
-      caption: "Real WhatsApp review: 'Ente Tanning, pigmentation okke nalla pole remove aayi... Acne mark dull aayi varunnund...' (Verified Client)",
+      image: "/images/rugby-skin-revival-jar.png",
+      title: "Clean Formulation",
+      caption: "35g daily evening skin ritual",
     },
     {
-      image: "/images/instagram/DZSAtQIxL-y.jpg",
-      postUrl: "https://www.instagram.com/rugbywhite.in/",
-      tag: "#PureBotanicals",
-      caption: "Discover the pure night ritual 🌿 Safe botanical formula that nourishes, brightens & protects.",
+      image: "/images/rugby-white-jar.png",
+      title: "Luxury Finish",
+      caption: "Fast-absorbing, non-sticky texture",
     },
     {
-      image: "/images/instagram/DX1j8ajEbuB.jpg",
-      postUrl: "https://www.instagram.com/rugbywhite.in/",
-      tag: "#GlassSkin",
-      caption: "Glow that speaks before you do ✨ Pure botanical night moisturizer for clear, illuminated skin.",
+      image: "/images/rugby-skin-revival.jpg",
+      title: "Overnight Care",
+      caption: "Wake up with natural morning glow",
     },
     {
-      image: "/images/instagram/DX3VxQQkYnm.jpg",
-      postUrl: "https://www.instagram.com/rugbywhite.in/",
-      tag: "#NightRitual",
-      caption: "Gentle overnight radiance care. Let botanical actives restore and soothe your skin while you rest.",
+      image: "/images/rugby-skin-revival-jar.png",
+      title: "Dermatologically Tested",
+      caption: "Gentle on all skin types",
     },
     {
-      image: "/images/instagram/DX6C8-Skat0.jpg",
-      postUrl: "https://www.instagram.com/rugbywhite.in/",
-      tag: "#ClearSkin",
-      caption: "Natural glow & barrier support. Dermatologically tested Rugby White Night Cream.",
+      image: "/images/rugby-white-jar.png",
+      title: "Authentic Quality",
+      caption: "Direct order via WhatsApp",
     },
   ];
 
@@ -52,61 +45,52 @@ export default function InstagramGallery() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="space-y-2">
-            <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block">
-              COMMUNITY &amp; STORIES
+            <span className="text-xs font-sans tracking-[0.3em] uppercase text-[#AE3E64] font-bold block flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-[#AE3E64]" />
+              <span>PRODUCT SHOWCASE</span>
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl text-[#1C1C1C] tracking-tight">
-              Follow Us @rugbywhite.in
+              Rugby White Night Cream
             </h2>
           </div>
 
           <a
-            href={siteConfig.instagramUrl}
+            href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+              "Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599)."
+            )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#1C1C1C] text-xs font-sans tracking-[0.2em] uppercase font-bold text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-[#FFFFFF] transition-all duration-300 group shadow-xs"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#581527] text-xs font-sans tracking-[0.2em] uppercase font-bold text-[#FFFFFF] hover:bg-[#3F0E1B] transition-all duration-300 group shadow-xs cursor-pointer"
           >
-            <InstagramIcon className="w-4 h-4" />
-            <span>JOIN OUR INSTAGRAM</span>
-            <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <span>ORDER ON WHATSAPP · ₹599</span>
           </a>
         </div>
 
-        {/* 6-Grid Instagram Showcase */}
+        {/* 6-Grid Pure Product Preview */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {posts.map((post, idx) => (
-            <a
+          {productShots.map((shot, idx) => (
+            <div
               key={idx}
-              href={post.postUrl || siteConfig.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative aspect-square rounded-xl overflow-hidden bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs hover:shadow-lg transition-all duration-300 block"
-              aria-label={`View Instagram post: ${post.caption}`}
+              className="group relative aspect-square rounded-2xl overflow-hidden bg-[#FFFFFF] border border-[#F4CEDF] shadow-xs hover:shadow-lg transition-all duration-300 p-4 flex items-center justify-center"
             >
               <Image
-                src={post.image}
-                alt={post.caption}
+                src={shot.image}
+                alt={shot.title}
                 fill
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw"
-                className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-108"
+                className="object-contain p-3 transition-transform duration-500 ease-out group-hover:scale-108"
               />
 
-              {/* Hover Dark Overlay with Details */}
-              <div className="absolute inset-0 bg-[#581527]/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3.5 flex flex-col justify-between text-[#FEF7FB]">
-                <div className="flex justify-between items-start">
-                  <InstagramIcon className="w-4 h-4 text-[#AE3E64]" />
-                  <span className="text-[9px] font-sans tracking-widest text-[#F4CEDF] uppercase font-bold">
-                    {post.tag}
-                  </span>
-                </div>
-                <p className="text-[10px] font-sans font-light line-clamp-3 leading-relaxed text-[#F4CEDF]">
-                  {post.caption}
-                </p>
-                <span className="text-[9px] tracking-[0.2em] uppercase text-[#AE3E64] font-bold">
-                  VIEW POST ↗
+              {/* Clean Subtle Footer Caption on Hover */}
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#3F0E1B]/90 via-[#3F0E1B]/60 to-transparent p-3 pt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+                <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#FEF7FB] block">
+                  {shot.title}
+                </span>
+                <span className="text-[9px] font-sans text-[#F4CEDF]/80 block pt-0.5">
+                  {shot.caption}
                 </span>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>
