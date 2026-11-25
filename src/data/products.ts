@@ -100,7 +100,7 @@ export const products: Product[] = [
         step: "01. PREPARE",
         title: "CLEANSE",
         instruction: "Wash face gently and pat dry.",
-        image: "/images/instagram/DX6C8-Skat0.jpg",
+        image: "/images/rugby-skin-revival-jar.png",
       },
       {
         step: "02. APPLY",
@@ -112,7 +112,7 @@ export const products: Product[] = [
         step: "03. EMBRACE",
         title: "GENTLE MASSAGE",
         instruction: "Massage gently in upward circular motions until absorbed.",
-        image: "/images/instagram/DX6C8-Skat0.jpg",
+        image: "/images/rugby-skin-revival-jar.png",
       },
     ],
     purityPillars: [

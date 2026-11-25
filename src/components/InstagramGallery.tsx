@@ -18,22 +18,22 @@ export default function InstagramGallery() {
       caption: "35g daily evening skin ritual",
     },
     {
-      image: "/images/rugby-white-jar.png",
+      image: "/images/rugby-skin-revival.jpg",
       title: "Luxury Finish",
       caption: "Fast-absorbing, non-sticky texture",
     },
     {
-      image: "/images/rugby-skin-revival.jpg",
+      image: "/images/rugby-skin-revival-jar.png",
       title: "Overnight Care",
       caption: "Wake up with natural morning glow",
     },
     {
-      image: "/images/rugby-skin-revival-jar.png",
+      image: "/images/rugby-skin-revival.jpg",
       title: "Dermatologically Tested",
       caption: "Gentle on all skin types",
     },
     {
-      image: "/images/rugby-white-jar.png",
+      image: "/images/rugby-skin-revival-jar.png",
       title: "Authentic Quality",
       caption: "Direct order via WhatsApp",
     },
