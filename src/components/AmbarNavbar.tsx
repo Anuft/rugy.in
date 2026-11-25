@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import RugbyWhiteLogo from "@/components/RugbyWhiteLogo";
 import { siteConfig } from "@/data/siteConfig";
 import { WhatsAppIcon, InstagramIcon } from "@/components/Icons";
@@ -132,6 +132,16 @@ export default function AmbarNavbar() {
                   <InstagramIcon className="w-4 h-4" />
                 </a>
 
+                {/* Customer Login Icon */}
+                <Link
+                  href="/login"
+                  className="p-1.5 text-[#2A1018]/80 hover:text-[#AE3E64] transition-colors"
+                  aria-label="Customer Sign In"
+                  title="Sign In / Customer Portal"
+                >
+                  <User className="w-4 h-4 stroke-[1.8]" />
+                </Link>
+
                 {/* WhatsApp Direct Order Button */}
                 <a
                   href={`https://wa.me/919207341674?text=${encodeURIComponent(
@@ -182,6 +192,14 @@ export default function AmbarNavbar() {
                 className="py-1.5 border-b border-[#F4CEDF]/60 text-[#2A1018]"
               >
                 FACE REVIEWS
+              </Link>
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-1.5 border-b border-[#F4CEDF]/60 text-[#AE3E64] font-bold flex items-center justify-between"
+              >
+                <span>SIGN IN / ACCOUNT</span>
+                <User className="w-4 h-4 text-[#AE3E64]" />
               </Link>
               <Link
                 href="/about"
