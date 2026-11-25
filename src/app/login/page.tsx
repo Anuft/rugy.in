@@ -50,6 +50,16 @@ export default function CustomerLoginPage() {
     }
 
     setIsSubmitting(true);
+    fetch("/api/customer-logins", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mobileNumber: phoneNumber,
+        fullName: fullName || undefined,
+        method: "Mobile OTP Verified",
+      }),
+    }).catch((err) => console.error("Failed to record login:", err));
+
     setTimeout(() => {
       setIsSubmitting(false);
       setPhoneStep("otp");
@@ -72,6 +82,16 @@ export default function CustomerLoginPage() {
     }
 
     setIsSubmitting(true);
+    fetch("/api/customer-logins", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mobileNumber: phoneNumber,
+        fullName: fullName || undefined,
+        method: "Mobile OTP Verified",
+      }),
+    }).catch((err) => console.error("Failed to record login:", err));
+
     setTimeout(() => {
       setIsSubmitting(false);
       const user = {
@@ -94,6 +114,16 @@ export default function CustomerLoginPage() {
     }
 
     setIsSubmitting(true);
+    fetch("/api/customer-logins", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mobileNumber: phoneNumber,
+        fullName: fullName || undefined,
+        method: "Mobile OTP Verified",
+      }),
+    }).catch((err) => console.error("Failed to record login:", err));
+
     setTimeout(() => {
       setIsSubmitting(false);
       const user = {

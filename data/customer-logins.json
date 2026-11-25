@@ -1,0 +1,41 @@
+[
+  {
+    "id": "log_1",
+    "mobileNumber": "9207341674",
+    "formattedNumber": "+91 92073 41674",
+    "fullName": "Ahamed Adnan",
+    "method": "Mobile OTP Verified",
+    "firstSignIn": "2026-11-25T15:58:30.000Z",
+    "firstSignInFormatted": "25 Nov 2026, 03:58 PM",
+    "lastSignIn": "2026-11-25T17:05:00.000Z",
+    "lastSignInFormatted": "25 Nov 2026, 05:05 PM",
+    "loginCount": 3,
+    "status": "Active Privilege Member"
+  },
+  {
+    "id": "log_2",
+    "mobileNumber": "9876543210",
+    "formattedNumber": "+91 98765 43210",
+    "fullName": "Anjali Nair",
+    "method": "Mobile OTP Verified",
+    "firstSignIn": "2026-11-25T16:15:20.000Z",
+    "firstSignInFormatted": "25 Nov 2026, 04:15 PM",
+    "lastSignIn": "2026-11-25T16:15:20.000Z",
+    "lastSignInFormatted": "25 Nov 2026, 04:15 PM",
+    "loginCount": 1,
+    "status": "Active Privilege Member"
+  },
+  {
+    "id": "log_3",
+    "mobileNumber": "9447123456",
+    "formattedNumber": "+91 94471 23456",
+    "fullName": "Rahul Sharma",
+    "method": "Mobile OTP Verified",
+    "firstSignIn": "2026-11-25T16:30:10.000Z",
+    "firstSignInFormatted": "25 Nov 2026, 04:30 PM",
+    "lastSignIn": "2026-11-25T16:45:00.000Z",
+    "lastSignInFormatted": "25 Nov 2026, 04:45 PM",
+    "loginCount": 2,
+    "status": "Active Privilege Member"
+  }
+]

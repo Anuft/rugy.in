@@ -26,7 +26,12 @@ import {
   Check,
   X,
   Layers,
+  UserCheck,
+  Phone,
+  Calendar,
+  MessageCircle,
 } from "lucide-react";
+import { WhatsAppIcon } from "@/components/Icons";
 
 export default function AdminDashboardPage() {
   // Authentication State
@@ -38,7 +43,13 @@ export default function AdminDashboardPage() {
   const [adminToken, setAdminToken] = useState<string>("");
 
   // Navigation Tabs
-  const [activeTab, setActiveTab] = useState<"orders" | "inventory">("orders");
+  const [activeTab, setActiveTab] = useState<"logins" | "orders" | "inventory">("logins");
+
+  // Customer Logins State
+  const [customerLogins, setCustomerLogins] = useState<any[]>([]);
+  const [filteredLogins, setFilteredLogins] = useState<any[]>([]);
+  const [isLoadingLogins, setIsLoadingLogins] = useState(false);
+  const [loginSearchQuery, setLoginSearchQuery] = useState("");
 
   // Orders State
   const [orders, setOrders] = useState<any[]>([]);
@@ -57,6 +68,39 @@ export default function AdminDashboardPage() {
   const [isLoadingInventory, setIsLoadingInventory] = useState(false);
   const [savingProductId, setSavingProductId] = useState<string | null>(null);
   const [inventorySuccessMessage, setInventorySuccessMessage] = useState<string | null>(null);
+
+  const fetchCustomerLogins = async () => {
+    setIsLoadingLogins(true);
+    try {
+      const res = await fetch("/api/customer-logins");
+      const data = await res.json();
+      if (data.success) {
+        setCustomerLogins(data.logins);
+        setFilteredLogins(data.logins);
+      }
+    } catch (err) {
+      console.error("Error fetching logins:", err);
+    } finally {
+      setIsLoadingLogins(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!loginSearchQuery.trim()) {
+      setFilteredLogins(customerLogins);
+      return;
+    }
+    const q = loginSearchQuery.toLowerCase();
+    setFilteredLogins(
+      customerLogins.filter(
+        (item) =>
+          item.mobileNumber.toLowerCase().includes(q) ||
+          item.formattedNumber?.toLowerCase().includes(q) ||
+          item.fullName?.toLowerCase().includes(q) ||
+          item.firstSignInFormatted?.toLowerCase().includes(q)
+      )
+    );
+  }, [loginSearchQuery, customerLogins]);
 
   // 1. Check existing authentication on mount
   useEffect(() => {
@@ -77,6 +121,7 @@ export default function AdminDashboardPage() {
       const data = await res.json();
       if (data.authenticated) {
         setIsAuthenticated(true);
+        fetchCustomerLogins();
         fetchOrders(token);
         fetchInventory(token);
       } else {
@@ -107,6 +152,7 @@ export default function AdminDashboardPage() {
         localStorage.setItem("rugby_admin_token", data.token);
         setAdminToken(data.token);
         setIsAuthenticated(true);
+        fetchCustomerLogins();
         fetchOrders(data.token);
         fetchInventory(data.token);
       } else {
@@ -383,13 +429,14 @@ export default function AdminDashboardPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => {
+                fetchCustomerLogins();
                 fetchOrders();
                 fetchInventory();
               }}
               className="px-4 py-2.5 rounded-xl border border-[#F4CEDF] bg-white text-[#581527] hover:bg-[#FEF7FB] text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
               title="Refresh Data"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isLoadingOrders ? "animate-spin" : ""}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${isLoadingOrders || isLoadingLogins ? "animate-spin" : ""}`} />
               <span>Sync</span>
             </button>
 
@@ -421,6 +468,27 @@ export default function AdminDashboardPage() {
         {/* Metrics Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
+            <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">Client Sign-Ins</span>
+            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#581527]">
+              {customerLogins.length}
+            </p>
+            <p className="text-[11px] text-[#059669] font-medium flex items-center gap-1">
+              <UserCheck className="w-3.5 h-3.5" />
+              <span>First Sign Records Saved</span>
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
+            <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">Latest Sign-In</span>
+            <p className="font-serif text-base sm:text-lg font-bold text-[#059669] truncate">
+              {customerLogins[0]?.formattedNumber || "No Sign-ins"}
+            </p>
+            <p className="text-[11px] text-[#8A304C] truncate">
+              {customerLogins[0]?.firstSignInFormatted || "Awaiting first login"}
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
             <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">Total Revenue</span>
             <p className="font-serif text-2xl sm:text-3xl font-bold text-[#581527]">
               ₹{totalRevenue.toLocaleString("en-IN")}
@@ -429,22 +497,6 @@ export default function AdminDashboardPage() {
               <TrendingUp className="w-3.5 h-3.5" />
               <span>Razorpay Verified</span>
             </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
-            <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">Paid Orders</span>
-            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#059669]">
-              {paidCount}
-            </p>
-            <p className="text-[11px] text-[#8A304C]">Ready for dispatch</p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
-            <span className="text-[10px] uppercase tracking-wider text-[#8A304C] font-semibold block">In Processing</span>
-            <p className="font-serif text-2xl sm:text-3xl font-bold text-[#581527]">
-              {processingCount}
-            </p>
-            <p className="text-[11px] text-[#8A304C]">Air courier packing</p>
           </div>
 
           <div className="p-5 rounded-2xl bg-white border border-[#F4CEDF] shadow-xs space-y-1">
@@ -457,10 +509,22 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-[#F4CEDF] gap-8">
+        <div className="flex border-b border-[#F4CEDF] gap-6 sm:gap-8 overflow-x-auto">
+          <button
+            onClick={() => setActiveTab("logins")}
+            className={`pb-3 text-sm font-sans font-bold uppercase tracking-wider cursor-pointer border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
+              activeTab === "logins"
+                ? "border-[#581527] text-[#581527]"
+                : "border-transparent text-[#8A304C] hover:text-[#581527]"
+            }`}
+          >
+            <UserCheck className="w-4 h-4" />
+            <span>Customer Sign-In Records ({customerLogins.length})</span>
+          </button>
+
           <button
             onClick={() => setActiveTab("orders")}
-            className={`pb-3 text-sm font-sans font-bold uppercase tracking-wider cursor-pointer border-b-2 transition-all flex items-center gap-2 ${
+            className={`pb-3 text-sm font-sans font-bold uppercase tracking-wider cursor-pointer border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
               activeTab === "orders"
                 ? "border-[#581527] text-[#581527]"
                 : "border-transparent text-[#8A304C] hover:text-[#581527]"
@@ -472,7 +536,7 @@ export default function AdminDashboardPage() {
 
           <button
             onClick={() => setActiveTab("inventory")}
-            className={`pb-3 text-sm font-sans font-bold uppercase tracking-wider cursor-pointer border-b-2 transition-all flex items-center gap-2 ${
+            className={`pb-3 text-sm font-sans font-bold uppercase tracking-wider cursor-pointer border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
               activeTab === "inventory"
                 ? "border-[#581527] text-[#581527]"
                 : "border-transparent text-[#8A304C] hover:text-[#581527]"
@@ -482,6 +546,140 @@ export default function AdminDashboardPage() {
             <span>Product Inventory &amp; Stock</span>
           </button>
         </div>
+
+        {/* ------------------------------------------------------------- */}
+        {/* TAB: CUSTOMER SIGN-IN RECORDS (FIRST SIGN TIME RECORD) */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab === "logins" && (
+          <div className="space-y-6">
+            {/* Search and Quick Info */}
+            <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#F4CEDF] shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 text-[#8A304C] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search by customer mobile number, name, or first sign date..."
+                  value={loginSearchQuery}
+                  onChange={(e) => setLoginSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#FEF7FB] border border-[#F4CEDF] rounded-xl text-xs font-sans focus:outline-none focus:border-[#581527]"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 text-xs font-sans text-[#8A304C]">
+                <ShieldCheck className="w-4 h-4 text-[#059669]" />
+                <span>Showing {filteredLogins.length} of {customerLogins.length} verified sign-in records</span>
+              </div>
+            </div>
+
+            {/* Logins Table */}
+            <div className="bg-white rounded-2xl border border-[#F4CEDF] shadow-xs overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-[#FEF7FB] border-b border-[#F4CEDF] text-[#8A304C] uppercase tracking-wider text-[11px] font-sans">
+                      <th className="py-3.5 px-4 sm:px-6 font-semibold">Customer / Mobile</th>
+                      <th className="py-3.5 px-4 font-semibold">First Sign-In Time (Record)</th>
+                      <th className="py-3.5 px-4 font-semibold">Last Active</th>
+                      <th className="py-3.5 px-4 font-semibold text-center">Logins</th>
+                      <th className="py-3.5 px-4 font-semibold">Auth Method</th>
+                      <th className="py-3.5 px-4 sm:px-6 font-semibold text-right">WhatsApp Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#F4CEDF]/60 text-xs font-sans">
+                    {isLoadingLogins ? (
+                      <tr>
+                        <td colSpan={6} className="py-12 text-center text-[#8A304C]">
+                          <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#581527]" />
+                          <span>Loading sign-in records...</span>
+                        </td>
+                      </tr>
+                    ) : filteredLogins.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="py-12 text-center text-[#8A304C]">
+                          <UserCheck className="w-8 h-8 mx-auto mb-2 text-[#AE3E64]" />
+                          <p className="font-semibold text-sm text-[#581527]">No customer sign-in records found</p>
+                          <p className="text-xs text-gray-500 mt-1">When customers sign in with their mobile number and OTP, their first sign-in timestamp will be recorded here.</p>
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredLogins.map((record) => (
+                        <tr key={record.id} className="hover:bg-[#FEF7FB]/50 transition-colors">
+                          <td className="py-4 px-4 sm:px-6">
+                            <div className="flex items-center gap-3">
+                              <div className="w-9 h-9 rounded-full bg-[#581527] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                                {record.fullName ? record.fullName.charAt(0).toUpperCase() : "M"}
+                              </div>
+                              <div>
+                                <span className="font-bold text-[#581527] block">
+                                  {record.fullName || "Verified Client"}
+                                </span>
+                                <span className="text-[#8A304C] font-mono text-[11px] flex items-center gap-1">
+                                  <Phone className="w-3 h-3 text-[#AE3E64]" />
+                                  {record.formattedNumber || record.mobileNumber}
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* First Sign-in Record */}
+                          <td className="py-4 px-4">
+                            <div className="space-y-0.5">
+                              <span className="font-bold text-[#581527] flex items-center gap-1.5">
+                                <Calendar className="w-3.5 h-3.5 text-[#059669]" />
+                                {record.firstSignInFormatted || "First Sign Recorded"}
+                              </span>
+                              <span className="inline-block text-[9px] font-sans font-bold uppercase tracking-wider text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded-full">
+                                First Sign Saved
+                              </span>
+                            </div>
+                          </td>
+
+                          {/* Last Active */}
+                          <td className="py-4 px-4 text-[#8A304C]">
+                            <span className="flex items-center gap-1">
+                              <Clock className="w-3 h-3 text-gray-400" />
+                              {record.lastSignInFormatted || record.firstSignInFormatted}
+                            </span>
+                          </td>
+
+                          {/* Login Count */}
+                          <td className="py-4 px-4 text-center">
+                            <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#FDEAF3] text-[#581527] font-bold text-xs">
+                              {record.loginCount || 1}
+                            </span>
+                          </td>
+
+                          {/* Verification */}
+                          <td className="py-4 px-4">
+                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#059669] bg-[#059669]/10 px-2.5 py-1 rounded-full">
+                              <CheckCircle2 className="w-3 h-3" />
+                              {record.method || "OTP Verified"}
+                            </span>
+                          </td>
+
+                          {/* Action */}
+                          <td className="py-4 px-4 sm:px-6 text-right">
+                            <a
+                              href={`https://wa.me/91${record.mobileNumber.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(
+                                `Hello ${record.fullName || "Client"}! 🌿 Thank you for signing in at Rugby White. How can our concierge assist with your night skincare ritual today?`
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold text-[11px] uppercase tracking-wider transition-all shadow-xs"
+                            >
+                              <WhatsAppIcon className="w-3.5 h-3.5 fill-white" />
+                              <span>Chat on WhatsApp</span>
+                            </a>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ------------------------------------------------------------- */}
         {/* TAB 1: CUSTOMER ORDERS */}

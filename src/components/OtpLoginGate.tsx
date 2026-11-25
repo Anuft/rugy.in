@@ -106,6 +106,16 @@ export default function OtpLoginGate() {
     }
 
     setIsSubmitting(true);
+    // Record login in backend
+    fetch("/api/customer-logins", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mobileNumber: mobileNumber,
+        method: "Mobile OTP Verified",
+      }),
+    }).catch((err) => console.error("Failed to record login:", err));
+
     setTimeout(() => {
       setIsSubmitting(false);
       setStep("success");
