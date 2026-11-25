@@ -4,8 +4,10 @@ import React from "react";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
+import { useLivePrice } from "@/hooks/useLivePrice";
 
 export default function InstagramGallery() {
+  const { price } = useLivePrice();
   const productShots = [
     {
       image: "/images/rugby-skin-revival.jpg",
@@ -56,13 +58,13 @@ export default function InstagramGallery() {
 
           <a
             href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-              "Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599)."
+              `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}).`
             )}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#581527] text-xs font-sans tracking-[0.2em] uppercase font-bold text-[#FFFFFF] hover:bg-[#3F0E1B] transition-all duration-300 group shadow-xs cursor-pointer"
           >
-            <span>ORDER ON WHATSAPP · ₹599</span>
+            <span>ORDER ON WHATSAPP · ₹{price}</span>
           </a>
         </div>
 

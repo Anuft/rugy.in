@@ -15,9 +15,11 @@ import { flagshipProduct } from "@/data/products";
 import { siteConfig } from "@/data/siteConfig";
 import { generateSingleProductWhatsAppUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/Icons";
+import { useLivePrice } from "@/hooks/useLivePrice";
 
 function ShopContent() {
-  const product = flagshipProduct;
+  const { price, inStock } = useLivePrice();
+  const product = { ...flagshipProduct, price, inStock };
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);

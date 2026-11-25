@@ -7,8 +7,10 @@ import { Menu, X, User } from "lucide-react";
 import RugbyWhiteLogo from "@/components/RugbyWhiteLogo";
 import { siteConfig } from "@/data/siteConfig";
 import { WhatsAppIcon, InstagramIcon } from "@/components/Icons";
+import { useLivePrice } from "@/hooks/useLivePrice";
 
 export default function AmbarNavbar() {
+  const { price } = useLivePrice();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -145,7 +147,7 @@ export default function AmbarNavbar() {
                 {/* WhatsApp Direct Order Button */}
                 <a
                   href={`https://wa.me/919207341674?text=${encodeURIComponent(
-                    "Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599). Please confirm details!"
+                    `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

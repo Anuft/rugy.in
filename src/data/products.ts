@@ -47,7 +47,7 @@ export const products: Product[] = [
     name: "RUGBY WHITE NIGHT CREAM",
     subtitle: "Radiance Nourishing Night Ritual Cream",
     category: "Night Cream",
-    price: 599,
+    price: 699,
     originalPrice: 1200,
     netWeight: "35 g / 1.23 oz.",
     rating: 4.9,

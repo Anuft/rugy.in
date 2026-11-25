@@ -297,7 +297,11 @@ export default function AdminDashboardPage() {
         setInventory((prev) =>
           prev.map((i) => (i.id === item.id ? data.item : i))
         );
-        setInventorySuccessMessage(`Saved changes for ${item.name}`);
+        try {
+          localStorage.setItem("rugby_live_price", String(item.price));
+          window.dispatchEvent(new Event("storage"));
+        } catch {}
+        setInventorySuccessMessage(`Saved changes for ${item.name} (Live Price: ₹${item.price})`);
         setTimeout(() => setInventorySuccessMessage(null), 3000);
       }
     } catch (err) {

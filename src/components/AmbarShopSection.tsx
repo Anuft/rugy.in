@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, ShoppingBag, ShieldCheck, Truck, Star, Sparkles, Plus, Minus, Lock } from "lucide-react";
 import { flagshipProduct } from "@/data/products";
+import { useLivePrice } from "@/hooks/useLivePrice";
 import { siteConfig } from "@/data/siteConfig";
 import { useCart } from "@/context/CartContext";
 import { generateSingleProductWhatsAppUrl } from "@/lib/whatsapp";
@@ -13,10 +14,11 @@ import { WhatsAppIcon } from "@/components/Icons";
 
 export default function AmbarShopSection() {
   const [quantity, setQuantity] = useState(1);
+  const { price, inStock } = useLivePrice();
   const { addToCart } = useCart();
   const router = useRouter();
 
-  const product = flagshipProduct;
+  const product = { ...flagshipProduct, price, inStock };
 
   const handleBuyNow = () => {
     addToCart(product, quantity);

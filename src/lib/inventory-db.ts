@@ -139,7 +139,17 @@ export async function updateProductStock(
     if (idx !== -1) {
       items[idx].stock = stock;
       items[idx].inStock = inStock;
-      if (price !== undefined) items[idx].price = price;
+      if (price !== undefined) {
+        items[idx].price = price;
+        try {
+          const productsFilePath = path.join(process.cwd(), "src/data/products.ts");
+          let productsContent = await fs.readFile(productsFilePath, "utf-8");
+          productsContent = productsContent.replace(/price:\s*\d+,/, `price: ${price},`);
+          await fs.writeFile(productsFilePath, productsContent, "utf-8");
+        } catch (e) {
+          console.error("Failed to update products.ts with new price:", e);
+        }
+      }
       items[idx].updatedAt = now;
       await fs.writeFile(filePath, JSON.stringify(items, null, 2), "utf-8");
       return items[idx];

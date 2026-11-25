@@ -6,8 +6,10 @@ import Image from "next/image";
 import { ArrowDown, Sparkles } from "lucide-react";
 import { WhatsAppIcon } from "@/components/Icons";
 import { flagshipProduct } from "@/data/products";
+import { useLivePrice } from "@/hooks/useLivePrice";
 
 export default function Hero() {
+  const { price } = useLivePrice();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#3F0E1B] text-[#FEF7FB] pt-24 pb-16">
       {/* Background Atmosphere - Clean gradient without background image */}
@@ -46,14 +48,14 @@ export default function Hero() {
             <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-5">
               <a
                 href={`https://wa.me/919207341674?text=${encodeURIComponent(
-                  "Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599). Please confirm details!"
+                  `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 text-center shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <WhatsAppIcon className="w-4 h-4 fill-white" />
-                <span>ORDER ON WHATSAPP · ₹599</span>
+                <span>ORDER ON WHATSAPP · ₹{price}</span>
               </a>
               <a
                 href="#face-reviews"
@@ -106,7 +108,7 @@ export default function Hero() {
                     FLAGSHIP RITUAL
                   </span>
                   <span className="text-xs text-[#FEF7FB] font-medium">
-                    Night Cream • ₹599
+                    Night Cream • ₹{price}
                   </span>
                 </div>
               </div>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Star, CheckCircle2, Sparkles, ArrowRight, ShieldCheck, MessageCircle, Eye } from "lucide-react";
 import { WhatsAppIcon } from "@/components/Icons";
 import { siteConfig } from "@/data/siteConfig";
+import { useLivePrice } from "@/hooks/useLivePrice";
 
 interface ReviewCase {
   id: string;
@@ -25,6 +26,7 @@ interface ReviewCase {
 
 export default function FaceReviews() {
   const [activeTab, setActiveTab] = useState(0);
+  const { price } = useLivePrice();
 
   const reviewCases: ReviewCase[] = [
     {
@@ -233,14 +235,14 @@ export default function FaceReviews() {
               <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <a
                   href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-                    "Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹599). Please confirm details!"
+                    `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="py-3.5 px-6 bg-[#25D366] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold hover:bg-[#20BA5A] transition-colors text-center shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <WhatsAppIcon className="w-4 h-4 fill-white" />
-                  <span>ORDER ON WHATSAPP · ₹599</span>
+                  <span>ORDER ON WHATSAPP · ₹{price}</span>
                 </a>
 
                 <a
