@@ -9,7 +9,7 @@ import { flagshipProduct } from "@/data/products";
 import { useLivePrice } from "@/hooks/useLivePrice";
 
 export default function Hero() {
-  const { price } = useLivePrice();
+  const { price, inStock } = useLivePrice();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#3F0E1B] text-[#FEF7FB] pt-24 pb-16">
       {/* Background Atmosphere - Clean gradient without background image */}
@@ -46,17 +46,36 @@ export default function Hero() {
 
             {/* CTAs */}
             <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-5">
-              <a
-                href={`https://wa.me/919207341674?text=${encodeURIComponent(
-                  `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 text-center shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2 group cursor-pointer"
-              >
-                <WhatsAppIcon className="w-4 h-4 fill-white" />
-                <span>ORDER ON WHATSAPP · ₹{price}</span>
-              </a>
+              {inStock ? (
+                <a
+                  href={`https://wa.me/919207341674?text=${encodeURIComponent(
+                    `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 text-center shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2 group cursor-pointer"
+                >
+                  <WhatsAppIcon className="w-4 h-4 fill-white" />
+                  <span>ORDER ON WHATSAPP · ₹{price}</span>
+                </a>
+              ) : (
+                <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                  <span className="w-full sm:w-auto px-6 py-4 bg-red-950/90 border border-red-500/50 text-red-200 text-xs font-bold tracking-[0.2em] uppercase text-center inline-flex items-center justify-center gap-2 cursor-not-allowed shadow-md">
+                    <span>OUT OF STOCK · SOLD OUT</span>
+                  </span>
+                  <a
+                    href={`https://wa.me/919207341674?text=${encodeURIComponent(
+                      "Hello Rugby White! 🌿 Please notify me when the Rugby White Night Cream is back in stock."
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto px-6 py-4 border border-[#EA90B5] text-[#FEF7FB] text-xs font-medium tracking-[0.2em] uppercase hover:bg-[#EA90B5]/20 transition-all text-center inline-flex items-center justify-center gap-2"
+                  >
+                    <WhatsAppIcon className="w-4 h-4 fill-white" />
+                    <span>RESTOCK NOTIFY</span>
+                  </a>
+                </div>
+              )}
               <a
                 href="#face-reviews"
                 className="w-full sm:w-auto px-8 py-4 border border-[#FEF7FB]/40 text-[#FEF7FB] text-xs font-medium tracking-[0.25em] uppercase hover:border-[#AE3E64] hover:text-[#AE3E64] transition-all duration-300 text-center"
@@ -107,8 +126,8 @@ export default function Hero() {
                   <span className="block text-[10px] text-[#8A304C] uppercase tracking-widest">
                     FLAGSHIP RITUAL
                   </span>
-                  <span className="text-xs text-[#FEF7FB] font-medium">
-                    Night Cream • ₹{price}
+                  <span className={`text-xs font-medium ${inStock ? "text-[#FEF7FB]" : "text-red-300 font-bold"}`}>
+                    Night Cream • {inStock ? `₹${price}` : "OUT OF STOCK"}
                   </span>
                 </div>
               </div>

@@ -299,9 +299,12 @@ export default function AdminDashboardPage() {
         );
         try {
           localStorage.setItem("rugby_live_price", String(item.price));
+          localStorage.setItem("rugby_live_instock", String(Boolean(item.inStock && item.stock > 0)));
+          localStorage.setItem("rugby_live_stock", String(item.stock));
           window.dispatchEvent(new Event("storage"));
         } catch {}
-        setInventorySuccessMessage(`Saved changes for ${item.name} (Live Price: ₹${item.price})`);
+        const statusText = item.inStock && item.stock > 0 ? "IN STOCK" : "OUT OF STOCK";
+        setInventorySuccessMessage(`Saved changes for ${item.name} (${statusText} · ₹${item.price})`);
         setTimeout(() => setInventorySuccessMessage(null), 3000);
       }
     } catch (err) {

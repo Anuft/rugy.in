@@ -10,7 +10,7 @@ import { WhatsAppIcon, InstagramIcon } from "@/components/Icons";
 import { useLivePrice } from "@/hooks/useLivePrice";
 
 export default function AmbarNavbar() {
-  const { price } = useLivePrice();
+  const { price, inStock } = useLivePrice();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -145,19 +145,34 @@ export default function AmbarNavbar() {
                 </Link>
 
                 {/* WhatsApp Direct Order Button */}
-                <a
-                  href={`https://wa.me/919207341674?text=${encodeURIComponent(
-                    `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3.5 py-1.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white text-[11px] font-sans font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm hover:scale-105"
-                  aria-label="Order on WhatsApp"
-                >
-                  <WhatsAppIcon className="w-3.5 h-3.5 fill-white" />
-                  <span className="hidden sm:inline">ORDER ON WHATSAPP</span>
-                  <span className="sm:hidden">ORDER</span>
-                </a>
+                {inStock ? (
+                  <a
+                    href={`https://wa.me/919207341674?text=${encodeURIComponent(
+                      `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white text-[11px] font-sans font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm hover:scale-105"
+                    aria-label="Order on WhatsApp"
+                  >
+                    <WhatsAppIcon className="w-3.5 h-3.5 fill-white" />
+                    <span className="hidden sm:inline">ORDER ON WHATSAPP</span>
+                    <span className="sm:hidden">ORDER</span>
+                  </a>
+                ) : (
+                  <a
+                    href={`https://wa.me/919207341674?text=${encodeURIComponent(
+                      "Hello Rugby White! 🌿 Please notify me when the Rugby White Night Cream is back in stock."
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 rounded-full bg-red-950 border border-red-500/60 text-red-200 text-[11px] font-sans font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm hover:scale-105"
+                    aria-label="Product Out of Stock"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                    <span>SOLD OUT</span>
+                  </a>
+                )}
               </div>
             </div>
           </div>

@@ -52,8 +52,14 @@ export default function AmbarShopSection() {
             </div>
 
             {/* Top Corner Badge */}
-            <div className="absolute top-6 left-6 z-10 bg-[#581527] text-[#FEF7FB] px-3.5 py-1 text-[11px] font-sans tracking-[0.2em] uppercase font-medium">
-              SIGNATURE RITUAL
+            <div
+              className={`absolute top-6 left-6 z-10 px-3.5 py-1 text-[11px] font-sans tracking-[0.2em] uppercase font-bold shadow-sm ${
+                product.inStock
+                  ? "bg-[#581527] text-[#FEF7FB]"
+                  : "bg-red-700 text-white animate-pulse"
+              }`}
+            >
+              {product.inStock ? "SIGNATURE RITUAL" : "OUT OF STOCK"}
             </div>
           </div>
 
@@ -75,7 +81,7 @@ export default function AmbarShopSection() {
             </div>
 
             {/* Price & Weight */}
-            <div className="flex items-baseline gap-4 pt-2 border-t border-[#FDEAF3]">
+            <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-[#FDEAF3]">
               <span className="font-serif text-3xl sm:text-4xl font-bold text-[#581527]">
                 ₹{product.price}
               </span>
@@ -85,6 +91,11 @@ export default function AmbarShopSection() {
               <span className="text-xs text-[#8A304C] line-through font-sans">
                 ₹{product.originalPrice}
               </span>
+              {!product.inStock && (
+                <span className="px-3 py-1 rounded-full text-[11px] font-sans font-bold uppercase tracking-wider bg-red-100 text-red-700 border border-red-200">
+                  OUT OF STOCK
+                </span>
+              )}
             </div>
 
             {/* Ambar-Style Structured Facts Table */}
@@ -133,35 +144,67 @@ export default function AmbarShopSection() {
 
             {/* Actions: Direct WhatsApp Order */}
             <div className="pt-2 space-y-3">
-              <div className="flex flex-col sm:flex-row gap-3">
-                {/* Quantity */}
-                <div className="flex items-center justify-between border border-[#F4CEDF] px-4 py-3.5 w-full sm:w-36 bg-[#FFFFFF]">
+              {product.inStock ? (
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {/* Quantity */}
+                  <div className="flex items-center justify-between border border-[#F4CEDF] px-4 py-3.5 w-full sm:w-36 bg-[#FFFFFF]">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="p-1 hover:text-[#581527] text-[#8A304C]"
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="font-sans text-sm font-semibold">{quantity}</span>
+                    <button
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="p-1 hover:text-[#581527] text-[#8A304C]"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Direct Order on WhatsApp */}
                   <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-1 hover:text-[#581527] text-[#8A304C]"
-                    aria-label="Decrease quantity"
+                    onClick={handleWhatsApp}
+                    className="flex-1 py-4 px-6 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold transition-all flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg cursor-pointer"
                   >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="font-sans text-sm font-semibold">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="p-1 hover:text-[#581527] text-[#8A304C]"
-                    aria-label="Increase quantity"
-                  >
-                    <Plus className="w-4 h-4" />
+                    <WhatsAppIcon className="w-5 h-5 fill-white" />
+                    <span>ORDER ON WHATSAPP · ₹{product.price * quantity}</span>
                   </button>
                 </div>
-
-                {/* Direct Order on WhatsApp */}
-                <button
-                  onClick={handleWhatsApp}
-                  className="flex-1 py-4 px-6 bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold transition-all flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg cursor-pointer"
-                >
-                  <WhatsAppIcon className="w-5 h-5 fill-white" />
-                  <span>ORDER ON WHATSAPP · ₹{product.price * quantity}</span>
-                </button>
-              </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-center space-y-1">
+                    <p className="font-serif font-bold text-base text-red-800">
+                      CURRENTLY OUT OF STOCK
+                    </p>
+                    <p className="text-xs font-sans text-red-600">
+                      Fresh jars are currently in batch preparation. Orders are temporarily paused.
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      disabled
+                      className="flex-1 py-4 px-6 bg-gray-200 text-gray-400 text-xs font-sans tracking-[0.18em] uppercase font-bold flex items-center justify-center gap-2 cursor-not-allowed border border-gray-300"
+                    >
+                      <span>ORDERING DISABLED</span>
+                    </button>
+                    <a
+                      href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+                        "Hello Rugby White! 🌿 The Rugby White Night Cream is out of stock. Please notify me as soon as new stock is available!"
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-4 px-6 bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans tracking-[0.15em] uppercase font-bold transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer text-center"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 fill-white" />
+                      <span>NOTIFY ME ON RESTOCK</span>
+                    </a>
+                  </div>
+                </div>
+              )}
 
               {/* Trust Badges */}
               <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] text-[#8A304C] pt-2">

@@ -7,8 +7,8 @@ export async function GET() {
     const items = await getAllInventory();
     const flagship = items.find((i) => i.id === "rugby-white-night-cream") || items[0] || null;
     const price = flagship ? Number(flagship.price) : flagshipProduct.price;
-    const inStock = flagship ? Boolean(flagship.inStock) : flagshipProduct.inStock;
-    const stock = flagship ? Number(flagship.stock) : 100;
+    const stock = flagship ? Number(flagship.stock) : (flagshipProduct.inStock ? 100 : 0);
+    const inStock = flagship ? (Boolean(flagship.inStock) && stock > 0) : (flagshipProduct.inStock && stock > 0);
 
     return NextResponse.json(
       {

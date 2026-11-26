@@ -26,7 +26,7 @@ interface ReviewCase {
 
 export default function FaceReviews() {
   const [activeTab, setActiveTab] = useState(0);
-  const { price } = useLivePrice();
+  const { price, inStock } = useLivePrice();
 
   const reviewCases: ReviewCase[] = [
     {
@@ -235,14 +235,18 @@ export default function FaceReviews() {
               <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <a
                   href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-                    `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
+                    inStock
+                      ? `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}). Please confirm details!`
+                      : "Hello Rugby White! 🌿 Please notify me when the Rugby White Night Cream is back in stock."
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-3.5 px-6 bg-[#25D366] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold hover:bg-[#20BA5A] transition-colors text-center shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                  className={`py-3.5 px-6 text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold transition-colors text-center shadow-md flex items-center justify-center gap-2 cursor-pointer ${
+                    inStock ? "bg-[#25D366] hover:bg-[#20BA5A]" : "bg-[#581527] hover:bg-[#3F0E1B]"
+                  }`}
                 >
                   <WhatsAppIcon className="w-4 h-4 fill-white" />
-                  <span>ORDER ON WHATSAPP · ₹{price}</span>
+                  <span>{inStock ? `ORDER ON WHATSAPP · ₹${price}` : "RESTOCK ALERT ON WHATSAPP"}</span>
                 </a>
 
                 <a

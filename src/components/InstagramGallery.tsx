@@ -7,7 +7,7 @@ import { siteConfig } from "@/data/siteConfig";
 import { useLivePrice } from "@/hooks/useLivePrice";
 
 export default function InstagramGallery() {
-  const { price } = useLivePrice();
+  const { price, inStock } = useLivePrice();
   const productShots = [
     {
       image: "/images/rugby-skin-revival.jpg",
@@ -58,13 +58,15 @@ export default function InstagramGallery() {
 
           <a
             href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-              `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}).`
+              inStock
+                ? `Hello Rugby White! 🌿 I would like to order the Rugby White Night Cream 35g (₹${price}).`
+                : "Hello Rugby White! 🌿 Please notify me when the Rugby White Night Cream is back in stock."
             )}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#581527] text-xs font-sans tracking-[0.2em] uppercase font-bold text-[#FFFFFF] hover:bg-[#3F0E1B] transition-all duration-300 group shadow-xs cursor-pointer"
           >
-            <span>ORDER ON WHATSAPP · ₹{price}</span>
+            <span>{inStock ? `ORDER ON WHATSAPP · ₹${price}` : "NOTIFY ON RESTOCK"}</span>
           </a>
         </div>
 

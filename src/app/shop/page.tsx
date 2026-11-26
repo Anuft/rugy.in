@@ -59,8 +59,10 @@ function ShopContent() {
             {/* Left 6 Columns: Image Gallery */}
             <div className="lg:col-span-6 space-y-4">
               <div className="relative aspect-square w-full rounded-2xl bg-[#FEF7FB] border border-[#F4CEDF] overflow-hidden p-6 flex items-center justify-center">
-                <div className="absolute top-4 left-4 z-10 bg-[#581527] text-white px-3 py-1 rounded-full text-[10px] font-sans font-bold tracking-widest uppercase">
-                  {product.badge}
+                <div className={`absolute top-4 left-4 z-10 text-white px-3 py-1 rounded-full text-[10px] font-sans font-bold tracking-widest uppercase ${
+                  product.inStock ? "bg-[#581527]" : "bg-red-700 animate-pulse"
+                }`}>
+                  {product.inStock ? product.badge : "OUT OF STOCK"}
                 </div>
                 <Image
                   src={product.images[selectedImageIndex] || product.images[0]}
@@ -165,34 +167,66 @@ function ShopContent() {
 
               {/* Quantity Stepper & WhatsApp Order CTA */}
               <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center border border-[#F4CEDF] rounded-full bg-[#FEF7FB] px-3 py-2">
+                {product.inStock ? (
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center border border-[#F4CEDF] rounded-full bg-[#FEF7FB] px-3 py-2">
+                      <button
+                        onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                        disabled={quantity <= 1}
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-[#581527] hover:bg-[#F4CEDF] disabled:opacity-30 cursor-pointer font-bold text-sm"
+                      >
+                        -
+                      </button>
+                      <span className="w-8 text-center font-sans font-bold text-xs text-[#581527]">
+                        {quantity}
+                      </span>
+                      <button
+                        onClick={() => setQuantity((q) => q + 1)}
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-[#581527] hover:bg-[#F4CEDF] cursor-pointer font-bold text-sm"
+                      >
+                        +
+                      </button>
+                    </div>
+
                     <button
-                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                      disabled={quantity <= 1}
-                      className="w-8 h-8 rounded-full flex items-center justify-center text-[#581527] hover:bg-[#F4CEDF] disabled:opacity-30 cursor-pointer font-bold text-sm"
+                      onClick={handleWhatsAppOrder}
+                      className="flex-1 py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white text-xs font-sans font-bold tracking-[0.18em] uppercase transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg"
                     >
-                      -
-                    </button>
-                    <span className="w-8 text-center font-sans font-bold text-xs text-[#581527]">
-                      {quantity}
-                    </span>
-                    <button
-                      onClick={() => setQuantity((q) => q + 1)}
-                      className="w-8 h-8 rounded-full flex items-center justify-center text-[#581527] hover:bg-[#F4CEDF] cursor-pointer font-bold text-sm"
-                    >
-                      +
+                      <WhatsAppIcon className="w-4 h-4 fill-white" />
+                      <span>ORDER ON WHATSAPP · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
                     </button>
                   </div>
-
-                  <button
-                    onClick={handleWhatsAppOrder}
-                    className="flex-1 py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white text-xs font-sans font-bold tracking-[0.18em] uppercase transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg"
-                  >
-                    <WhatsAppIcon className="w-4 h-4 fill-white" />
-                    <span>ORDER ON WHATSAPP · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
-                  </button>
-                </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-center space-y-1">
+                      <p className="font-serif font-bold text-sm text-red-800">
+                        CURRENTLY OUT OF STOCK
+                      </p>
+                      <p className="text-xs font-sans text-red-600">
+                        Orders are paused while our master laboratory prepares a fresh batch.
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        disabled
+                        className="flex-1 py-3.5 px-6 rounded-full bg-gray-200 text-gray-400 text-xs font-sans font-bold uppercase tracking-wider cursor-not-allowed"
+                      >
+                        SOLD OUT
+                      </button>
+                      <a
+                        href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+                          "Hello Rugby White! 🌿 Please notify me when the Rugby White Night Cream is back in stock."
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-3.5 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans font-bold tracking-wider uppercase transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                      >
+                        <WhatsAppIcon className="w-4 h-4 fill-white" />
+                        <span>NOTIFY ON RESTOCK</span>
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Trust Badges */}

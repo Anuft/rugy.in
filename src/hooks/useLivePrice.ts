@@ -33,12 +33,22 @@ export function useLivePrice() {
 
     fetchLivePrice();
 
-    // Listen to local price updates if saved in the same browser session
+    // Listen to local price and stock updates if saved in the same browser session
     const handleStorage = (e: StorageEvent) => {
       if (e.key === "rugby_live_price") {
         try {
           const val = Number(e.newValue);
           if (!isNaN(val) && val > 0) setPrice(val);
+        } catch {}
+      }
+      if (e.key === "rugby_live_instock") {
+        setInStock(e.newValue === "true");
+      }
+      if (e.key === "rugby_live_stock") {
+        try {
+          const val = parseInt(e.newValue || "0", 10);
+          setStock(val);
+          if (val <= 0) setInStock(false);
         } catch {}
       }
     };
