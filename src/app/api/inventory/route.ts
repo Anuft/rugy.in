@@ -1,8 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { connection } from "next/server";
 import { getAllInventory } from "@/lib/inventory-db";
 import { flagshipProduct } from "@/data/products";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  await connection();
   try {
     const items = await getAllInventory();
     const flagship = items.find((i) => i.id === "rugby-white-night-cream") || items[0] || null;

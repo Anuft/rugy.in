@@ -1,50 +1,38 @@
 @import "tailwindcss";
 
 @theme {
-  /* Requested Color Palette */
-  --color-burgundy: #581527;
-  --color-wine-red: #8A304C;
-  --color-rose-burgundy: #AE3E64;
-  --color-rose-pink: #EA90B5;
-  --color-blush-pink: #F4CEDF;
-  --color-pale-blush: #FDEAF3;
-  --color-premium-white: #FEF7FB;
+  /* SHOELOCK Brand Design System Palette */
+  --color-primary: #101010;
+  --color-secondary: #FFFFFF;
+  --color-bg-stone: #F7F7F5;
+  --color-text-main: #171717;
+  --color-text-muted: #858585;
+  --color-accent-volt: #D9FF00;
+  --color-accent-volt-hover: #C5E600;
+  --color-border-subtle: #E7E7E3;
+  --color-surface-card: #FFFFFF;
+  --color-dark-surface: #171717;
+  --color-dark-border: #262626;
 
-  /* Semantic Theme Mappings */
-  --color-forest: #581527;
-  --color-forest-dark: #3F0E1B;
-  --color-forest-light: #8A304C;
-  --color-ivory: #FEF7FB;
-  --color-cream: #FDEAF3;
-  --color-beige: #F4CEDF;
-  --color-botanical: #AE3E64;
-  --color-botanical-dark: #8A304C;
-  --color-dark-text: #2A1018;
-  --color-gold: #AE3E64;
-  --color-gold-light: #EA90B5;
-  --color-gold-dark: #8A304C;
-
-  --font-serif: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 :root {
-  --burgundy: #581527;
-  --wine-red: #8A304C;
-  --rose-burgundy: #AE3E64;
-  --rose-pink: #EA90B5;
-  --blush-pink: #F4CEDF;
-  --pale-blush: #FDEAF3;
-  --premium-white: #FEF7FB;
-
-  --background: var(--premium-white);
-  --foreground: #2A1018;
+  --primary: #101010;
+  --secondary: #FFFFFF;
+  --background: #F7F7F5;
+  --foreground: #171717;
+  --muted: #858585;
+  --accent: #D9FF00;
+  --card: #FFFFFF;
+  --border: #E7E7E3;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #FEF7FB;
-  color: #2A1018;
+  background-color: #F7F7F5;
+  color: #171717;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -55,79 +43,93 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
+/* High-heat Electric Volt Selection */
 ::selection {
-  background-color: #581527;
-  color: #FEF7FB;
+  background-color: #D9FF00;
+  color: #101010;
 }
 
-/* Custom Luxury Scrollbar */
+/* Minimalist Editorial Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #FEF7FB;
+  background: #F7F7F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #AE3E64;
-  border-radius: 4px;
+  background: #101010;
+  border-radius: 0px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #581527;
+  background: #333333;
 }
 
-/* Universal Clean Sans-Serif Typography */
-h1, h2, h3, h4, h5, h6, .font-serif {
+/* Editorial Typography */
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  font-weight: 800;
 }
 
-p, span, a, button, input, textarea, select, label, li, .font-sans {
-  font-family: var(--font-sans);
+.tracking-editorial {
+  letter-spacing: 0.18em;
 }
 
-/* Subtle Shimmer for luxury elements */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+.tracking-tighter-headline {
+  letter-spacing: -0.04em;
+}
+
+/* Custom Sneakerhead Glow & Subtle Interactions */
+.hover-lift {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.08);
+}
+
+.sneaker-card-image {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .sneaker-card-image {
+  transform: scale(1.06) rotate(-1.5deg);
+}
+
+/* Infinite Marquee Ticker */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 26s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Pulse glow for limited drops */
+@keyframes voltPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(217, 255, 0, 0.6);
   }
-  100% {
-    background-position: 200% 0;
+  50% {
+    box-shadow: 0 0 0 8px rgba(217, 255, 0, 0);
   }
 }
 
-.gold-shimmer {
-  background: linear-gradient(90deg, #AE3E64 0%, #FEF7FB 50%, #EA90B5 100%);
-  background-size: 200% 100%;
-  animation: shimmer 6s infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Glassmorphism restrained luxury blur */
-.glass-luxury-dark {
-  background: rgba(88, 21, 39, 0.90);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(234, 144, 181, 0.25);
-}
-
-.glass-luxury-light {
-  background: rgba(254, 247, 251, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(244, 206, 223, 0.8);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+.volt-pulse {
+  animation: voltPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

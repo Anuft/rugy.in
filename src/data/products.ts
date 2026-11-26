@@ -52,7 +52,7 @@ export const products: Product[] = [
     netWeight: "35 g / 1.23 oz.",
     rating: 4.9,
     reviewCount: 328,
-    inStock: true,
+    inStock: false,
     isFlagship: true,
     badge: "SIGNATURE NIGHT CREAM",
     badgeColor: "red",

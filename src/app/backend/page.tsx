@@ -302,6 +302,7 @@ export default function AdminDashboardPage() {
           localStorage.setItem("rugby_live_instock", String(Boolean(item.inStock && item.stock > 0)));
           localStorage.setItem("rugby_live_stock", String(item.stock));
           window.dispatchEvent(new Event("storage"));
+          window.dispatchEvent(new CustomEvent("rugby_inventory_updated"));
         } catch {}
         const statusText = item.inStock && item.stock > 0 ? "IN STOCK" : "OUT OF STOCK";
         setInventorySuccessMessage(`Saved changes for ${item.name} (${statusText} · ₹${item.price})`);

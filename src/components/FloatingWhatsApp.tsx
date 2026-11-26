@@ -4,12 +4,23 @@ import React, { useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 import { generateConciergeWhatsAppUrl } from "@/lib/whatsapp";
+import { useLivePrice } from "@/hooks/useLivePrice";
 
 export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(false);
+  const { inStock } = useLivePrice();
 
   const handleClick = () => {
-    window.open(generateConciergeWhatsAppUrl(), "_blank");
+    if (!inStock) {
+      window.open(
+        `https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+          "Hello Rugby White! 🌿 Please notify me when the Rugby White Night Cream is back in stock."
+        )}`,
+        "_blank"
+      );
+    } else {
+      window.open(generateConciergeWhatsAppUrl(), "_blank");
+    }
   };
 
   return (
@@ -17,7 +28,11 @@ export default function FloatingWhatsApp() {
       {/* Tooltip */}
       {showTooltip && (
         <div className="hidden sm:flex items-center gap-2 bg-[#3F0E1B] text-[#FEF7FB] px-4 py-2.5 rounded-sm shadow-xl border border-[#8A304C] text-xs font-sans animate-fade-in">
-          <span>Need ritual advice? Chat directly with our concierge</span>
+          <span>
+            {inStock
+              ? "Need ritual advice? Chat directly with our concierge"
+              : "Currently out of stock. Chat for restock alert"}
+          </span>
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -34,8 +49,8 @@ export default function FloatingWhatsApp() {
       <button
         onClick={handleClick}
         onMouseEnter={() => setShowTooltip(true)}
-        className="w-13 h-13 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl hover:scale-110 hover:bg-[#20BA5A] transition-all duration-300 group"
-        aria-label="Order or Chat on WhatsApp"
+        className="w-13 h-13 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl hover:scale-110 hover:bg-[#20BA5A] transition-all duration-300 group cursor-pointer"
+        aria-label="Contact Concierge on WhatsApp"
       >
         <MessageCircle className="w-7 h-7 fill-white stroke-none" />
       </button>

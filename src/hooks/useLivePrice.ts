@@ -1,85 +1,146 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore, useEffect } from "react";
 import { flagshipProduct } from "@/data/products";
 
-export function useLivePrice() {
-  const [price, setPrice] = useState<number>(flagshipProduct.price);
-  const [inStock, setInStock] = useState<boolean>(flagshipProduct.inStock);
-  const [stock, setStock] = useState<number>(100);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+interface LiveState {
+  price: number;
+  inStock: boolean;
+  stock: number;
+  isLoaded: boolean;
+}
 
-  useEffect(() => {
-    let isMounted = true;
+let state: LiveState = {
+  price: flagshipProduct.price,
+  inStock: flagshipProduct.inStock,
+  stock: flagshipProduct.inStock ? 100 : 0,
+  isLoaded: false,
+};
 
-    // Immediately read from localStorage on client mount if available
+const listeners = new Set<() => void>();
+
+function emitChange() {
+  for (const listener of listeners) {
+    listener();
+  }
+}
+
+let isInitialized = false;
+
+function initGlobalStore() {
+  if (typeof window === "undefined" || isInitialized) return;
+  isInitialized = true;
+
+  // 1. Immediately read localStorage
+  try {
+    const storedInStock = localStorage.getItem("rugby_live_instock");
+    const storedStock = localStorage.getItem("rugby_live_stock");
+    const storedPrice = localStorage.getItem("rugby_live_price");
+
+    let s = state.stock;
+    if (storedStock !== null) {
+      const parsed = parseInt(storedStock, 10);
+      if (!isNaN(parsed)) s = parsed;
+    }
+
+    let inS = state.inStock;
+    if (storedInStock !== null) {
+      inS = storedInStock === "true" && s > 0;
+    } else if (s <= 0) {
+      inS = false;
+    }
+
+    let p = state.price;
+    if (storedPrice !== null) {
+      const parsed = Number(storedPrice);
+      if (!isNaN(parsed) && parsed > 0) p = parsed;
+    }
+
+    state = { ...state, price: p, inStock: inS, stock: s };
+    emitChange();
+  } catch {}
+
+  // 2. Fetch live data from /api/inventory
+  const fetchLive = async () => {
     try {
-      const storedInStock = localStorage.getItem("rugby_live_instock");
-      if (storedInStock !== null) {
-        setInStock(storedInStock === "true");
-      }
-      const storedStock = localStorage.getItem("rugby_live_stock");
-      if (storedStock !== null) {
-        const s = parseInt(storedStock, 10);
-        if (!isNaN(s)) {
-          setStock(s);
-          if (s <= 0) setInStock(false);
-        }
-      }
-      const storedPrice = localStorage.getItem("rugby_live_price");
-      if (storedPrice !== null) {
-        const p = Number(storedPrice);
-        if (!isNaN(p) && p > 0) setPrice(p);
+      const res = await fetch("/api/inventory", {
+        cache: "no-store",
+        headers: { Pragma: "no-cache", "Cache-Control": "no-cache" },
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.success) {
+        const p = typeof data.price === "number" ? data.price : state.price;
+        const s = typeof data.stock === "number" ? data.stock : state.stock;
+        const inS = typeof data.inStock === "boolean" ? (data.inStock && s > 0) : state.inStock;
+        state = { price: p, inStock: inS, stock: s, isLoaded: true };
+        emitChange();
       }
     } catch {}
+  };
 
-    const fetchLivePrice = async () => {
-      try {
-        const res = await fetch("/api/inventory", {
-          cache: "no-store",
-          headers: { Pragma: "no-cache", "Cache-Control": "no-cache" },
-        });
-        if (!res.ok) return;
-        const data = await res.json();
-        if (isMounted && data.success && typeof data.price === "number") {
-          setPrice(data.price);
-          if (typeof data.inStock === "boolean") setInStock(data.inStock);
-          if (typeof data.stock === "number") setStock(data.stock);
-          setIsLoaded(true);
-        }
-      } catch (err) {
-        // Silently keep default
-      }
-    };
+  fetchLive();
 
-    fetchLivePrice();
+  // 3. Listen to storage events from other tabs
+  const syncFromStorage = () => {
+    try {
+      const storedInStock = localStorage.getItem("rugby_live_instock");
+      const storedStock = localStorage.getItem("rugby_live_stock");
+      const storedPrice = localStorage.getItem("rugby_live_price");
 
-    // Listen to local price and stock updates if saved in the same browser session
-    const handleStorage = (e: StorageEvent) => {
-      if (e.key === "rugby_live_price") {
-        try {
-          const val = Number(e.newValue);
-          if (!isNaN(val) && val > 0) setPrice(val);
-        } catch {}
+      let s = state.stock;
+      if (storedStock !== null) {
+        const parsed = parseInt(storedStock, 10);
+        if (!isNaN(parsed)) s = parsed;
       }
-      if (e.key === "rugby_live_instock") {
-        setInStock(e.newValue === "true");
-      }
-      if (e.key === "rugby_live_stock") {
-        try {
-          const val = parseInt(e.newValue || "0", 10);
-          setStock(val);
-          if (val <= 0) setInStock(false);
-        } catch {}
-      }
-    };
 
-    window.addEventListener("storage", handleStorage);
-    return () => {
-      isMounted = false;
-      window.removeEventListener("storage", handleStorage);
-    };
+      let inS = state.inStock;
+      if (storedInStock !== null) {
+        inS = storedInStock === "true" && s > 0;
+      } else if (s <= 0) {
+        inS = false;
+      }
+
+      let p = state.price;
+      if (storedPrice !== null) {
+        const parsed = Number(storedPrice);
+        if (!isNaN(parsed) && parsed > 0) p = parsed;
+      }
+
+      state = { ...state, price: p, inStock: inS, stock: s };
+      emitChange();
+    } catch {}
+  };
+
+  window.addEventListener("storage", syncFromStorage);
+  window.addEventListener("rugby_inventory_updated", syncFromStorage);
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+function getSnapshot() {
+  return state;
+}
+
+function getServerSnapshot() {
+  return {
+    price: flagshipProduct.price,
+    inStock: flagshipProduct.inStock,
+    stock: flagshipProduct.inStock ? 100 : 0,
+    isLoaded: false,
+  };
+}
+
+export function useLivePrice() {
+  useEffect(() => {
+    initGlobalStore();
   }, []);
 
-  return { price, inStock, stock, isLoaded };
+  const snapshot = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return snapshot;
 }

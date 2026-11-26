@@ -43,7 +43,11 @@ export default function AmbarNavbar() {
         <div className="bg-[#581527] text-[#FEF7FB] text-[10px] sm:text-[11px] font-sans tracking-[0.25em] uppercase py-1.5 px-4 text-center border-b border-[#AE3E64]/20 flex items-center justify-center gap-2">
           <span>FREE SHIPPING ACROSS INDIA</span>
           <span className="hidden sm:inline text-[#AE3E64]">•</span>
-          <span className="hidden sm:inline text-[#AE3E64]">WHATSAPP ORDER</span>
+          {inStock ? (
+            <span className="hidden sm:inline text-[#AE3E64]">WHATSAPP ORDER</span>
+          ) : (
+            <span className="hidden sm:inline text-red-300 font-bold tracking-wider">● OUT OF STOCK</span>
+          )}
         </div>
 
         {/* Main Navigation Bar — Perfectly Centered 3-Column Luxury Architecture */}
