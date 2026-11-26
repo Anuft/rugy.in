@@ -14,6 +14,8 @@ export interface InventoryItem {
 
 const INVENTORY_FILE = "inventory.json";
 
+let memoryInventory: InventoryItem[] | null = null;
+
 function getInventoryFilePath(): string {
   return path.join(getStorageDir(), INVENTORY_FILE);
 }
@@ -37,6 +39,14 @@ async function ensureInventoryStorage(): Promise<void> {
     try {
       await fs.access(filePath);
     } catch {
+      // First check if bundled data/inventory.json exists
+      const bundledPath = path.join(process.cwd(), "data", INVENTORY_FILE);
+      try {
+        const bundledData = await fs.readFile(bundledPath, "utf-8");
+        await fs.writeFile(filePath, bundledData, "utf-8");
+        return;
+      } catch {}
+
       await fs.writeFile(
         filePath,
         JSON.stringify(getDefaultInventory(), null, 2),
@@ -49,6 +59,10 @@ async function ensureInventoryStorage(): Promise<void> {
 }
 
 export async function getAllInventory(): Promise<InventoryItem[]> {
+  if (memoryInventory && memoryInventory.length > 0) {
+    return memoryInventory;
+  }
+
   const pool = getDbPool();
   if (pool) {
     await initDbSchema();
@@ -57,7 +71,7 @@ export async function getAllInventory(): Promise<InventoryItem[]> {
         "SELECT * FROM products_inventory ORDER BY id ASC"
       );
       if (rows.length > 0) {
-        return rows.map((r: any) => ({
+        const items = rows.map((r: any) => ({
           id: r.id,
           name: r.name,
           price: parseFloat(r.price),
@@ -65,6 +79,8 @@ export async function getAllInventory(): Promise<InventoryItem[]> {
           inStock: Boolean(r.in_stock),
           updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : "",
         }));
+        memoryInventory = items;
+        return items;
       }
 
       // Seed if empty in DB
@@ -77,6 +93,7 @@ export async function getAllInventory(): Promise<InventoryItem[]> {
           [item.id, item.name, item.price, item.stock, item.inStock, item.updatedAt]
         );
       }
+      memoryInventory = defaults;
       return defaults;
     } catch (err) {
       console.error("Postgres error in getAllInventory:", err);
@@ -86,9 +103,21 @@ export async function getAllInventory(): Promise<InventoryItem[]> {
   await ensureInventoryStorage();
   try {
     const raw = await fs.readFile(getInventoryFilePath(), "utf-8");
-    return JSON.parse(raw);
+    const items = JSON.parse(raw);
+    memoryInventory = items;
+    return items;
   } catch {
-    return getDefaultInventory();
+    // Try bundled file directly
+    try {
+      const bundled = await fs.readFile(path.join(process.cwd(), "data", INVENTORY_FILE), "utf-8");
+      const items = JSON.parse(bundled);
+      memoryInventory = items;
+      return items;
+    } catch {
+      const defaults = getDefaultInventory();
+      memoryInventory = defaults;
+      return defaults;
+    }
   }
 }
 
@@ -109,13 +138,13 @@ export async function updateProductStock(
         : `UPDATE products_inventory SET stock = $1, in_stock = $2, updated_at = $3 WHERE id = $4 RETURNING *`;
       
       const values = price !== undefined
-        ? [stock, inStock, price, now, id]
-        : [stock, inStock, now, id];
+        ? [stock, inStock && stock > 0, price, now, id]
+        : [stock, inStock && stock > 0, now, id];
 
       const { rows } = await pool.query(query, values);
       if (rows.length > 0) {
         const r = rows[0];
-        return {
+        const item: InventoryItem = {
           id: r.id,
           name: r.name,
           price: parseFloat(r.price),
@@ -123,6 +152,8 @@ export async function updateProductStock(
           inStock: Boolean(r.in_stock),
           updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : "",
         };
+        memoryInventory = [item];
+        return item;
       }
     } catch (err) {
       console.error("Postgres error updating stock:", err);
@@ -132,26 +163,42 @@ export async function updateProductStock(
   await ensureInventoryStorage();
   try {
     const filePath = getInventoryFilePath();
-    const raw = await fs.readFile(filePath, "utf-8");
+    let raw = "";
+    try {
+      raw = await fs.readFile(filePath, "utf-8");
+    } catch {
+      raw = await fs.readFile(path.join(process.cwd(), "data", INVENTORY_FILE), "utf-8");
+    }
     const items: InventoryItem[] = JSON.parse(raw);
     const idx = items.findIndex((i) => i.id === id);
 
     if (idx !== -1) {
       items[idx].stock = stock;
       items[idx].inStock = inStock && stock > 0;
+      if (price !== undefined) {
+        items[idx].price = price;
+      }
+      items[idx].updatedAt = now;
+      memoryInventory = items;
+
       try {
         const productsFilePath = path.join(process.cwd(), "src/data/products.ts");
         let productsContent = await fs.readFile(productsFilePath, "utf-8");
         if (price !== undefined) {
-          items[idx].price = price;
           productsContent = productsContent.replace(/price:\s*\d+,/, `price: ${price},`);
         }
         productsContent = productsContent.replace(/inStock:\s*(true|false),/, `inStock: ${inStock && stock > 0},`);
         await fs.writeFile(productsFilePath, productsContent, "utf-8");
       } catch (e) {
-        console.error("Failed to update products.ts with inventory changes:", e);
+        // Ignored on read-only environments
       }
-      items[idx].updatedAt = now;
+
+      // Try updating local repo file too
+      try {
+        const repoPath = path.join(process.cwd(), "data", INVENTORY_FILE);
+        await fs.writeFile(repoPath, JSON.stringify(items, null, 2), "utf-8");
+      } catch {}
+
       await fs.writeFile(filePath, JSON.stringify(items, null, 2), "utf-8");
       return items[idx];
     }

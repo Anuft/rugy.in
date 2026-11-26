@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
+import { getStorageDir } from "@/lib/db";
 
-const OTP_STORE_FILE = path.join(process.cwd(), "data", "otp-sessions.json");
-const LOGINS_STORE_FILE = path.join(process.cwd(), "data", "customer-logins.json");
+const OTP_STORE_FILE = path.join(getStorageDir(), "otp-sessions.json");
+const LOGINS_STORE_FILE = path.join(getStorageDir(), "customer-logins.json");
 
 interface CustomerLoginRecord {
   mobileNumber: string;

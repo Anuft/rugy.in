@@ -25,6 +25,7 @@ import { useCart } from "@/context/CartContext";
 import { generateSingleProductWhatsAppUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/Icons";
 import { siteConfig } from "@/data/siteConfig";
+import { useLivePrice } from "@/hooks/useLivePrice";
 
 interface Props {
   product: Product;
@@ -32,6 +33,10 @@ interface Props {
 }
 
 export default function ProductDetailClient({ product, relatedProducts }: Props) {
+  const { price: livePrice, inStock: liveInStock } = useLivePrice();
+  const currentPrice = livePrice || product.price;
+  const inStock = typeof liveInStock === "boolean" ? liveInStock : product.inStock;
+
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<"overview" | "benefits" | "ritual" | "ingredients" | "reviews">("overview");
@@ -40,7 +45,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
     const url = generateSingleProductWhatsAppUrl({
       productName: product.name,
       quantity,
-      price: product.price * quantity,
+      price: currentPrice * quantity,
     });
     window.open(url, "_blank");
   };
@@ -140,27 +145,33 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
               <span className="font-bold text-[#1C1C1C]">{product.rating}</span>
               <span className="text-[#8A304C]">({product.reviewCount} verified reviews)</span>
               <span className="text-[#8A304C]">•</span>
-              <span className="text-[#2E7D32] font-semibold flex items-center gap-1">
-                <Check className="w-3.5 h-3.5" />
-                In Stock
-              </span>
+              {inStock ? (
+                <span className="text-[#2E7D32] font-semibold flex items-center gap-1">
+                  <Check className="w-3.5 h-3.5" />
+                  In Stock
+                </span>
+              ) : (
+                <span className="text-red-700 font-bold px-2 py-0.5 rounded-full bg-red-100 border border-red-200">
+                  Out of Stock
+                </span>
+              )}
             </div>
 
             {/* Pricing Box */}
             <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#F4CEDF] flex items-baseline justify-between">
               <div className="flex items-baseline gap-3">
                 <span className="text-3xl sm:text-4xl font-serif font-bold text-[#581527]">
-                  ₹{product.price.toLocaleString("en-IN")}
+                  ₹{currentPrice.toLocaleString("en-IN")}
                 </span>
-                {product.originalPrice > product.price && (
+                {product.originalPrice > currentPrice && (
                   <span className="text-base text-[#7A7A7A] line-through font-sans">
                     ₹{product.originalPrice.toLocaleString("en-IN")}
                   </span>
                 )}
               </div>
-              {product.originalPrice > product.price && (
+              {product.originalPrice > currentPrice && (
                 <span className="px-2.5 py-1 text-xs font-sans font-bold bg-[#E53935] text-white rounded-full uppercase tracking-wider">
-                  Save ₹{(product.originalPrice - product.price).toLocaleString("en-IN")}
+                  Save ₹{(product.originalPrice - currentPrice).toLocaleString("en-IN")}
                 </span>
               )}
             </div>
@@ -178,7 +189,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                 <div className="flex items-center border border-[#F4CEDF] rounded-full bg-[#FFFFFF] px-3 py-1.5 w-32 justify-between">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-1 hover:text-[#AE3E64] text-[#8A304C] transition-colors cursor-pointer"
+                    disabled={!inStock}
+                    className="p-1 hover:text-[#AE3E64] text-[#8A304C] transition-colors cursor-pointer disabled:opacity-40"
                     aria-label="Decrease quantity"
                   >
                     <Minus className="w-3.5 h-3.5" />
@@ -186,7 +198,8 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                   <span className="font-sans text-sm font-bold">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="p-1 hover:text-[#AE3E64] text-[#8A304C] transition-colors cursor-pointer"
+                    disabled={!inStock}
+                    className="p-1 hover:text-[#AE3E64] text-[#8A304C] transition-colors cursor-pointer disabled:opacity-40"
                     aria-label="Increase quantity"
                   >
                     <Plus className="w-3.5 h-3.5" />
@@ -194,16 +207,48 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                 </div>
               </div>
 
-              {/* WhatsApp 1-Click Order Button */}
-              <div className="pt-2">
-                <button
-                  onClick={handleWhatsAppOrder}
-                  className="w-full py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer"
-                >
-                  <WhatsAppIcon className="w-5 h-5 fill-white" />
-                  <span>ORDER ON WHATSAPP · ₹{(product.price * quantity).toLocaleString("en-IN")}</span>
-                </button>
-              </div>
+              {/* Order Button or Out of Stock State */}
+              {inStock ? (
+                <div className="pt-2">
+                  <button
+                    onClick={handleWhatsAppOrder}
+                    className="w-full py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-[#FFFFFF] text-xs font-sans tracking-[0.18em] uppercase font-bold transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer"
+                  >
+                    <WhatsAppIcon className="w-5 h-5 fill-white" />
+                    <span>ORDER ON WHATSAPP · ₹{(currentPrice * quantity).toLocaleString("en-IN")}</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="pt-2 space-y-3">
+                  <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-center space-y-1">
+                    <p className="font-serif font-bold text-sm text-red-800">
+                      CURRENTLY OUT OF STOCK
+                    </p>
+                    <p className="text-xs font-sans text-red-600">
+                      Orders are paused while our master laboratory prepares a fresh batch.
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-2.5">
+                    <button
+                      disabled
+                      className="flex-1 py-3.5 px-6 rounded-full bg-gray-200 text-gray-400 text-xs font-sans tracking-[0.18em] uppercase font-bold flex items-center justify-center gap-2 cursor-not-allowed border border-gray-300"
+                    >
+                      <span>ORDERING DISABLED</span>
+                    </button>
+                    <a
+                      href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+                        `Hello Rugby White! 🌿 ${product.name} is currently out of stock. Please notify me as soon as new stock is available!`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-3.5 px-6 rounded-full bg-[#581527] hover:bg-[#3F0E1B] text-white text-xs font-sans tracking-[0.15em] uppercase font-bold transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer text-center"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 fill-white" />
+                      <span>NOTIFY ON RESTOCK</span>
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Quick Guarantees Strip */}

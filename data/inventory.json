@@ -3,8 +3,8 @@
     "id": "rugby-white-night-cream",
     "name": "RUGBY WHITE NIGHT CREAM",
     "price": 699,
-    "stock": 20,
-    "inStock": true,
+    "stock": 0,
+    "inStock": false,
     "updatedAt": "2026-11-25T13:20:15.691Z"
   }
 ]

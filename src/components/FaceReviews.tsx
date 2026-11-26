@@ -250,13 +250,17 @@ export default function FaceReviews() {
                 </a>
 
                 <a
-                  href={`https://wa.me/91${siteConfig.whatsappNumber}?text=Hi%20Rugby%20White%2C%20I%20saw%20the%20face%20reviews%20and%20would%20like%20to%20order%20the%20Rugby%20White%20Night%20Cream`}
+                  href={`https://wa.me/91${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+                    inStock
+                      ? "Hi Rugby White, I saw the face reviews and would like to order the Rugby White Night Cream"
+                      : "Hi Rugby White, I saw the face reviews and would like to ask when the Rugby White Night Cream will be back in stock"
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="py-3.5 px-6 bg-[#25D366] text-[#FFFFFF] text-xs font-sans tracking-[0.15em] uppercase font-semibold hover:bg-[#20BA5A] transition-colors text-center shadow-sm flex items-center justify-center gap-2"
                 >
                   <WhatsAppIcon className="w-4 h-4 fill-current" />
-                  <span>ASK ON WHATSAPP</span>
+                  <span>{inStock ? "ASK ON WHATSAPP" : "INQUIRE ON WHATSAPP"}</span>
                 </a>
               </div>
             </div>

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { getStorageDir } from "@/lib/db";
 
-const LOGINS_FILE = path.join(process.cwd(), "data", "customer-logins.json");
+const LOGINS_FILE = path.join(getStorageDir(), "customer-logins.json");
 
 interface CustomerLoginRecord {
   id: string;
@@ -20,11 +21,16 @@ interface CustomerLoginRecord {
 
 function getLogins(): CustomerLoginRecord[] {
   try {
-    if (!fs.existsSync(LOGINS_FILE)) {
-      return [];
+    if (fs.existsSync(LOGINS_FILE)) {
+      const data = fs.readFileSync(LOGINS_FILE, "utf-8");
+      return JSON.parse(data);
     }
-    const data = fs.readFileSync(LOGINS_FILE, "utf-8");
-    return JSON.parse(data);
+    const bundled = path.join(process.cwd(), "data", "customer-logins.json");
+    if (fs.existsSync(bundled)) {
+      const data = fs.readFileSync(bundled, "utf-8");
+      return JSON.parse(data);
+    }
+    return [];
   } catch (err) {
     console.error("Error reading logins file:", err);
     return [];
@@ -41,6 +47,10 @@ function saveLogins(logins: CustomerLoginRecord[]) {
   } catch (err) {
     console.error("Error saving logins file:", err);
   }
+  try {
+    const bundled = path.join(process.cwd(), "data", "customer-logins.json");
+    fs.writeFileSync(bundled, JSON.stringify(logins, null, 2), "utf-8");
+  } catch {}
 }
 
 function formatDateTime(date: Date): string {

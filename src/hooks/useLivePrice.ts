@@ -12,11 +12,32 @@ export function useLivePrice() {
   useEffect(() => {
     let isMounted = true;
 
+    // Immediately read from localStorage on client mount if available
+    try {
+      const storedInStock = localStorage.getItem("rugby_live_instock");
+      if (storedInStock !== null) {
+        setInStock(storedInStock === "true");
+      }
+      const storedStock = localStorage.getItem("rugby_live_stock");
+      if (storedStock !== null) {
+        const s = parseInt(storedStock, 10);
+        if (!isNaN(s)) {
+          setStock(s);
+          if (s <= 0) setInStock(false);
+        }
+      }
+      const storedPrice = localStorage.getItem("rugby_live_price");
+      if (storedPrice !== null) {
+        const p = Number(storedPrice);
+        if (!isNaN(p) && p > 0) setPrice(p);
+      }
+    } catch {}
+
     const fetchLivePrice = async () => {
       try {
         const res = await fetch("/api/inventory", {
           cache: "no-store",
-          headers: { Pragma: "no-cache" },
+          headers: { Pragma: "no-cache", "Cache-Control": "no-cache" },
         });
         if (!res.ok) return;
         const data = await res.json();
